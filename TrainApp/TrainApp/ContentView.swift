@@ -6,15 +6,20 @@ struct ContentView: View {
     @State private var selectedTab: AppTab = .home
     @State private var originId: Int?
     @State private var destinationId: Int?
+    @State private var transportMode: TransportMode = .train
     @State private var useBFS = false
     @State private var lastResult: RouteResult?
     @State private var lastResultError: String?
     @State private var searchText = ""
+    @State private var taxiPulse = false
     @State private var savedTrips: [SavedTrip] = []
     @State private var notifications: [AccountNotification] = []
     @State private var fullName = "Alex Traveller"
     @State private var email = "alex.traveller@example.com"
     @State private var phone = "+44 7700 900000"
+    @State private var showWelcomeSplash = true
+    @State private var splashScale: CGFloat = 0.92
+    @State private var splashOpacity: Double = 0.0
 
     var filteredStations: [Station] {
         guard !searchText.isEmpty else { return appState.stations }
@@ -33,29 +38,86 @@ struct ContentView: View {
     }
 
     var body: some View {
-        TabView(selection: $selectedTab) {
-            homeScreen
-                .tabItem {
-                    Label("Home", systemImage: "house.fill")
-                }
-                .tag(AppTab.home)
+        ZStack {
+            TabView(selection: $selectedTab) {
+                homeScreen
+                    .tabItem {
+                        Label("Home", systemImage: "house.fill")
+                    }
+                    .tag(AppTab.home)
 
-            ticketsScreen
-                .tabItem {
-                    Label("Tickets", systemImage: "ticket.fill")
-                }
-                .tag(AppTab.tickets)
+                ticketsScreen
+                    .tabItem {
+                        Label("Tickets", systemImage: "ticket.fill")
+                    }
+                    .tag(AppTab.tickets)
 
-            accountScreen
-                .tabItem {
-                    Label("Account", systemImage: "person.fill")
-                }
-                .tag(AppTab.account)
+                accountScreen
+                    .tabItem {
+                        Label("Account", systemImage: "person.fill")
+                    }
+                    .tag(AppTab.account)
+            }
+
+            if showWelcomeSplash {
+                splashOverlay
+                    .transition(.opacity)
+                    .zIndex(10)
+            }
         }
         .tint(.blue)
         .toolbarBackground(.visible, for: .tabBar)
         .toolbarBackground(Color(red: 0.02, green: 0.07, blue: 0.14), for: .tabBar)
         .preferredColorScheme(preferredColorScheme)
+        .onAppear {
+            startSplashAnimation()
+        }
+    }
+
+    private var splashOverlay: some View {
+        ZStack {
+            LinearGradient(
+                colors: [Color(red: 0.03, green: 0.11, blue: 0.28), Color.black],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            VStack(spacing: 14) {
+                Image(systemName: "tram.fill")
+                    .font(.system(size: 44, weight: .semibold))
+                    .foregroundStyle(.blue)
+                Text("Welcome to the Transport App")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(.white)
+            }
+            .scaleEffect(splashScale)
+            .opacity(splashOpacity)
+        }
+    }
+
+    private func startSplashAnimation() {
+        guard showWelcomeSplash else { return }
+
+        splashScale = 0.92
+        splashOpacity = 0.0
+
+        withAnimation(.easeOut(duration: 0.45)) {
+            splashScale = 1.0
+            splashOpacity = 1.0
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
+            withAnimation(.easeInOut(duration: 0.35)) {
+                splashOpacity = 0.0
+            }
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
+            withAnimation(.easeOut(duration: 0.2)) {
+                showWelcomeSplash = false
+            }
+        }
     }
 
     private var homeScreen: some View {
@@ -64,14 +126,17 @@ struct ContentView: View {
                 screenGradient
                 ScrollView {
                     VStack(spacing: 14) {
-                        headerCard
+                        welcomeCard
                         operatorsCard
                         searchCard
-                        stationPickerCard
-                        algorithmCard
-                        actionCard
-                        if let result = lastResult {
-                            routeCard(result: result)
+                        transportModeCard
+                        if transportMode == .taxi {
+                            taxiCard
+                        } else {
+                            stationPickerCard
+                            algorithmCard
+                            actionCard
+                            routeStageCard
                         }
                         if let err = lastResultError {
                             messageCard(text: err, color: .red)
@@ -85,25 +150,47 @@ struct ContentView: View {
                 }
                 .scrollIndicators(.hidden)
             }
-            .navigationTitle("Train Stage")
-            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(.hidden, for: .navigationBar)
         }
     }
 
-    private var headerCard: some View {
+    private var welcomeCard: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 6) {
-                Text("Current Location")
+            Circle()
+                .fill(Color.white.opacity(0.12))
+                .frame(width: 40, height: 40)
+                .overlay {
+                    Image(systemName: "person.fill")
+                        .foregroundStyle(.white)
+                }
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Welcome back")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                Text("Lancashire Network")
+                Text(fullName)
                     .font(.title3.weight(.semibold))
                     .foregroundStyle(.white)
             }
+
             Spacer()
-            Image(systemName: "tram.fill")
-                .font(.title2)
-                .foregroundStyle(.blue)
+            NavigationLink {
+                SettingsScreen(
+                    preferredAppearance: $preferredAppearance,
+                    fullName: $fullName,
+                    email: $email,
+                    phone: $phone
+                )
+            } label: {
+                Image(systemName: "gearshape.fill")
+                    .font(.title2)
+                    .foregroundStyle(.secondary)
+                    .frame(width: 36, height: 36)
+                    .background(
+                        Circle().fill(Color.white.opacity(0.06))
+                    )
+            }
+            .buttonStyle(.plain)
         }
         .padding()
         .background(cardBackground)
@@ -197,6 +284,43 @@ struct ContentView: View {
         .background(cardBackground)
     }
 
+    private var transportModeCard: some View {
+        HStack(spacing: 10) {
+            transportModeButton(mode: .train)
+            transportModeButton(mode: .bus)
+            transportModeButton(mode: .taxi)
+            transportModeButton(mode: .walk)
+        }
+        .padding()
+        .background(cardBackground)
+    }
+
+    private func transportModeButton(mode: TransportMode) -> some View {
+        let isSelected = transportMode == mode
+        return Button {
+            transportMode = mode
+        } label: {
+            VStack(spacing: 10) {
+                Image(systemName: mode.icon)
+                    .font(.title3)
+                Text(mode.title)
+                    .font(.subheadline.weight(.semibold))
+            }
+            .foregroundStyle(isSelected ? .white : .secondary)
+            .frame(maxWidth: .infinity)
+            .frame(height: 86)
+            .background(
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(isSelected ? Color.blue.opacity(0.95) : Color.white.opacity(0.06))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 14)
+                    .stroke(isSelected ? Color.blue : Color.white.opacity(0.08), lineWidth: 1)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
     private var algorithmCard: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Routing Mode")
@@ -204,8 +328,8 @@ struct ContentView: View {
                 .foregroundStyle(.white)
 
             Picker("Pathfinding", selection: $useBFS) {
-                Text("Fastest (Dijkstra)").tag(false)
-                Text("Fewest Stops (BFS)").tag(true)
+                Text("Fastest").tag(false)
+                Text("Fewest Stops").tag(true)
             }
             .pickerStyle(.segmented)
         }
@@ -215,7 +339,7 @@ struct ContentView: View {
 
     private var actionCard: some View {
         Button(action: findRoute) {
-            Text("Find Route")
+            Text("Find \(transportMode.title) Route")
                 .font(.headline)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 12)
@@ -226,16 +350,117 @@ struct ContentView: View {
         .background(cardBackground)
     }
 
-    private func routeCard(result: RouteResult) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("Suggested Journey")
-                .font(.headline)
-                .foregroundStyle(.white)
+    private var taxiCard: some View {
+        VStack(spacing: 14) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.white.opacity(0.06))
+                    .frame(height: 190)
+                    .overlay(
+                        gridOverlay
+                    )
 
-            ForEach(Array(result.stationIds.enumerated()), id: \.offset) { index, stationId in
+                Circle()
+                    .fill(Color.blue.opacity(0.35))
+                    .frame(width: 72, height: 72)
+                    .scaleEffect(taxiPulse ? 1.1 : 0.9)
+                    .opacity(taxiPulse ? 0.7 : 0.35)
+                    .animation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true), value: taxiPulse)
+
+                Circle()
+                    .fill(Color.blue)
+                    .frame(width: 18, height: 18)
+                    .overlay(
+                        Circle().stroke(Color.white.opacity(0.8), lineWidth: 1)
+                    )
+
+                Circle()
+                    .fill(Color.yellow.opacity(0.9))
+                    .frame(width: 30, height: 30)
+                    .overlay {
+                        Image(systemName: "car.fill")
+                            .font(.caption.weight(.bold))
+                            .foregroundStyle(.black.opacity(0.8))
+                    }
+                    .offset(x: 88, y: -44)
+            }
+            .onAppear { taxiPulse = true }
+
+            Button {
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: "person.fill")
+                    Text("Request Taxi")
+                        .font(.headline.weight(.semibold))
+                }
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 14)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.blue)
+                )
+            }
+            .buttonStyle(.plain)
+        }
+        .padding()
+        .background(cardBackground)
+    }
+
+    private var gridOverlay: some View {
+        GeometryReader { geo in
+            ZStack {
+                Path { path in
+                    path.move(to: CGPoint(x: 0, y: geo.size.height * 0.45))
+                    path.addLine(to: CGPoint(x: geo.size.width, y: geo.size.height * 0.45))
+                    path.move(to: CGPoint(x: geo.size.width * 0.5, y: 0))
+                    path.addLine(to: CGPoint(x: geo.size.width * 0.5, y: geo.size.height))
+                }
+                .stroke(Color.white.opacity(0.08), lineWidth: 14)
+
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.white.opacity(0.04))
+                    .frame(width: 90, height: 50)
+                    .offset(x: -100, y: 46)
+            }
+        }
+        .clipped()
+    }
+
+    private var routeStageCard: some View {
+        let stationIds = displayStationIds
+
+        return VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Text(transportMode.stageTitle)
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                Spacer()
+                Image(systemName: "chevron.up")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+            }
+
+            if transportMode == .train {
+                HStack(spacing: 8) {
+                    Text("AVANTI")
+                        .font(.caption2.weight(.bold))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 4)
+                        .background(Color.red, in: RoundedRectangle(cornerRadius: 4))
+                    Text("Avanti West Coast")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            modeRoutePreview
+
+            ForEach(Array(stationIds.enumerated()), id: \.offset) { index, stationId in
                 HStack(alignment: .top, spacing: 10) {
                     Circle()
-                        .fill(index == 0 ? Color.green : (index == result.stationIds.count - 1 ? Color.orange : Color.blue))
+                        .fill(index == 0 ? transportMode.accentColor : (index == stationIds.count - 1 ? Color.orange : Color.blue))
                         .frame(width: 10, height: 10)
                         .padding(.top, 5)
 
@@ -252,17 +477,140 @@ struct ContentView: View {
             Divider().overlay(.white.opacity(0.1))
 
             HStack {
-                Text("Segments: \(result.segmentCount)")
+                Text("Segments: \(max(stationIds.count - 1, 0))")
                 Spacer()
-                if let mins = result.totalDurationMins {
-                    Text("ETA: \(mins) min")
-                }
+                Text("ETA: \(displayDurationMins) min")
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
         }
         .padding()
         .background(cardBackground)
+    }
+
+    private var modeRoutePreview: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.white.opacity(0.04))
+                .frame(height: 116)
+
+            switch transportMode {
+            case .train:
+                trainPreview
+            case .bus:
+                busPreview
+            case .walk:
+                walkPreview
+            case .taxi:
+                EmptyView()
+            }
+        }
+    }
+
+    private var trainPreview: some View {
+        GeometryReader { geo in
+            let w = geo.size.width
+            let h = geo.size.height
+            Path { path in
+                path.move(to: CGPoint(x: 20, y: h * 0.78))
+                path.addCurve(
+                    to: CGPoint(x: w - 20, y: h * 0.25),
+                    control1: CGPoint(x: w * 0.30, y: h * 0.55),
+                    control2: CGPoint(x: w * 0.62, y: h * 0.18)
+                )
+            }
+            .stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, dash: [3, 8]))
+            .foregroundStyle(.blue)
+
+            Circle().fill(Color.blue).frame(width: 8, height: 8).position(x: 20, y: h * 0.78)
+            Circle().fill(Color.blue).frame(width: 8, height: 8).position(x: w * 0.42, y: h * 0.50)
+            Circle().fill(Color.blue).frame(width: 8, height: 8).position(x: w - 20, y: h * 0.25)
+        }
+        .padding(.horizontal, 8)
+    }
+
+    private var busPreview: some View {
+        GeometryReader { geo in
+            let w = geo.size.width
+            let h = geo.size.height
+            Path { path in
+                path.move(to: CGPoint(x: 0, y: h * 0.32))
+                path.addLine(to: CGPoint(x: w, y: h * 0.32))
+                path.move(to: CGPoint(x: 0, y: h * 0.68))
+                path.addLine(to: CGPoint(x: w, y: h * 0.68))
+                path.move(to: CGPoint(x: w * 0.45, y: 0))
+                path.addLine(to: CGPoint(x: w * 0.45, y: h))
+            }
+            .stroke(Color.white.opacity(0.14), lineWidth: 12)
+
+            Path { path in
+                path.move(to: CGPoint(x: 24, y: h * 0.68))
+                path.addCurve(
+                    to: CGPoint(x: w - 24, y: h * 0.32),
+                    control1: CGPoint(x: w * 0.32, y: h * 0.70),
+                    control2: CGPoint(x: w * 0.64, y: h * 0.34)
+                )
+            }
+            .stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, dash: [5, 7]))
+            .foregroundStyle(.green)
+
+            Image(systemName: "bus.fill")
+                .font(.headline)
+                .foregroundStyle(.yellow)
+                .position(x: w * 0.70, y: h * 0.42)
+        }
+        .padding(.horizontal, 8)
+    }
+
+    private var walkPreview: some View {
+        GeometryReader { geo in
+            let w = geo.size.width
+            let h = geo.size.height
+
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.white.opacity(0.03))
+                .frame(width: w * 0.92, height: h * 0.80)
+                .position(x: w * 0.5, y: h * 0.5)
+
+            Path { path in
+                path.move(to: CGPoint(x: 22, y: h * 0.76))
+                path.addCurve(
+                    to: CGPoint(x: w - 24, y: h * 0.22),
+                    control1: CGPoint(x: w * 0.28, y: h * 0.30),
+                    control2: CGPoint(x: w * 0.65, y: h * 0.90)
+                )
+            }
+            .stroke(style: StrokeStyle(lineWidth: 4, lineCap: .round, lineJoin: .round))
+            .foregroundStyle(Color(red: 0.17, green: 0.56, blue: 1.0))
+
+            Circle().fill(Color.green).frame(width: 9, height: 9).position(x: 22, y: h * 0.76)
+            Circle().fill(Color.red).frame(width: 9, height: 9).position(x: w - 24, y: h * 0.22)
+            Image(systemName: "figure.walk")
+                .foregroundStyle(.white)
+                .position(x: w * 0.52, y: h * 0.52)
+        }
+        .padding(.horizontal, 8)
+    }
+
+    private var displayStationIds: [Int] {
+        if let result = lastResult, !result.stationIds.isEmpty {
+            return result.stationIds
+        }
+        if let pre = stationId(code: "PRE"), let lan = stationId(code: "LAN") {
+            return [pre, lan]
+        }
+        return Array(appState.stations.prefix(2).map(\.id))
+    }
+
+    private var displayDurationMins: Int {
+        if let mins = lastResult?.totalDurationMins {
+            return mins
+        }
+        return transportMode.defaultDurationMins
+    }
+
+    private func stationId(code: String) -> Int? {
+        appState.stations.first(where: { $0.code == code })?.id
     }
 
     private func messageCard(text: String, color: Color) -> some View {
@@ -489,6 +837,58 @@ private enum AppTab: Hashable {
     case home
     case tickets
     case account
+}
+
+private enum TransportMode: String, CaseIterable {
+    case train
+    case bus
+    case taxi
+    case walk
+
+    var title: String {
+        switch self {
+        case .train: return "Train"
+        case .bus: return "Bus"
+        case .taxi: return "Taxi"
+        case .walk: return "Walk"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .train: return "tram.fill"
+        case .bus: return "bus.fill"
+        case .taxi: return "car.fill"
+        case .walk: return "figure.walk"
+        }
+    }
+
+    var stageTitle: String {
+        switch self {
+        case .train: return "Train Stage"
+        case .bus: return "Bus Stage"
+        case .taxi: return "Taxi Stage"
+        case .walk: return "Walk Stage"
+        }
+    }
+
+    var accentColor: Color {
+        switch self {
+        case .train: return .blue
+        case .bus: return .green
+        case .taxi: return .yellow
+        case .walk: return .orange
+        }
+    }
+
+    var defaultDurationMins: Int {
+        switch self {
+        case .train: return 18
+        case .bus: return 45
+        case .taxi: return 22
+        case .walk: return 32
+        }
+    }
 }
 
 private struct SavedTrip: Identifiable {

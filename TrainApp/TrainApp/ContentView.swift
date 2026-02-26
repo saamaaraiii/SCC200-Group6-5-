@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
+    @AppStorage("preferredAppearance") private var preferredAppearance = "dark"
     @State private var selectedTab: AppTab = .home
     @State private var originId: Int?
     @State private var destinationId: Int?
@@ -9,12 +10,25 @@ struct ContentView: View {
     @State private var lastResult: RouteResult?
     @State private var lastResultError: String?
     @State private var searchText = ""
+    @State private var savedTrips: [SavedTrip] = []
+    @State private var notifications: [AccountNotification] = []
+    @State private var fullName = "Alex Traveller"
+    @State private var email = "alex.traveller@example.com"
+    @State private var phone = "+44 7700 900000"
 
     var filteredStations: [Station] {
         guard !searchText.isEmpty else { return appState.stations }
         return appState.stations.filter {
             $0.name.localizedCaseInsensitiveContains(searchText) ||
             $0.code.localizedCaseInsensitiveContains(searchText)
+        }
+    }
+
+    private var preferredColorScheme: ColorScheme? {
+        switch preferredAppearance {
+        case "light": return .light
+        case "dark": return .dark
+        default: return nil
         }
     }
 
@@ -41,7 +55,7 @@ struct ContentView: View {
         .tint(.blue)
         .toolbarBackground(.visible, for: .tabBar)
         .toolbarBackground(Color(red: 0.02, green: 0.07, blue: 0.14), for: .tabBar)
-        .preferredColorScheme(.dark)
+        .preferredColorScheme(preferredColorScheme)
     }
 
     private var homeScreen: some View {
@@ -263,34 +277,81 @@ struct ContentView: View {
         NavigationStack {
             ZStack {
                 screenGradient
-                VStack(spacing: 14) {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("Your Ticket")
-                            .font(.title3.weight(.semibold))
-                            .foregroundStyle(.white)
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(Color.white.opacity(0.05))
-                            .frame(height: 190)
-                            .overlay {
-                                VStack(spacing: 10) {
-                                    Image(systemName: "qrcode")
-                                        .font(.system(size: 50))
-                                        .foregroundStyle(.white)
-                                    Text("Preston → Lancaster")
-                                        .foregroundStyle(.white)
-                                    Text("Ready to scan")
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                }
+                VStack(spacing: 0) {
+                    ScrollView {
+                        VStack(spacing: 14) {
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text("Your Ticket")
+                                    .font(.title3.weight(.semibold))
+                                    .foregroundStyle(.white)
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color.white.opacity(0.05))
+                                    .frame(height: 190)
+                                    .overlay {
+                                        VStack(spacing: 10) {
+                                            Image(systemName: "qrcode")
+                                                .font(.system(size: 50))
+                                                .foregroundStyle(.white)
+                                            Text("Preston → Lancaster")
+                                                .foregroundStyle(.white)
+                                            Text("Ready to scan")
+                                                .font(.caption)
+                                                .foregroundStyle(.secondary)
+                                        }
+                                    }
                             }
-                    }
-                    .padding()
-                    .background(cardBackground)
+                            .padding()
+                            .background(cardBackground)
 
-                    Spacer()
+                            Spacer(minLength: 120)
+                        }
+                        .padding(.horizontal, 14)
+                        .padding(.top, 12)
+                    }
+
+                    VStack(spacing: 10) {
+                        Button {
+                        } label: {
+                            Text("Get Directions")
+                                .font(.headline.weight(.semibold))
+                                .foregroundStyle(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 14)
+                                        .fill(Color.blue)
+                                )
+                        }
+
+                        Button {
+                        } label: {
+                            HStack(spacing: 8) {
+                                Image(systemName: "wallet.pass.fill")
+                                    .font(.headline)
+                                Text("Add to Apple Wallet")
+                                    .font(.headline.weight(.semibold))
+                            }
+                            .foregroundStyle(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(
+                                RoundedRectangle(cornerRadius: 14)
+                                    .fill(Color.white)
+                            )
+                        }
+                    }
+                    .padding(.horizontal, 14)
+                    .padding(.top, 10)
+                    .padding(.bottom, 12)
+                    .background(
+                        LinearGradient(
+                            colors: [Color.black.opacity(0.0), Color.black.opacity(0.45)],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        .ignoresSafeArea(edges: .bottom)
+                    )
                 }
-                .padding(.horizontal, 14)
-                .padding(.top, 12)
             }
             .navigationTitle("Tickets")
             .navigationBarTitleDisplayMode(.inline)
@@ -301,7 +362,7 @@ struct ContentView: View {
         NavigationStack {
             ZStack {
                 screenGradient
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 14) {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Student Account")
                             .font(.title3.weight(.semibold))
@@ -313,16 +374,33 @@ struct ContentView: View {
                     .padding()
                     .background(cardBackground)
 
-                    VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: 12) {
                         Text("Quick Actions")
                             .font(.headline)
                             .foregroundStyle(.white)
-                        Label("Saved trips", systemImage: "bookmark.fill")
-                            .foregroundStyle(.white)
-                        Label("Notifications", systemImage: "bell.fill")
-                            .foregroundStyle(.white)
-                        Label("Settings", systemImage: "gearshape.fill")
-                            .foregroundStyle(.white)
+
+                        NavigationLink {
+                            SavedTripsScreen(trips: savedTrips)
+                        } label: {
+                            accountActionRow(title: "Saved Trips", icon: "bookmark.fill")
+                        }
+
+                        NavigationLink {
+                            NotificationsScreen(notifications: notifications)
+                        } label: {
+                            accountActionRow(title: "Notifications", icon: "bell.fill")
+                        }
+
+                        NavigationLink {
+                            SettingsScreen(
+                                preferredAppearance: $preferredAppearance,
+                                fullName: $fullName,
+                                email: $email,
+                                phone: $phone
+                            )
+                        } label: {
+                            accountActionRow(title: "Settings", icon: "gearshape.fill")
+                        }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
@@ -336,6 +414,29 @@ struct ContentView: View {
             .navigationTitle("Account")
             .navigationBarTitleDisplayMode(.inline)
         }
+    }
+
+    private func accountActionRow(title: String, icon: String) -> some View {
+        HStack(spacing: 14) {
+            Image(systemName: icon)
+                .font(.title3)
+                .foregroundStyle(.blue)
+                .frame(width: 26)
+            Text(title)
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(.white)
+            Spacer()
+            Image(systemName: "chevron.right")
+                .font(.headline)
+                .foregroundStyle(.secondary)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 16)
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 14)
+                .fill(Color.white.opacity(0.06))
+        )
     }
 
     private var cardBackground: some View {
@@ -354,9 +455,9 @@ struct ContentView: View {
 
     private var screenGradient: some View {
         LinearGradient(
-            colors: [Color(red: 0.02, green: 0.07, blue: 0.14), Color(red: 0.04, green: 0.12, blue: 0.23)],
-            startPoint: .top,
-            endPoint: .bottom
+            colors: [Color(red: 0.03, green: 0.11, blue: 0.28), Color.black],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
         )
         .ignoresSafeArea()
     }
@@ -388,6 +489,98 @@ private enum AppTab: Hashable {
     case home
     case tickets
     case account
+}
+
+private struct SavedTrip: Identifiable {
+    let id = UUID()
+    let title: String
+    let subtitle: String
+}
+
+private struct AccountNotification: Identifiable {
+    let id = UUID()
+    let title: String
+    let subtitle: String
+}
+
+private struct SavedTripsScreen: View {
+    let trips: [SavedTrip]
+
+    var body: some View {
+        List {
+            if trips.isEmpty {
+                Text("No trips to show")
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(trips) { trip in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(trip.title).font(.headline)
+                        Text(trip.subtitle)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.vertical, 6)
+                }
+            }
+        }
+        .navigationTitle("Saved Trips")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+private struct NotificationsScreen: View {
+    let notifications: [AccountNotification]
+
+    var body: some View {
+        List {
+            if notifications.isEmpty {
+                Text("No notifications to show")
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(notifications) { notification in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(notification.title).font(.headline)
+                        Text(notification.subtitle)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.vertical, 6)
+                }
+            }
+        }
+        .navigationTitle("Notifications")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+private struct SettingsScreen: View {
+    @Binding var preferredAppearance: String
+    @Binding var fullName: String
+    @Binding var email: String
+    @Binding var phone: String
+
+    var body: some View {
+        Form {
+            Section("Personal Data") {
+                TextField("Full Name", text: $fullName)
+                TextField("Email", text: $email)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled(true)
+                TextField("Phone", text: $phone)
+            }
+
+            Section("Appearance") {
+                Picker("Theme", selection: $preferredAppearance) {
+                    Text("Dark").tag("dark")
+                    Text("Light").tag("light")
+                    Text("System").tag("system")
+                }
+                .pickerStyle(.segmented)
+            }
+        }
+        .navigationTitle("Settings")
+        .navigationBarTitleDisplayMode(.inline)
+    }
 }
 
 #Preview {

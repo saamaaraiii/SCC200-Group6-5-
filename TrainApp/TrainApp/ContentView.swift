@@ -12,6 +12,8 @@ struct ContentView: View {
     @State private var lastResultError: String?
     @State private var searchText = ""
     @State private var taxiPulse = false
+    @State private var plannedRoute: PlannedRoute?
+    @State private var showPlannedRoute = false
     @State private var savedTrips: [SavedTrip] = []
     @State private var notifications: [AccountNotification] = []
     @State private var fullName = "Alex Traveller"
@@ -39,18 +41,24 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            TabView(selection: $selectedTab) {
-                homeScreen
-                    .tabItem {
-                        Label("Home", systemImage: "house.fill")
-                    }
-                    .tag(AppTab.home)
+        TabView(selection: $selectedTab) {
+            homeScreen
+                .tabItem {
+                    Label("Home", systemImage: "house.fill")
+                }
+                .tag(AppTab.home)
 
-                ticketsScreen
-                    .tabItem {
-                        Label("Tickets", systemImage: "ticket.fill")
-                    }
-                    .tag(AppTab.tickets)
+            mapScreen
+                .tabItem {
+                    Label("Map", systemImage: "map.fill")
+                }
+                .tag(AppTab.map)
+
+            ticketsScreen
+                .tabItem {
+                    Label("Tickets", systemImage: "ticket.fill")
+                }
+                .tag(AppTab.tickets)
 
                 accountScreen
                     .tabItem {
@@ -136,7 +144,6 @@ struct ContentView: View {
                             stationPickerCard
                             algorithmCard
                             actionCard
-                            routeStageCard
                         }
                         if let err = lastResultError {
                             messageCard(text: err, color: .red)
@@ -151,6 +158,13 @@ struct ContentView: View {
                 .scrollIndicators(.hidden)
             }
             .toolbar(.hidden, for: .navigationBar)
+            .navigationDestination(isPresented: $showPlannedRoute) {
+                if let plan = plannedRoute {
+                    PlannedRouteScreen(plan: plan, mapping: appState.mapping)
+                } else {
+                    EmptyView()
+                }
+            }
         }
     }
 
@@ -338,7 +352,7 @@ struct ContentView: View {
     }
 
     private var actionCard: some View {
-        Button(action: findRoute) {
+        Button(action: openPlannedRoute) {
             Text("Find \(transportMode.title) Route")
                 .font(.headline)
                 .frame(maxWidth: .infinity)
@@ -348,6 +362,34 @@ struct ContentView: View {
         .disabled(originId == nil || destinationId == nil || originId == destinationId)
         .padding()
         .background(cardBackground)
+    }
+
+    private func openPlannedRoute() {
+        lastResultError = nil
+        lastResult = nil
+
+        guard !appState.stations.isEmpty else {
+            lastResultError = "Still loading stations. Try again in a second."
+            return
+        }
+
+        guard let origin = originId, let destination = destinationId, origin != destination else {
+            lastResultError = "Select different origin and destination stations."
+            return
+        }
+
+        guard let route = appState.findRoute(originId: origin, destinationId: destination, useBFS: useBFS) else {
+            lastResultError = "No route found with current data."
+            return
+        }
+
+        lastResult = route
+        plannedRoute = PlannedRoute(
+            mode: transportMode,
+            stationIds: route.stationIds,
+            durationMins: route.totalDurationMins ?? transportMode.defaultDurationMins
+        )
+        showPlannedRoute = true
     }
 
     private var taxiCard: some View {
@@ -706,6 +748,27 @@ struct ContentView: View {
         }
     }
 
+    private var mapScreen: some View {
+        NavigationStack {
+            ZStack {
+                screenGradient
+                VStack(spacing: 14) {
+                    Image(systemName: "map.fill")
+                        .font(.system(size: 44))
+                        .foregroundStyle(.blue)
+                    Text("Map")
+                        .font(.title2.weight(.semibold))
+                        .foregroundStyle(.white)
+                    Text("Map view coming soon")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .navigationTitle("Map")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
     private var accountScreen: some View {
         NavigationStack {
             ZStack {
@@ -810,33 +873,89 @@ struct ContentView: View {
         .ignoresSafeArea()
     }
 
-    private func findRoute() {
-        lastResultError = nil
-        lastResult = nil
-
-        guard !appState.stations.isEmpty else {
-            lastResultError = "Still loading stations. Try again in a second."
-            return
-        }
-
-        guard let origin = originId, let destination = destinationId, origin != destination else {
-            lastResultError = "Select different origin and destination stations."
-            return
-        }
-
-        guard let route = appState.findRoute(originId: origin, destinationId: destination, useBFS: useBFS) else {
-            lastResultError = "No route found with current data."
-            return
-        }
-
-        lastResult = route
-    }
 }
 
 private enum AppTab: Hashable {
     case home
+    case map
     case tickets
     case account
+}
+
+private struct PlannedRoute {
+    let mode: TransportMode
+    let stationIds: [Int]
+    let durationMins: Int
+}
+
+private struct PlannedRouteScreen: View {
+    @Environment(\.dismiss) private var dismiss
+    let plan: PlannedRoute
+    let mapping: StationMapping
+
+    var body: some View {
+        ZStack {
+            LinearGradient(
+                colors: [Color(red: 0.03, green: 0.11, blue: 0.28), Color.black],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            VStack(alignment: .leading, spacing: 16) {
+                HStack {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Text("Back")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                    }
+                    Spacer()
+                }
+
+                Text("\(plan.mode.stageTitle)")
+                    .font(.title2.weight(.semibold))
+                    .foregroundStyle(.white)
+
+                VStack(alignment: .leading, spacing: 12) {
+                    ForEach(Array(plan.stationIds.enumerated()), id: \.offset) { index, stationId in
+                        HStack(spacing: 10) {
+                            Circle()
+                                .fill(index == 0 ? plan.mode.accentColor : Color.white.opacity(0.4))
+                                .frame(width: 10, height: 10)
+                            Text(mapping.name(for: stationId))
+                                .foregroundStyle(.white)
+                            Spacer()
+                            Text(mapping.code(for: stationId))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color.white.opacity(0.08))
+                )
+
+                HStack {
+                    Text("Estimated time")
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Text("\(plan.durationMins) min")
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                }
+
+                Spacer()
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 16)
+        }
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
+    }
 }
 
 private enum TransportMode: String, CaseIterable {

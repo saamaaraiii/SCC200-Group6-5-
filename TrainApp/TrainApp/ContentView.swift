@@ -230,7 +230,7 @@ struct ContentView: View {
 
     private var searchAllTrainsCard: some View {
         NavigationLink {
-            SearchTrainsScreen()
+            SearchTrainsScreen(stations: appState.stations)
         } label: {
             HStack(spacing: 10) {
                 Image(systemName: "magnifyingglass")
@@ -1009,21 +1009,306 @@ private struct PlannedRouteScreen: View {
 }
 
 private struct SearchTrainsScreen: View {
+    let stations: [Station]
+    @State private var originId: Int?
+    @State private var destinationId: Int?
+    @State private var originQuery = ""
+    @State private var destinationQuery = ""
+    @State private var tripType: TripType = .single
+    @State private var passengerCount: Int = 1
+    @State private var selectedRailcard: String = "No Railcard"
+    @FocusState private var focusedField: SearchField?
+
+    private var hasValidWhere: Bool {
+        guard let originId, let destinationId else { return false }
+        return originId != destinationId
+    }
+
     var body: some View {
         ZStack {
             LinearGradient(
-                colors: [Color(red: 0.03, green: 0.11, blue: 0.28), Color.black],
+                colors: [Color(red: 0.02, green: 0.09, blue: 0.20), Color.black],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
 
-            Text("Search trains view (coming soon)")
-                .foregroundStyle(.secondary)
+            ScrollView {
+                VStack(spacing: 16) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Plan Your Rail Journey")
+                            .font(.custom("AvenirNext-Bold", size: 28))
+                            .foregroundStyle(.white)
+                        Text("Enter where you are going and customise your trip")
+                            .font(.custom("AvenirNext-Regular", size: 14))
+                            .foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                    whereCard
+
+                    if hasValidWhere {
+                        whenCard
+                        passengersCard
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 12)
+                .padding(.bottom, 26)
+            }
         }
         .navigationTitle("Search Trains")
         .navigationBarTitleDisplayMode(.inline)
     }
+
+    private var whereCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Where")
+                .font(.custom("AvenirNext-DemiBold", size: 20))
+                .foregroundStyle(.white)
+
+            stationSearchField(
+                title: "Origin",
+                placeholder: "Type departure station",
+                text: $originQuery,
+                field: .origin
+            )
+
+            if focusedField == .origin && !originSuggestions.isEmpty {
+                suggestionsList(originSuggestions) { station in
+                    originQuery = station.name
+                    originId = station.id
+                    focusedField = nil
+                }
+            }
+
+            stationSearchField(
+                title: "Destination",
+                placeholder: "Type arrival station",
+                text: $destinationQuery,
+                field: .destination
+            )
+
+            if focusedField == .destination && !destinationSuggestions.isEmpty {
+                suggestionsList(destinationSuggestions) { station in
+                    destinationQuery = station.name
+                    destinationId = station.id
+                    focusedField = nil
+                }
+            }
+        }
+        .padding(14)
+        .background(sectionCard)
+        .onChange(of: originQuery) { _, newValue in
+            originId = exactMatch(for: newValue)?.id
+        }
+        .onChange(of: destinationQuery) { _, newValue in
+            destinationId = exactMatch(for: newValue)?.id
+        }
+    }
+
+    private var whenCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("When")
+                .font(.custom("AvenirNext-DemiBold", size: 20))
+                .foregroundStyle(.white)
+
+            HStack(spacing: 8) {
+                ForEach(TripType.allCases, id: \.self) { type in
+                    Button {
+                        tripType = type
+                    } label: {
+                        Text(type.shortTitle)
+                            .font(.custom("AvenirNext-DemiBold", size: 13))
+                            .foregroundStyle(tripType == type ? .white : .secondary)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(tripType == type ? Color.blue : Color.white.opacity(0.06))
+                            )
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+        .padding(14)
+        .background(sectionCard)
+    }
+
+    private var passengersCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Passengers")
+                .font(.custom("AvenirNext-DemiBold", size: 20))
+                .foregroundStyle(.white)
+
+            HStack {
+                Text("\(passengerCount) passenger\(passengerCount == 1 ? "" : "s")")
+                    .font(.custom("AvenirNext-Medium", size: 16))
+                    .foregroundStyle(.white)
+                Spacer()
+                Stepper("", value: $passengerCount, in: 1...12)
+                    .labelsHidden()
+            }
+            .padding(12)
+            .background(fieldCard)
+
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Railcard")
+                    .font(.custom("AvenirNext-Medium", size: 14))
+                    .foregroundStyle(.secondary)
+
+                Picker("Railcard", selection: $selectedRailcard) {
+                    ForEach(RailcardOption.all, id: \.self) { railcard in
+                        Text(railcard).tag(railcard)
+                    }
+                }
+                .pickerStyle(.menu)
+                .tint(.white)
+                .padding(12)
+                .background(fieldCard)
+            }
+        }
+        .padding(14)
+        .background(sectionCard)
+    }
+
+    private func stationSearchField(
+        title: String,
+        placeholder: String,
+        text: Binding<String>,
+        field: SearchField
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title)
+                .font(.custom("AvenirNext-Medium", size: 14))
+                .foregroundStyle(.secondary)
+
+            HStack(spacing: 10) {
+                Image(systemName: "magnifyingglass")
+                    .foregroundStyle(.blue)
+                TextField(placeholder, text: text)
+                    .focused($focusedField, equals: field)
+                    .textInputAutocapitalization(.words)
+                    .autocorrectionDisabled(true)
+                    .foregroundStyle(.white)
+            }
+            .padding(12)
+            .background(fieldCard)
+        }
+    }
+
+    private func suggestionsList(_ items: [Station], onSelect: @escaping (Station) -> Void) -> some View {
+        VStack(spacing: 0) {
+            ForEach(items.prefix(6), id: \.id) { station in
+                Button {
+                    onSelect(station)
+                } label: {
+                    HStack {
+                        Text(station.name)
+                            .foregroundStyle(.white)
+                        Spacer()
+                        Text(station.code)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 10)
+                }
+                .buttonStyle(.plain)
+
+                if station.id != items.prefix(6).last?.id {
+                    Divider().overlay(Color.white.opacity(0.08))
+                }
+            }
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.black.opacity(0.28))
+        )
+    }
+
+    private func exactMatch(for text: String) -> Station? {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return nil }
+        return stations.first {
+            $0.name.caseInsensitiveCompare(trimmed) == .orderedSame ||
+            $0.code.caseInsensitiveCompare(trimmed) == .orderedSame
+        }
+    }
+
+    private var originSuggestions: [Station] {
+        stationMatches(for: originQuery)
+    }
+
+    private var destinationSuggestions: [Station] {
+        stationMatches(for: destinationQuery)
+    }
+
+    private func stationMatches(for query: String) -> [Station] {
+        let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !q.isEmpty else { return [] }
+        return stations.filter {
+            $0.name.localizedCaseInsensitiveContains(q) ||
+            $0.code.localizedCaseInsensitiveContains(q)
+        }
+    }
+
+    private var sectionCard: some View {
+        RoundedRectangle(cornerRadius: 18)
+            .fill(Color.white.opacity(0.08))
+            .overlay(
+                RoundedRectangle(cornerRadius: 18)
+                    .stroke(Color.white.opacity(0.06), lineWidth: 1)
+            )
+    }
+
+    private var fieldCard: some View {
+        RoundedRectangle(cornerRadius: 12)
+            .fill(Color.white.opacity(0.06))
+    }
+}
+
+private enum SearchField {
+    case origin
+    case destination
+}
+
+private enum TripType: CaseIterable {
+    case single
+    case `return`
+    case openReturn
+
+    var title: String {
+        switch self {
+        case .single: return "Single Trip"
+        case .return: return "Return Trip"
+        case .openReturn: return "Open Return Trip"
+        }
+    }
+
+    var shortTitle: String {
+        switch self {
+        case .single: return "Single"
+        case .return: return "Return"
+        case .openReturn: return "Open Return"
+        }
+    }
+}
+
+private enum RailcardOption {
+    static let all: [String] = [
+        "No Railcard",
+        "16-25 Railcard",
+        "26-30 Railcard",
+        "Senior Railcard",
+        "Two Together Railcard",
+        "Family & Friends Railcard",
+        "Disabled Persons Railcard",
+        "16-17 Saver",
+        "Veterans Railcard",
+        "Network Railcard"
+    ]
 }
 
 private enum TransportMode: String, CaseIterable {

@@ -1,9 +1,13 @@
 import SwiftUI
 import MapKit
+import CoreLocation
+import PassKit
+import UniformTypeIdentifiers
 
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
     @AppStorage("preferredAppearance") private var preferredAppearance = "dark"
+    @StateObject private var locationManager = UserLocationManager()
     @State private var selectedTab: AppTab = .home
     @State private var originId: Int?
     @State private var destinationId: Int?
@@ -16,6 +20,7 @@ struct ContentView: View {
     @State private var plannedRoute: PlannedRoute?
     @State private var showPlannedRoute = false
     @State private var savedTrips: [SavedTrip] = []
+    @State private var savedStops: [SavedStop] = []
     @State private var notifications: [AccountNotification] = []
     @State private var fullName = "Alex Traveller"
     @State private var email = "alex.traveller@example.com"
@@ -23,6 +28,10 @@ struct ContentView: View {
     @State private var showWelcomeSplash = true
     @State private var splashScale: CGFloat = 0.92
     @State private var splashOpacity: Double = 0.0
+    @State private var showPassImporter = false
+    @State private var walletPresentation: WalletPassPresentation?
+    @State private var walletMessage: String?
+    @State private var departuresMessage: String?
     @State private var mapPosition: MapCameraPosition = .region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 53.90, longitude: -2.95),
@@ -85,7 +94,33 @@ struct ContentView: View {
         .toolbarBackground(Color(red: 0.02, green: 0.07, blue: 0.14), for: .tabBar)
         .preferredColorScheme(preferredColorScheme)
         .onAppear {
+            locationManager.requestPermissionIfNeeded()
             startSplashAnimation()
+        }
+        .fileImporter(
+            isPresented: $showPassImporter,
+            allowedContentTypes: [UTType(filenameExtension: "pkpass") ?? .data]
+        ) { result in
+            handlePassImport(result: result)
+        }
+        .sheet(item: $walletPresentation) { presentation in
+            AddPassesSheet(passes: presentation.passes)
+        }
+        .alert("Apple Wallet", isPresented: Binding(
+            get: { walletMessage != nil },
+            set: { if !$0 { walletMessage = nil } }
+        )) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(walletMessage ?? "")
+        }
+        .alert("Departures", isPresented: Binding(
+            get: { departuresMessage != nil },
+            set: { if !$0 { departuresMessage = nil } }
+        )) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(departuresMessage ?? "")
         }
     }
 
@@ -147,6 +182,8 @@ struct ContentView: View {
                         transportModeCard
                         if transportMode == .taxi {
                             taxiCard
+                        } else if transportMode == .train || transportMode == .bus {
+                            nearbyStopMapCard
                         }
                         if let err = lastResultError {
                             messageCard(text: err, color: .red)
@@ -484,6 +521,118 @@ struct ContentView: View {
         .background(cardBackground)
     }
 
+    private var nearbyStopMapCard: some View {
+        VStack(spacing: 12) {
+            ZStack(alignment: .bottom) {
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.white.opacity(0.06))
+                    .frame(height: 220)
+                    .overlay {
+                        if let stop = nearestStopInfo {
+                            Map(position: .constant(nearestStopCamera(for: stop.station))) {
+                                if let lat = stop.station.latitude, let lon = stop.station.longitude {
+                                    Marker(stop.station.name, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon))
+                                        .tint(.blue)
+                                }
+                                UserAnnotation()
+                            }
+                            .mapStyle(.standard(elevation: .realistic))
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                        } else {
+                            ProgressView("Locating nearest stop...")
+                                .tint(.white)
+                        }
+                    }
+
+                if let stop = nearestStopInfo {
+                    nearbyStopInfoBox(stop)
+                        .padding(.horizontal, 12)
+                        .padding(.bottom, 10)
+                }
+            }
+        }
+        .padding()
+        .background(cardBackground)
+    }
+
+    private func nearbyStopInfoBox(_ stop: NearbyStopInfo) -> some View {
+        let saved = isStopSaved(stop.station.id)
+        return VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .center) {
+                HStack(spacing: 7) {
+                    Text(transportMode == .train ? "STATION" : "STOP")
+                        .font(.caption2.weight(.bold))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 4)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(transportMode == .train ? .blue : .green)
+                        )
+                    Text(stop.station.name)
+                        .font(.headline.weight(.semibold))
+                        .foregroundStyle(.white)
+                }
+
+                Spacer()
+
+                Button {
+                    toggleSavedStop(stop)
+                } label: {
+                    Image(systemName: saved ? "star.fill" : "star")
+                        .font(.headline)
+                        .foregroundStyle(saved ? .yellow : .white)
+                }
+                .buttonStyle(.plain)
+            }
+
+            Text("\(distanceText(for: stop.distanceMeters)) away")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+
+            HStack(spacing: 8) {
+                Button {
+                    openDirections(to: stop.station)
+                } label: {
+                    Label("Directions", systemImage: "arrow.triangle.turn.up.right.diamond.fill")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.blue)
+                        )
+                }
+                .buttonStyle(.plain)
+
+                Button {
+                    showDepartures(for: stop.station)
+                } label: {
+                    Label("Departures", systemImage: "clock.fill")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.white.opacity(0.12))
+                        )
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(12)
+        .background(
+            RoundedRectangle(cornerRadius: 14)
+                .fill(Color.black.opacity(0.45))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14)
+                        .stroke(Color.white.opacity(0.08), lineWidth: 1)
+                )
+        )
+    }
+
     private var gridOverlay: some View {
         GeometryReader { geo in
             ZStack {
@@ -736,6 +885,7 @@ struct ContentView: View {
 
                     VStack(spacing: 10) {
                         Button {
+                            openDirectionsForTicket()
                         } label: {
                             Text("Get Directions")
                                 .font(.headline.weight(.semibold))
@@ -749,6 +899,7 @@ struct ContentView: View {
                         }
 
                         Button {
+                            addToWalletTapped()
                         } label: {
                             HStack(spacing: 8) {
                                 Image(systemName: "wallet.pass.fill")
@@ -764,6 +915,7 @@ struct ContentView: View {
                                     .fill(Color.white)
                             )
                         }
+                        .buttonStyle(.plain)
                     }
                     .padding(.horizontal, 14)
                     .padding(.top, 10)
@@ -847,6 +999,12 @@ struct ContentView: View {
                         }
 
                         NavigationLink {
+                            SavedStopsScreen(stops: savedStops)
+                        } label: {
+                            accountActionRow(title: "Saved Stops", icon: "star.fill")
+                        }
+
+                        NavigationLink {
                             NotificationsScreen(notifications: notifications)
                         } label: {
                             accountActionRow(title: "Notifications", icon: "bell.fill")
@@ -921,6 +1079,145 @@ struct ContentView: View {
             endPoint: .bottomTrailing
         )
         .ignoresSafeArea()
+    }
+
+    private var nearestStopInfo: NearbyStopInfo? {
+        guard transportMode == .train || transportMode == .bus else { return nil }
+        let stationsWithCoords = appState.stations.filter { $0.latitude != nil && $0.longitude != nil }
+        guard !stationsWithCoords.isEmpty else { return nil }
+
+        let referenceCoordinate = locationManager.location?.coordinate
+            ?? CLLocationCoordinate2D(latitude: 54.0466, longitude: -2.8007)
+        let referenceLocation = CLLocation(latitude: referenceCoordinate.latitude, longitude: referenceCoordinate.longitude)
+
+        return stationsWithCoords
+            .compactMap { station -> NearbyStopInfo? in
+                guard let lat = station.latitude, let lon = station.longitude else { return nil }
+                let stationLocation = CLLocation(latitude: lat, longitude: lon)
+                let distance = referenceLocation.distance(from: stationLocation)
+                return NearbyStopInfo(station: station, distanceMeters: distance)
+            }
+            .min(by: { $0.distanceMeters < $1.distanceMeters })
+    }
+
+    private func nearestStopCamera(for station: Station) -> MapCameraPosition {
+        guard let lat = station.latitude, let lon = station.longitude else {
+            return .region(
+                MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(latitude: 54.0466, longitude: -2.8007),
+                    span: MKCoordinateSpan(latitudeDelta: 0.04, longitudeDelta: 0.04)
+                )
+            )
+        }
+
+        return .region(
+            MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: lat, longitude: lon),
+                span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
+            )
+        )
+    }
+
+    private func distanceText(for meters: CLLocationDistance) -> String {
+        if meters < 1000 {
+            return "\(Int(meters.rounded()))m"
+        }
+        return String(format: "%.1fkm", meters / 1000)
+    }
+
+    private func isStopSaved(_ stationId: Int) -> Bool {
+        savedStops.contains(where: { $0.stationId == stationId })
+    }
+
+    private func toggleSavedStop(_ stop: NearbyStopInfo) {
+        if let idx = savedStops.firstIndex(where: { $0.stationId == stop.station.id }) {
+            savedStops.remove(at: idx)
+        } else {
+            savedStops.insert(
+                SavedStop(
+                    stationId: stop.station.id,
+                    name: stop.station.name,
+                    code: stop.station.code,
+                    mode: transportMode,
+                    distanceText: distanceText(for: stop.distanceMeters)
+                ),
+                at: 0
+            )
+        }
+    }
+
+    private func showDepartures(for station: Station) {
+        let modeText = transportMode == .train ? "train" : "bus"
+        departuresMessage = "Next \(modeText) departures from \(station.name): 3 min, 11 min, 18 min."
+    }
+
+    private func openDirections(to station: Station) {
+        guard let lat = station.latitude, let lon = station.longitude else { return }
+        let destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon)))
+        destination.name = station.name
+
+        var items: [MKMapItem] = []
+        if let location = locationManager.location {
+            let source = MKMapItem(placemark: MKPlacemark(coordinate: location.coordinate))
+            source.name = "Current Location"
+            items.append(source)
+        }
+        items.append(destination)
+
+        MKMapItem.openMaps(with: items, launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeTransit])
+    }
+
+    private func openDirectionsForTicket() {
+        if let lancaster = appState.stations.first(where: { $0.code == "LAN" }) {
+            openDirections(to: lancaster)
+        } else if let firstStation = appState.stations.first {
+            openDirections(to: firstStation)
+        }
+    }
+
+    private func addToWalletTapped() {
+        guard PKAddPassesViewController.canAddPasses() else {
+            walletMessage = "This device cannot add passes to Apple Wallet."
+            return
+        }
+
+        if let bundledPass = loadBundledPass() {
+            walletPresentation = WalletPassPresentation(passes: [bundledPass])
+            return
+        }
+        showPassImporter = true
+    }
+
+    private func loadBundledPass() -> PKPass? {
+        guard
+            let url = Bundle.main.url(forResource: "TrainTicket", withExtension: "pkpass"),
+            let data = try? Data(contentsOf: url),
+            let pass = try? PKPass(data: data)
+        else {
+            return nil
+        }
+        return pass
+    }
+
+    private func handlePassImport(result: Result<URL, Error>) {
+        switch result {
+        case .success(let url):
+            do {
+                let didAccess = url.startAccessingSecurityScopedResource()
+                defer {
+                    if didAccess {
+                        url.stopAccessingSecurityScopedResource()
+                    }
+                }
+                let data = try Data(contentsOf: url)
+                let pass = try PKPass(data: data)
+                walletPresentation = WalletPassPresentation(passes: [pass])
+            } catch {
+                walletMessage = "Could not read this pass. Please choose a valid signed .pkpass file."
+            }
+        case .failure:
+            walletMessage = "No pass selected."
+        }
     }
 
 }
@@ -1369,10 +1666,29 @@ private struct SavedTrip: Identifiable {
     let subtitle: String
 }
 
+private struct SavedStop: Identifiable {
+    let id = UUID()
+    let stationId: Int
+    let name: String
+    let code: String
+    let mode: TransportMode
+    let distanceText: String
+}
+
 private struct AccountNotification: Identifiable {
     let id = UUID()
     let title: String
     let subtitle: String
+}
+
+private struct NearbyStopInfo {
+    let station: Station
+    let distanceMeters: CLLocationDistance
+}
+
+private struct WalletPassPresentation: Identifiable {
+    let id = UUID()
+    let passes: [PKPass]
 }
 
 private struct SavedTripsScreen: View {
@@ -1425,6 +1741,32 @@ private struct NotificationsScreen: View {
     }
 }
 
+private struct SavedStopsScreen: View {
+    let stops: [SavedStop]
+
+    var body: some View {
+        List {
+            if stops.isEmpty {
+                Text("No stops to show")
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(stops) { stop in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(stop.name)
+                            .font(.headline)
+                        Text("\(stop.code) • \(stop.mode.title) • \(stop.distanceText)")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.vertical, 6)
+                }
+            }
+        }
+        .navigationTitle("Saved Stops")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
 private struct SettingsScreen: View {
     @Binding var preferredAppearance: String
     @Binding var fullName: String
@@ -1452,6 +1794,61 @@ private struct SettingsScreen: View {
         }
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+private struct AddPassesSheet: UIViewControllerRepresentable {
+    let passes: [PKPass]
+
+    func makeUIViewController(context: Context) -> UIViewController {
+        if let controller = PKAddPassesViewController(passes: passes) {
+            return controller
+        }
+        return UIViewController()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+}
+
+private final class UserLocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+    @Published var location: CLLocation?
+
+    private let manager = CLLocationManager()
+    private var didRequestPermission = false
+
+    override init() {
+        super.init()
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+    }
+
+    func requestPermissionIfNeeded() {
+        guard !didRequestPermission else { return }
+        didRequestPermission = true
+
+        switch manager.authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            manager.startUpdatingLocation()
+        case .notDetermined:
+            manager.requestWhenInUseAuthorization()
+        case .denied, .restricted:
+            break
+        @unknown default:
+            break
+        }
+    }
+
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            manager.startUpdatingLocation()
+        default:
+            break
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        location = locations.last
     }
 }
 

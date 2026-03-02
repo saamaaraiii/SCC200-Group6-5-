@@ -352,6 +352,7 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We use your location to show the nearest train station or bus stop.";
 				INFOPLIST_KEY_UIApplicationScene_Manifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -382,6 +383,7 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We use your location to show the nearest train station or bus stop.";
 				INFOPLIST_KEY_UIApplicationScene_Manifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

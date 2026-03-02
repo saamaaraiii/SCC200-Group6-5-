@@ -1,4 +1,5 @@
 import SwiftUI
+import MapKit
 
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
@@ -22,6 +23,12 @@ struct ContentView: View {
     @State private var showWelcomeSplash = true
     @State private var splashScale: CGFloat = 0.92
     @State private var splashOpacity: Double = 0.0
+    @State private var mapPosition: MapCameraPosition = .region(
+        MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: 53.90, longitude: -2.95),
+            span: MKCoordinateSpan(latitudeDelta: 0.85, longitudeDelta: 1.0)
+        )
+    )
 
     var filteredStations: [Station] {
         guard !searchText.isEmpty else { return appState.stations }
@@ -136,14 +143,10 @@ struct ContentView: View {
                     VStack(spacing: 14) {
                         welcomeCard
                         operatorsCard
-                        searchCard
+                        searchAllTrainsCard
                         transportModeCard
                         if transportMode == .taxi {
                             taxiCard
-                        } else {
-                            stationPickerCard
-                            algorithmCard
-                            actionCard
                         }
                         if let err = lastResultError {
                             messageCard(text: err, color: .red)
@@ -221,6 +224,38 @@ struct ContentView: View {
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+        .background(cardBackground)
+    }
+
+    private var searchAllTrainsCard: some View {
+        NavigationLink {
+            SearchTrainsScreen()
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: "magnifyingglass")
+                    .font(.headline)
+                    .foregroundStyle(.blue)
+                    .frame(width: 24)
+
+                Text("Search all trains")
+                    .font(.headline)
+                    .foregroundStyle(.white.opacity(0.9))
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.secondary)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 16)
+            .background(
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(Color.white.opacity(0.06))
+            )
+        }
+        .buttonStyle(.plain)
         .padding()
         .background(cardBackground)
     }
@@ -750,19 +785,34 @@ struct ContentView: View {
 
     private var mapScreen: some View {
         NavigationStack {
-            ZStack {
-                screenGradient
-                VStack(spacing: 14) {
-                    Image(systemName: "map.fill")
-                        .font(.system(size: 44))
-                        .foregroundStyle(.blue)
-                    Text("Map")
-                        .font(.title2.weight(.semibold))
-                        .foregroundStyle(.white)
-                    Text("Map view coming soon")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+            ZStack(alignment: .bottomTrailing) {
+                Map(position: $mapPosition) {
+                    ForEach(appState.stations, id: \.id) { station in
+                        if let lat = station.latitude, let lon = station.longitude {
+                            Marker(station.name, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon))
+                                .tint(.blue)
+                        }
+                    }
                 }
+                .mapStyle(.standard(elevation: .realistic))
+                .ignoresSafeArea()
+
+                Button {
+                    mapPosition = .region(
+                        MKCoordinateRegion(
+                            center: CLLocationCoordinate2D(latitude: 53.90, longitude: -2.95),
+                            span: MKCoordinateSpan(latitudeDelta: 0.85, longitudeDelta: 1.0)
+                        )
+                    )
+                } label: {
+                    Image(systemName: "scope")
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                        .frame(width: 42, height: 42)
+                        .background(Circle().fill(Color.black.opacity(0.65)))
+                }
+                .padding(.trailing, 16)
+                .padding(.bottom, 18)
             }
             .navigationTitle("Map")
             .navigationBarTitleDisplayMode(.inline)
@@ -955,6 +1005,24 @@ private struct PlannedRouteScreen: View {
         }
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)
+    }
+}
+
+private struct SearchTrainsScreen: View {
+    var body: some View {
+        ZStack {
+            LinearGradient(
+                colors: [Color(red: 0.03, green: 0.11, blue: 0.28), Color.black],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            Text("Search trains view (coming soon)")
+                .foregroundStyle(.secondary)
+        }
+        .navigationTitle("Search Trains")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

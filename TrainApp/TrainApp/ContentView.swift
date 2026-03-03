@@ -177,7 +177,6 @@ struct ContentView: View {
                 ScrollView {
                     VStack(spacing: 14) {
                         welcomeCard
-                        operatorsCard
                         searchAllTrainsCard
                         transportModeCard
                         if transportMode == .taxi {
@@ -191,6 +190,7 @@ struct ContentView: View {
                         if let appError = appState.errorMessage {
                             messageCard(text: appError, color: .red)
                         }
+                        experiencesCard
                     }
                     .padding(.horizontal, 14)
                     .padding(.bottom, 24)
@@ -250,21 +250,6 @@ struct ContentView: View {
         .background(cardBackground)
     }
 
-    private var operatorsCard: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Local Operators (NOC)")
-                .font(.headline)
-                .foregroundStyle(.white)
-
-            Text("ARCT, BLAC, KLCO, SCCU, SCMY, NUTT")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding()
-        .background(cardBackground)
-    }
-
     private var searchAllTrainsCard: some View {
         NavigationLink {
             SearchTrainsScreen(stations: appState.stations)
@@ -293,6 +278,88 @@ struct ContentView: View {
             )
         }
         .buttonStyle(.plain)
+        .padding()
+        .background(cardBackground)
+    }
+
+    private var experiencesCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("Recommended")
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                Spacer()
+                HStack(spacing: 6) {
+                    Image(systemName: "mappin.circle.fill")
+                    Text("TripAdvisor API")
+                }
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.green)
+            }
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(HomeExperience.mock) { item in
+                        VStack(alignment: .leading, spacing: 0) {
+                            AsyncImage(url: item.imageURL) { phase in
+                                switch phase {
+                                case .success(let image):
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                default:
+                                    LinearGradient(
+                                        colors: [Color.blue.opacity(0.35), Color.black.opacity(0.55)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                    .overlay(
+                                        Image(systemName: "photo")
+                                            .font(.title2)
+                                            .foregroundStyle(.white.opacity(0.7))
+                                    )
+                                }
+                            }
+                            .frame(height: 112)
+                            .clipped()
+
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text(item.title)
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(.white)
+                                    .lineLimit(1)
+                                Text(item.location)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                HStack {
+                                    Text(item.price)
+                                        .font(.caption.weight(.semibold))
+                                        .foregroundStyle(.cyan)
+                                    Spacer()
+                                    Text("Book")
+                                        .font(.caption.weight(.bold))
+                                        .foregroundStyle(.white)
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 5)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .fill(Color.blue)
+                                        )
+                                }
+                            }
+                            .padding(10)
+                            .background(Color.white.opacity(0.05))
+                        }
+                        .frame(width: 205)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 14)
+                                .stroke(Color.white.opacity(0.08), lineWidth: 1)
+                        )
+                    }
+                }
+            }
+        }
         .padding()
         .background(cardBackground)
     }
@@ -1312,6 +1379,8 @@ private struct SearchTrainsScreen: View {
     @State private var originQuery = ""
     @State private var destinationQuery = ""
     @State private var tripType: TripType = .single
+    @State private var outboundDate: Date = .now
+    @State private var returnDate: Date = Calendar.current.date(byAdding: .day, value: 1, to: .now) ?? .now
     @State private var passengerCount: Int = 1
     @State private var selectedRailcard: String = "No Railcard"
     @FocusState private var focusedField: SearchField?
@@ -1343,9 +1412,11 @@ private struct SearchTrainsScreen: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                     whereCard
+                    localOperatorsCard
 
                     if hasValidWhere {
                         whenCard
+                        travelDatesCard
                         passengersCard
                     }
                 }
@@ -1433,6 +1504,65 @@ private struct SearchTrainsScreen: View {
         .background(sectionCard)
     }
 
+    private var travelDatesCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Travel Dates")
+                .font(.custom("AvenirNext-DemiBold", size: 20))
+                .foregroundStyle(.white)
+
+            HStack(spacing: 8) {
+                dateSelectionBox(title: "Outbound", value: formattedDate(outboundDate))
+                dateSelectionBox(
+                    title: "Return",
+                    value: tripType == .single ? "Not required" : formattedDate(returnDate)
+                )
+            }
+
+            DatePicker(
+                "Outbound Date",
+                selection: $outboundDate,
+                in: Date()...,
+                displayedComponents: .date
+            )
+            .datePickerStyle(.graphical)
+            .tint(.blue)
+            .environment(\.colorScheme, .dark)
+            .onChange(of: outboundDate) { _, newDate in
+                if returnDate < newDate {
+                    returnDate = Calendar.current.date(byAdding: .day, value: 1, to: newDate) ?? newDate
+                }
+            }
+
+            if tripType != .single {
+                DatePicker(
+                    tripType == .openReturn ? "Return Date (optional guidance)" : "Return Date",
+                    selection: $returnDate,
+                    in: outboundDate...,
+                    displayedComponents: .date
+                )
+                .datePickerStyle(.graphical)
+                .tint(.blue)
+                .environment(\.colorScheme, .dark)
+            }
+        }
+        .padding(14)
+        .background(sectionCard)
+    }
+
+    private var localOperatorsCard: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Local Operators (NOC)")
+                .font(.custom("AvenirNext-DemiBold", size: 18))
+                .foregroundStyle(.white)
+            Text("ARCT, BLAC, KLCO, SCCU, SCMY, NUTT")
+                .font(.custom("AvenirNext-Medium", size: 14))
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(14)
+        .background(sectionCard)
+    }
+
     private var passengersCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Passengers")
@@ -1493,6 +1623,26 @@ private struct SearchTrainsScreen: View {
             .padding(12)
             .background(fieldCard)
         }
+    }
+
+    private func dateSelectionBox(title: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.custom("AvenirNext-Medium", size: 13))
+                .foregroundStyle(.secondary)
+            Text(value)
+                .font(.custom("AvenirNext-DemiBold", size: 15))
+                .foregroundStyle(.white)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(10)
+        .background(fieldCard)
+    }
+
+    private func formattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE, d MMM yyyy"
+        return formatter.string(from: date)
     }
 
     private func suggestionsList(_ items: [Station], onSelect: @escaping (Station) -> Void) -> some View {
@@ -1689,6 +1839,35 @@ private struct NearbyStopInfo {
 private struct WalletPassPresentation: Identifiable {
     let id = UUID()
     let passes: [PKPass]
+}
+
+private struct HomeExperience: Identifiable {
+    let id = UUID()
+    let title: String
+    let location: String
+    let price: String
+    let imageURL: URL?
+
+    static let mock: [HomeExperience] = [
+        HomeExperience(
+            title: "Lake District Cruise",
+            location: "Windermere",
+            price: "£45/person",
+            imageURL: URL(string: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200")
+        ),
+        HomeExperience(
+            title: "Historic Lancaster Walk",
+            location: "Lancaster",
+            price: "£18/person",
+            imageURL: URL(string: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200")
+        ),
+        HomeExperience(
+            title: "Blackpool Tower Day",
+            location: "Blackpool",
+            price: "£29/person",
+            imageURL: URL(string: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200")
+        )
+    ]
 }
 
 private struct SavedTripsScreen: View {

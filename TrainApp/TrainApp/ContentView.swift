@@ -7,6 +7,7 @@ import UniformTypeIdentifiers
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
     @AppStorage("preferredAppearance") private var preferredAppearance = "dark"
+    @AppStorage("appLanguage") private var appLanguageRawValue = AppLanguage.en.rawValue
     @StateObject private var locationManager = UserLocationManager()
     @State private var selectedTab: AppTab = .home
     @State private var originId: Int?
@@ -55,30 +56,38 @@ struct ContentView: View {
         }
     }
 
+    private var appLanguage: AppLanguage {
+        AppLanguage(rawValue: appLanguageRawValue) ?? .en
+    }
+
+    private func t(_ key: L.Key) -> String {
+        L.text(key, lang: appLanguage)
+    }
+
     var body: some View {
         ZStack {
         TabView(selection: $selectedTab) {
             homeScreen
                 .tabItem {
-                    Label("Home", systemImage: "house.fill")
+                    Label(t(.home), systemImage: "house.fill")
                 }
                 .tag(AppTab.home)
 
             mapScreen
                 .tabItem {
-                    Label("Map", systemImage: "map.fill")
+                    Label(t(.map), systemImage: "map.fill")
                 }
                 .tag(AppTab.map)
 
             ticketsScreen
                 .tabItem {
-                    Label("Tickets", systemImage: "ticket.fill")
+                    Label(t(.tickets), systemImage: "ticket.fill")
                 }
                 .tag(AppTab.tickets)
 
                 accountScreen
                     .tabItem {
-                        Label("Account", systemImage: "person.fill")
+                        Label(t(.account), systemImage: "person.fill")
                     }
                     .tag(AppTab.account)
             }
@@ -106,19 +115,19 @@ struct ContentView: View {
         .sheet(item: $walletPresentation) { presentation in
             AddPassesSheet(passes: presentation.passes)
         }
-        .alert("Apple Wallet", isPresented: Binding(
+        .alert(t(.appleWallet), isPresented: Binding(
             get: { walletMessage != nil },
             set: { if !$0 { walletMessage = nil } }
         )) {
-            Button("OK", role: .cancel) {}
+            Button(t(.ok), role: .cancel) {}
         } message: {
             Text(walletMessage ?? "")
         }
-        .alert("Departures", isPresented: Binding(
+        .alert(t(.departures), isPresented: Binding(
             get: { departuresMessage != nil },
             set: { if !$0 { departuresMessage = nil } }
         )) {
-            Button("OK", role: .cancel) {}
+            Button(t(.ok), role: .cancel) {}
         } message: {
             Text(departuresMessage ?? "")
         }
@@ -137,7 +146,7 @@ struct ContentView: View {
                 Image(systemName: "tram.fill")
                     .font(.system(size: 44, weight: .semibold))
                     .foregroundStyle(.blue)
-                Text("Welcome to the Transport App")
+                Text(t(.welcomeSplash))
                     .font(.title3.weight(.semibold))
                     .foregroundStyle(.white)
             }
@@ -200,7 +209,7 @@ struct ContentView: View {
             .toolbar(.hidden, for: .navigationBar)
             .navigationDestination(isPresented: $showPlannedRoute) {
                 if let plan = plannedRoute {
-                    PlannedRouteScreen(plan: plan, mapping: appState.mapping)
+                    PlannedRouteScreen(plan: plan, mapping: appState.mapping, language: appLanguage)
                 } else {
                     EmptyView()
                 }
@@ -219,7 +228,7 @@ struct ContentView: View {
                 }
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("Welcome back")
+                Text(t(.welcomeBack))
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 Text(fullName)
@@ -231,6 +240,7 @@ struct ContentView: View {
             NavigationLink {
                 SettingsScreen(
                     preferredAppearance: $preferredAppearance,
+                    appLanguageRawValue: $appLanguageRawValue,
                     fullName: $fullName,
                     email: $email,
                     phone: $phone
@@ -252,7 +262,7 @@ struct ContentView: View {
 
     private var searchAllTrainsCard: some View {
         NavigationLink {
-            SearchTrainsScreen(stations: appState.stations)
+            SearchTrainsScreen(stations: appState.stations, language: appLanguage)
         } label: {
             HStack(spacing: 10) {
                 Image(systemName: "magnifyingglass")
@@ -260,7 +270,7 @@ struct ContentView: View {
                     .foregroundStyle(.blue)
                     .frame(width: 24)
 
-                Text("Search all trains")
+                Text(t(.searchAllTrains))
                     .font(.headline)
                     .foregroundStyle(.white.opacity(0.9))
 
@@ -285,7 +295,7 @@ struct ContentView: View {
     private var experiencesCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text("Recommended")
+                Text(t(.recommended))
                     .font(.headline)
                     .foregroundStyle(.white)
                 Spacer()
@@ -336,7 +346,7 @@ struct ContentView: View {
                                         .font(.caption.weight(.semibold))
                                         .foregroundStyle(.cyan)
                                     Spacer()
-                                    Text("Book")
+                                    Text(t(.book))
                                         .font(.caption.weight(.bold))
                                         .foregroundStyle(.white)
                                         .padding(.horizontal, 10)
@@ -456,7 +466,7 @@ struct ContentView: View {
             VStack(spacing: 10) {
                 Image(systemName: mode.icon)
                     .font(.title3)
-                Text(mode.title)
+                Text(mode.title(in: appLanguage))
                     .font(.subheadline.weight(.semibold))
             }
             .foregroundStyle(isSelected ? .white : .secondary)
@@ -476,7 +486,7 @@ struct ContentView: View {
 
     private var algorithmCard: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Routing Mode")
+            Text("\(t(.route))")
                 .font(.headline)
                 .foregroundStyle(.white)
 
@@ -492,7 +502,7 @@ struct ContentView: View {
 
     private var actionCard: some View {
         Button(action: openPlannedRoute) {
-            Text("Find \(transportMode.title) Route")
+            Text("\(t(.find)) \(transportMode.title(in: appLanguage)) \(t(.route))")
                 .font(.headline)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 12)
@@ -571,7 +581,7 @@ struct ContentView: View {
             } label: {
                 HStack(spacing: 8) {
                     Image(systemName: "person.fill")
-                    Text("Request Taxi")
+                    Text("\(t(.find)) \(t(.taxi))")
                         .font(.headline.weight(.semibold))
                 }
                 .foregroundStyle(.white)
@@ -606,7 +616,7 @@ struct ContentView: View {
                             .mapStyle(.standard(elevation: .realistic))
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         } else {
-                            ProgressView("Locating nearest stop...")
+                            ProgressView(t(.locatingNearestStop))
                                 .tint(.white)
                         }
                     }
@@ -627,7 +637,7 @@ struct ContentView: View {
         return VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .center) {
                 HStack(spacing: 7) {
-                    Text(transportMode == .train ? "STATION" : "STOP")
+                    Text(transportMode == .train ? t(.station) : t(.stop))
                         .font(.caption2.weight(.bold))
                         .foregroundStyle(.white)
                         .padding(.horizontal, 7)
@@ -653,7 +663,7 @@ struct ContentView: View {
                 .buttonStyle(.plain)
             }
 
-            Text("\(distanceText(for: stop.distanceMeters)) away")
+            Text("\(distanceText(for: stop.distanceMeters)) \(t(.away))")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
@@ -661,7 +671,7 @@ struct ContentView: View {
                 Button {
                     openDirections(to: stop.station)
                 } label: {
-                    Label("Directions", systemImage: "arrow.triangle.turn.up.right.diamond.fill")
+                    Label(t(.directions), systemImage: "arrow.triangle.turn.up.right.diamond.fill")
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
@@ -676,7 +686,7 @@ struct ContentView: View {
                 Button {
                     showDepartures(for: stop.station)
                 } label: {
-                    Label("Departures", systemImage: "clock.fill")
+                    Label(t(.departures), systemImage: "clock.fill")
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
@@ -725,7 +735,7 @@ struct ContentView: View {
 
         return VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text(transportMode.stageTitle)
+                Text(transportMode.stageTitle(in: appLanguage))
                     .font(.headline)
                     .foregroundStyle(.white)
                 Spacer()
@@ -770,9 +780,9 @@ struct ContentView: View {
             Divider().overlay(.white.opacity(0.1))
 
             HStack {
-                Text("Segments: \(max(stationIds.count - 1, 0))")
+                Text("\(t(.segments)): \(max(stationIds.count - 1, 0))")
                 Spacer()
-                Text("ETA: \(displayDurationMins) min")
+                Text("ETA: \(displayDurationMins) \(t(.min))")
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
@@ -922,7 +932,7 @@ struct ContentView: View {
                     ScrollView {
                         VStack(spacing: 14) {
                             VStack(alignment: .leading, spacing: 10) {
-                                Text("Your Ticket")
+                                Text(t(.yourTicket))
                                     .font(.title3.weight(.semibold))
                                     .foregroundStyle(.white)
                                 RoundedRectangle(cornerRadius: 20)
@@ -935,7 +945,7 @@ struct ContentView: View {
                                                 .foregroundStyle(.white)
                                             Text("Preston → Lancaster")
                                                 .foregroundStyle(.white)
-                                            Text("Ready to scan")
+                                            Text(t(.readyToScan))
                                                 .font(.caption)
                                                 .foregroundStyle(.secondary)
                                         }
@@ -954,7 +964,7 @@ struct ContentView: View {
                         Button {
                             openDirectionsForTicket()
                         } label: {
-                            Text("Get Directions")
+                            Text(t(.getDirections))
                                 .font(.headline.weight(.semibold))
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: .infinity)
@@ -971,7 +981,7 @@ struct ContentView: View {
                             HStack(spacing: 8) {
                                 Image(systemName: "wallet.pass.fill")
                                     .font(.headline)
-                                Text("Add to Apple Wallet")
+                                Text(t(.addToAppleWallet))
                                     .font(.headline.weight(.semibold))
                             }
                             .foregroundStyle(.black)
@@ -997,7 +1007,7 @@ struct ContentView: View {
                     )
                 }
             }
-            .navigationTitle("Tickets")
+            .navigationTitle(t(.tickets))
             .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -1033,7 +1043,7 @@ struct ContentView: View {
                 .padding(.trailing, 16)
                 .padding(.bottom, 18)
             }
-            .navigationTitle("Map")
+            .navigationTitle(t(.map))
             .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -1044,7 +1054,7 @@ struct ContentView: View {
                 screenGradient
                 VStack(alignment: .leading, spacing: 14) {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Student Account")
+                        Text(t(.studentAccount))
                             .font(.title3.weight(.semibold))
                             .foregroundStyle(.white)
                         Text("UPSA Exchange - Lancaster University")
@@ -1055,37 +1065,38 @@ struct ContentView: View {
                     .background(cardBackground)
 
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Quick Actions")
+                        Text(t(.quickActions))
                             .font(.headline)
                             .foregroundStyle(.white)
 
                         NavigationLink {
-                            SavedTripsScreen(trips: savedTrips)
+                            SavedTripsScreen(trips: savedTrips, language: appLanguage)
                         } label: {
-                            accountActionRow(title: "Saved Trips", icon: "bookmark.fill")
+                            accountActionRow(title: t(.savedTrips), icon: "bookmark.fill")
                         }
 
                         NavigationLink {
-                            SavedStopsScreen(stops: savedStops)
+                            SavedStopsScreen(stops: savedStops, language: appLanguage)
                         } label: {
-                            accountActionRow(title: "Saved Stops", icon: "star.fill")
+                            accountActionRow(title: t(.savedStops), icon: "star.fill")
                         }
 
                         NavigationLink {
-                            NotificationsScreen(notifications: notifications)
+                            NotificationsScreen(notifications: notifications, language: appLanguage)
                         } label: {
-                            accountActionRow(title: "Notifications", icon: "bell.fill")
+                            accountActionRow(title: t(.notifications), icon: "bell.fill")
                         }
 
                         NavigationLink {
                             SettingsScreen(
                                 preferredAppearance: $preferredAppearance,
+                                appLanguageRawValue: $appLanguageRawValue,
                                 fullName: $fullName,
                                 email: $email,
                                 phone: $phone
                             )
                         } label: {
-                            accountActionRow(title: "Settings", icon: "gearshape.fill")
+                            accountActionRow(title: t(.settings), icon: "gearshape.fill")
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -1097,7 +1108,7 @@ struct ContentView: View {
                 .padding(.horizontal, 14)
                 .padding(.top, 12)
             }
-            .navigationTitle("Account")
+            .navigationTitle(t(.account))
             .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -1214,8 +1225,8 @@ struct ContentView: View {
     }
 
     private func showDepartures(for station: Station) {
-        let modeText = transportMode == .train ? "train" : "bus"
-        departuresMessage = "Next \(modeText) departures from \(station.name): 3 min, 11 min, 18 min."
+        let modeText = transportMode == .train ? t(.train).lowercased() : t(.bus).lowercased()
+        departuresMessage = "\(t(.departures)): \(station.name) • 3 \(t(.min)), 11 \(t(.min)), 18 \(t(.min)) (\(modeText))"
     }
 
     private func openDirections(to station: Station) {
@@ -1226,7 +1237,7 @@ struct ContentView: View {
         var items: [MKMapItem] = []
         if let location = locationManager.location {
             let source = MKMapItem(placemark: MKPlacemark(coordinate: location.coordinate))
-            source.name = "Current Location"
+            source.name = t(.currentLocation)
             items.append(source)
         }
         items.append(destination)
@@ -1244,7 +1255,7 @@ struct ContentView: View {
 
     private func addToWalletTapped() {
         guard PKAddPassesViewController.canAddPasses() else {
-            walletMessage = "This device cannot add passes to Apple Wallet."
+            walletMessage = t(.walletUnavailable)
             return
         }
 
@@ -1280,10 +1291,10 @@ struct ContentView: View {
                 let pass = try PKPass(data: data)
                 walletPresentation = WalletPassPresentation(passes: [pass])
             } catch {
-                walletMessage = "Could not read this pass. Please choose a valid signed .pkpass file."
+                walletMessage = t(.walletInvalidPass)
             }
         case .failure:
-            walletMessage = "No pass selected."
+            walletMessage = t(.walletNoPass)
         }
     }
 
@@ -1296,6 +1307,163 @@ private enum AppTab: Hashable {
     case account
 }
 
+private enum AppLanguage: String, CaseIterable {
+    case en
+    case es
+    case fr
+    case de
+    case zh
+
+    var displayName: String {
+        switch self {
+        case .en: return "English"
+        case .es: return "Español"
+        case .fr: return "Français"
+        case .de: return "Deutsch"
+        case .zh: return "中文"
+        }
+    }
+}
+
+private enum L {
+    enum Key: String {
+        case home, map, tickets, account
+        case welcomeSplash, welcomeBack
+        case searchAllTrains, recommended, book
+        case station, stop, away, directions, departures
+        case find, route, segments, min
+        case yourTicket, readyToScan, getDirections, addToAppleWallet
+        case studentAccount, quickActions, savedTrips, savedStops, notifications, settings
+        case back, estimatedTime
+        case planJourneyTitle, planJourneySubtitle, searchTrains, `where`, origin, destination
+        case typeDeparture, typeArrival, when, single, returnLabel, openReturn
+        case travelDates, outbound, notRequired, outboundDate, returnDate, returnDateOptional
+        case localOperators, passengers, railcard
+        case personalData, fullName, email, phone, appearance, theme, dark, light, system, language
+        case noTrips, noNotifications, noStops
+        case locatingNearestStop, appleWallet, ok
+        case currentLocation, walletUnavailable, walletInvalidPass, walletNoPass
+        case train, bus, taxi, walk, trainStage, busStage, taxiStage, walkStage
+    }
+
+    static func text(_ key: Key, lang: AppLanguage) -> String {
+        table[lang]?[key.rawValue] ?? table[.en]?[key.rawValue] ?? key.rawValue
+    }
+
+    static func passengerCount(_ count: Int, lang: AppLanguage) -> String {
+        switch lang {
+        case .en:
+            return "\(count) passenger" + (count == 1 ? "" : "s")
+        case .es:
+            return "\(count) pasajero" + (count == 1 ? "" : "s")
+        case .fr:
+            return "\(count) passager" + (count == 1 ? "" : "s")
+        case .de:
+            return "\(count) Fahrgast" + (count == 1 ? "" : "e")
+        case .zh:
+            return "\(count) 位乘客"
+        }
+    }
+
+    private static let table: [AppLanguage: [String: String]] = [
+        .en: [
+            "home": "Home", "map": "Map", "tickets": "Tickets", "account": "Account",
+            "welcomeSplash": "Welcome to the Transport App", "welcomeBack": "Welcome back",
+            "searchAllTrains": "Search all trains", "recommended": "Recommended", "book": "Book",
+            "station": "STATION", "stop": "STOP", "away": "away", "directions": "Directions", "departures": "Departures",
+            "find": "Find", "route": "Route", "segments": "Segments", "min": "min",
+            "yourTicket": "Your Ticket", "readyToScan": "Ready to scan", "getDirections": "Get Directions", "addToAppleWallet": "Add to Apple Wallet",
+            "studentAccount": "Student Account", "quickActions": "Quick Actions", "savedTrips": "Saved Trips", "savedStops": "Saved Stops", "notifications": "Notifications", "settings": "Settings",
+            "back": "Back", "estimatedTime": "Estimated time",
+            "planJourneyTitle": "Plan Your Rail Journey", "planJourneySubtitle": "Enter where you are going and customise your trip", "searchTrains": "Search Trains", "where": "Where", "origin": "Origin", "destination": "Destination",
+            "typeDeparture": "Type departure station", "typeArrival": "Type arrival station", "when": "When", "single": "Single", "returnLabel": "Return", "openReturn": "Open Return",
+            "travelDates": "Travel Dates", "outbound": "Outbound", "notRequired": "Not required", "outboundDate": "Outbound Date", "returnDate": "Return Date", "returnDateOptional": "Return Date (optional guidance)",
+            "localOperators": "Local Operators (NOC)", "passengers": "Passengers", "railcard": "Railcard",
+            "personalData": "Personal Data", "fullName": "Full Name", "email": "Email", "phone": "Phone", "appearance": "Appearance", "theme": "Theme", "dark": "Dark", "light": "Light", "system": "System", "language": "Language",
+            "noTrips": "No trips to show", "noNotifications": "No notifications to show", "noStops": "No stops to show",
+            "locatingNearestStop": "Locating nearest stop...", "appleWallet": "Apple Wallet", "ok": "OK",
+            "currentLocation": "Current Location", "walletUnavailable": "This device cannot add passes to Apple Wallet.", "walletInvalidPass": "Could not read this pass. Please choose a valid signed .pkpass file.", "walletNoPass": "No pass selected.",
+            "train": "Train", "bus": "Bus", "taxi": "Taxi", "walk": "Walk", "trainStage": "Train Stage", "busStage": "Bus Stage", "taxiStage": "Taxi Stage", "walkStage": "Walk Stage"
+        ],
+        .es: [
+            "home": "Inicio", "map": "Mapa", "tickets": "Billetes", "account": "Cuenta",
+            "welcomeSplash": "Bienvenido a la aplicación de transporte", "welcomeBack": "Bienvenido de nuevo",
+            "searchAllTrains": "Buscar todos los trenes", "recommended": "Recomendado", "book": "Reservar",
+            "station": "ESTACIÓN", "stop": "PARADA", "away": "de distancia", "directions": "Direcciones", "departures": "Salidas",
+            "find": "Buscar", "route": "ruta", "segments": "Tramos", "min": "min",
+            "yourTicket": "Tu billete", "readyToScan": "Listo para escanear", "getDirections": "Obtener direcciones", "addToAppleWallet": "Añadir a Apple Wallet",
+            "studentAccount": "Cuenta de estudiante", "quickActions": "Acciones rápidas", "savedTrips": "Viajes guardados", "savedStops": "Paradas guardadas", "notifications": "Notificaciones", "settings": "Ajustes",
+            "back": "Volver", "estimatedTime": "Tiempo estimado",
+            "planJourneyTitle": "Planifica tu viaje en tren", "planJourneySubtitle": "Indica a dónde vas y personaliza tu viaje", "searchTrains": "Buscar trenes", "where": "Dónde", "origin": "Origen", "destination": "Destino",
+            "typeDeparture": "Escribe estación de salida", "typeArrival": "Escribe estación de llegada", "when": "Cuándo", "single": "Solo ida", "returnLabel": "Ida y vuelta", "openReturn": "Vuelta abierta",
+            "travelDates": "Fechas de viaje", "outbound": "Ida", "notRequired": "No requerido", "outboundDate": "Fecha de ida", "returnDate": "Fecha de vuelta", "returnDateOptional": "Fecha de vuelta (opcional)",
+            "localOperators": "Operadores locales (NOC)", "passengers": "Pasajeros", "railcard": "Railcard",
+            "personalData": "Datos personales", "fullName": "Nombre completo", "email": "Correo", "phone": "Teléfono", "appearance": "Apariencia", "theme": "Tema", "dark": "Oscuro", "light": "Claro", "system": "Sistema", "language": "Idioma",
+            "noTrips": "No hay viajes para mostrar", "noNotifications": "No hay notificaciones para mostrar", "noStops": "No hay paradas para mostrar",
+            "locatingNearestStop": "Buscando parada más cercana...", "appleWallet": "Apple Wallet", "ok": "OK",
+            "currentLocation": "Ubicación actual", "walletUnavailable": "Este dispositivo no puede añadir pases a Apple Wallet.", "walletInvalidPass": "No se pudo leer el pase. Selecciona un .pkpass válido y firmado.", "walletNoPass": "No se ha seleccionado ningún pase.",
+            "train": "Tren", "bus": "Bus", "taxi": "Taxi", "walk": "Andando", "trainStage": "Etapa de tren", "busStage": "Etapa de bus", "taxiStage": "Etapa de taxi", "walkStage": "Etapa a pie"
+        ],
+        .fr: [
+            "home": "Accueil", "map": "Carte", "tickets": "Billets", "account": "Compte",
+            "welcomeSplash": "Bienvenue dans l'application de transport", "welcomeBack": "Bon retour",
+            "searchAllTrains": "Rechercher tous les trains", "recommended": "Recommandé", "book": "Réserver",
+            "station": "GARE", "stop": "ARRÊT", "away": "de distance", "directions": "Itinéraire", "departures": "Départs",
+            "find": "Trouver", "route": "trajet", "segments": "Segments", "min": "min",
+            "yourTicket": "Votre billet", "readyToScan": "Prêt à scanner", "getDirections": "Obtenir l'itinéraire", "addToAppleWallet": "Ajouter à Apple Wallet",
+            "studentAccount": "Compte étudiant", "quickActions": "Actions rapides", "savedTrips": "Trajets enregistrés", "savedStops": "Arrêts enregistrés", "notifications": "Notifications", "settings": "Paramètres",
+            "back": "Retour", "estimatedTime": "Temps estimé",
+            "planJourneyTitle": "Planifiez votre voyage en train", "planJourneySubtitle": "Entrez votre destination et personnalisez votre trajet", "searchTrains": "Rechercher des trains", "where": "Où", "origin": "Origine", "destination": "Destination",
+            "typeDeparture": "Saisir la gare de départ", "typeArrival": "Saisir la gare d'arrivée", "when": "Quand", "single": "Aller simple", "returnLabel": "Aller-retour", "openReturn": "Retour ouvert",
+            "travelDates": "Dates de voyage", "outbound": "Aller", "notRequired": "Non requis", "outboundDate": "Date aller", "returnDate": "Date retour", "returnDateOptional": "Date retour (optionnelle)",
+            "localOperators": "Opérateurs locaux (NOC)", "passengers": "Passagers", "railcard": "Railcard",
+            "personalData": "Données personnelles", "fullName": "Nom complet", "email": "E-mail", "phone": "Téléphone", "appearance": "Apparence", "theme": "Thème", "dark": "Sombre", "light": "Clair", "system": "Système", "language": "Langue",
+            "noTrips": "Aucun trajet à afficher", "noNotifications": "Aucune notification à afficher", "noStops": "Aucun arrêt à afficher",
+            "locatingNearestStop": "Recherche de l'arrêt le plus proche...", "appleWallet": "Apple Wallet", "ok": "OK",
+            "currentLocation": "Position actuelle", "walletUnavailable": "Cet appareil ne peut pas ajouter de pass à Apple Wallet.", "walletInvalidPass": "Impossible de lire ce pass. Veuillez choisir un fichier .pkpass signé valide.", "walletNoPass": "Aucun pass sélectionné.",
+            "train": "Train", "bus": "Bus", "taxi": "Taxi", "walk": "Marche", "trainStage": "Étape train", "busStage": "Étape bus", "taxiStage": "Étape taxi", "walkStage": "Étape à pied"
+        ],
+        .de: [
+            "home": "Start", "map": "Karte", "tickets": "Tickets", "account": "Konto",
+            "welcomeSplash": "Willkommen in der Transport-App", "welcomeBack": "Willkommen zurück",
+            "searchAllTrains": "Alle Züge suchen", "recommended": "Empfohlen", "book": "Buchen",
+            "station": "BAHNHOF", "stop": "HALTESTELLE", "away": "entfernt", "directions": "Route", "departures": "Abfahrten",
+            "find": "Finde", "route": "Route", "segments": "Abschnitte", "min": "Min",
+            "yourTicket": "Ihr Ticket", "readyToScan": "Scanbereit", "getDirections": "Route anzeigen", "addToAppleWallet": "Zu Apple Wallet hinzufügen",
+            "studentAccount": "Studentenkonto", "quickActions": "Schnellaktionen", "savedTrips": "Gespeicherte Reisen", "savedStops": "Gespeicherte Halte", "notifications": "Benachrichtigungen", "settings": "Einstellungen",
+            "back": "Zurück", "estimatedTime": "Geschätzte Zeit",
+            "planJourneyTitle": "Plane deine Zugreise", "planJourneySubtitle": "Gib dein Ziel ein und passe die Reise an", "searchTrains": "Züge suchen", "where": "Wohin", "origin": "Start", "destination": "Ziel",
+            "typeDeparture": "Abfahrtsbahnhof eingeben", "typeArrival": "Ankunftsbahnhof eingeben", "when": "Wann", "single": "Einfach", "returnLabel": "Hin und zurück", "openReturn": "Offene Rückfahrt",
+            "travelDates": "Reisedaten", "outbound": "Hin", "notRequired": "Nicht erforderlich", "outboundDate": "Hinreisedatum", "returnDate": "Rückreisedatum", "returnDateOptional": "Rückreisedatum (optional)",
+            "localOperators": "Lokale Betreiber (NOC)", "passengers": "Passagiere", "railcard": "Railcard",
+            "personalData": "Persönliche Daten", "fullName": "Vollständiger Name", "email": "E-Mail", "phone": "Telefon", "appearance": "Darstellung", "theme": "Design", "dark": "Dunkel", "light": "Hell", "system": "System", "language": "Sprache",
+            "noTrips": "Keine Reisen vorhanden", "noNotifications": "Keine Benachrichtigungen vorhanden", "noStops": "Keine Haltestellen vorhanden",
+            "locatingNearestStop": "Nächste Haltestelle wird gesucht...", "appleWallet": "Apple Wallet", "ok": "OK",
+            "currentLocation": "Aktueller Standort", "walletUnavailable": "Dieses Gerät kann keine Pässe zu Apple Wallet hinzufügen.", "walletInvalidPass": "Dieser Pass konnte nicht gelesen werden. Bitte eine gültige signierte .pkpass-Datei wählen.", "walletNoPass": "Kein Pass ausgewählt.",
+            "train": "Zug", "bus": "Bus", "taxi": "Taxi", "walk": "Zu Fuß", "trainStage": "Zugabschnitt", "busStage": "Busabschnitt", "taxiStage": "Taxiabschnitt", "walkStage": "Fußweg"
+        ],
+        .zh: [
+            "home": "首页", "map": "地图", "tickets": "车票", "account": "账户",
+            "welcomeSplash": "欢迎使用交通应用", "welcomeBack": "欢迎回来",
+            "searchAllTrains": "搜索所有火车", "recommended": "推荐", "book": "预订",
+            "station": "车站", "stop": "站点", "away": "距离", "directions": "路线", "departures": "发车",
+            "find": "查找", "route": "路线", "segments": "路段", "min": "分钟",
+            "yourTicket": "您的车票", "readyToScan": "准备扫码", "getDirections": "获取路线", "addToAppleWallet": "添加到 Apple Wallet",
+            "studentAccount": "学生账户", "quickActions": "快捷操作", "savedTrips": "已保存行程", "savedStops": "已保存站点", "notifications": "通知", "settings": "设置",
+            "back": "返回", "estimatedTime": "预计时间",
+            "planJourneyTitle": "规划你的火车行程", "planJourneySubtitle": "输入目的地并自定义行程", "searchTrains": "搜索火车", "where": "出行地点", "origin": "出发地", "destination": "目的地",
+            "typeDeparture": "输入出发站", "typeArrival": "输入到达站", "when": "时间", "single": "单程", "returnLabel": "往返", "openReturn": "开放返程",
+            "travelDates": "出行日期", "outbound": "去程", "notRequired": "不需要", "outboundDate": "去程日期", "returnDate": "返程日期", "returnDateOptional": "返程日期（可选）",
+            "localOperators": "本地运营商 (NOC)", "passengers": "乘客", "railcard": "Railcard",
+            "personalData": "个人资料", "fullName": "姓名", "email": "邮箱", "phone": "电话", "appearance": "外观", "theme": "主题", "dark": "深色", "light": "浅色", "system": "系统", "language": "语言",
+            "noTrips": "没有可显示的行程", "noNotifications": "没有可显示的通知", "noStops": "没有可显示的站点",
+            "locatingNearestStop": "正在定位最近站点...", "appleWallet": "Apple Wallet", "ok": "确定",
+            "currentLocation": "当前位置", "walletUnavailable": "此设备无法将票券添加到 Apple Wallet。", "walletInvalidPass": "无法读取该票券，请选择有效且已签名的 .pkpass 文件。", "walletNoPass": "未选择票券。",
+            "train": "火车", "bus": "公交", "taxi": "出租车", "walk": "步行", "trainStage": "火车阶段", "busStage": "公交阶段", "taxiStage": "出租车阶段", "walkStage": "步行阶段"
+        ]
+    ]
+}
+
 private struct PlannedRoute {
     let mode: TransportMode
     let stationIds: [Int]
@@ -1306,6 +1474,7 @@ private struct PlannedRouteScreen: View {
     @Environment(\.dismiss) private var dismiss
     let plan: PlannedRoute
     let mapping: StationMapping
+    let language: AppLanguage
 
     var body: some View {
         ZStack {
@@ -1321,14 +1490,14 @@ private struct PlannedRouteScreen: View {
                     Button {
                         dismiss()
                     } label: {
-                        Text("Back")
+                        Text(L.text(.back, lang: language))
                             .font(.headline)
                             .foregroundStyle(.white)
                     }
                     Spacer()
                 }
 
-                Text("\(plan.mode.stageTitle)")
+                Text(plan.mode.stageTitle(in: language))
                     .font(.title2.weight(.semibold))
                     .foregroundStyle(.white)
 
@@ -1354,10 +1523,10 @@ private struct PlannedRouteScreen: View {
                 )
 
                 HStack {
-                    Text("Estimated time")
+                    Text(L.text(.estimatedTime, lang: language))
                         .foregroundStyle(.secondary)
                     Spacer()
-                    Text("\(plan.durationMins) min")
+                    Text("\(plan.durationMins) \(L.text(.min, lang: language))")
                         .font(.headline)
                         .foregroundStyle(.white)
                 }
@@ -1374,6 +1543,7 @@ private struct PlannedRouteScreen: View {
 
 private struct SearchTrainsScreen: View {
     let stations: [Station]
+    let language: AppLanguage
     @State private var originId: Int?
     @State private var destinationId: Int?
     @State private var originQuery = ""
@@ -1382,8 +1552,14 @@ private struct SearchTrainsScreen: View {
     @State private var outboundDate: Date = .now
     @State private var returnDate: Date = Calendar.current.date(byAdding: .day, value: 1, to: .now) ?? .now
     @State private var passengerCount: Int = 1
-    @State private var selectedRailcard: String = "No Railcard"
+    @State private var selectedRailcard: String
     @FocusState private var focusedField: SearchField?
+
+    init(stations: [Station], language: AppLanguage) {
+        self.stations = stations
+        self.language = language
+        _selectedRailcard = State(initialValue: RailcardOption.options(for: language).first ?? "No Railcard")
+    }
 
     private var hasValidWhere: Bool {
         guard let originId, let destinationId else { return false }
@@ -1402,10 +1578,10 @@ private struct SearchTrainsScreen: View {
             ScrollView {
                 VStack(spacing: 16) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Plan Your Rail Journey")
+                        Text(L.text(.planJourneyTitle, lang: language))
                             .font(.custom("AvenirNext-Bold", size: 28))
                             .foregroundStyle(.white)
-                        Text("Enter where you are going and customise your trip")
+                        Text(L.text(.planJourneySubtitle, lang: language))
                             .font(.custom("AvenirNext-Regular", size: 14))
                             .foregroundStyle(.secondary)
                     }
@@ -1425,19 +1601,19 @@ private struct SearchTrainsScreen: View {
                 .padding(.bottom, 26)
             }
         }
-        .navigationTitle("Search Trains")
+        .navigationTitle(L.text(.searchTrains, lang: language))
         .navigationBarTitleDisplayMode(.inline)
     }
 
     private var whereCard: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Where")
+            Text(L.text(.where, lang: language))
                 .font(.custom("AvenirNext-DemiBold", size: 20))
                 .foregroundStyle(.white)
 
             stationSearchField(
-                title: "Origin",
-                placeholder: "Type departure station",
+                title: L.text(.origin, lang: language),
+                placeholder: L.text(.typeDeparture, lang: language),
                 text: $originQuery,
                 field: .origin
             )
@@ -1451,8 +1627,8 @@ private struct SearchTrainsScreen: View {
             }
 
             stationSearchField(
-                title: "Destination",
-                placeholder: "Type arrival station",
+                title: L.text(.destination, lang: language),
+                placeholder: L.text(.typeArrival, lang: language),
                 text: $destinationQuery,
                 field: .destination
             )
@@ -1477,7 +1653,7 @@ private struct SearchTrainsScreen: View {
 
     private var whenCard: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("When")
+            Text(L.text(.when, lang: language))
                 .font(.custom("AvenirNext-DemiBold", size: 20))
                 .foregroundStyle(.white)
 
@@ -1486,7 +1662,7 @@ private struct SearchTrainsScreen: View {
                     Button {
                         tripType = type
                     } label: {
-                        Text(type.shortTitle)
+                        Text(type.shortTitle(in: language))
                             .font(.custom("AvenirNext-DemiBold", size: 13))
                             .foregroundStyle(tripType == type ? .white : .secondary)
                             .frame(maxWidth: .infinity)
@@ -1506,20 +1682,20 @@ private struct SearchTrainsScreen: View {
 
     private var travelDatesCard: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Travel Dates")
+            Text(L.text(.travelDates, lang: language))
                 .font(.custom("AvenirNext-DemiBold", size: 20))
                 .foregroundStyle(.white)
 
             HStack(spacing: 8) {
-                dateSelectionBox(title: "Outbound", value: formattedDate(outboundDate))
+                dateSelectionBox(title: L.text(.outbound, lang: language), value: formattedDate(outboundDate))
                 dateSelectionBox(
-                    title: "Return",
-                    value: tripType == .single ? "Not required" : formattedDate(returnDate)
+                    title: L.text(.returnLabel, lang: language),
+                    value: tripType == .single ? L.text(.notRequired, lang: language) : formattedDate(returnDate)
                 )
             }
 
             DatePicker(
-                "Outbound Date",
+                L.text(.outboundDate, lang: language),
                 selection: $outboundDate,
                 in: Date()...,
                 displayedComponents: .date
@@ -1535,7 +1711,7 @@ private struct SearchTrainsScreen: View {
 
             if tripType != .single {
                 DatePicker(
-                    tripType == .openReturn ? "Return Date (optional guidance)" : "Return Date",
+                    tripType == .openReturn ? L.text(.returnDateOptional, lang: language) : L.text(.returnDate, lang: language),
                     selection: $returnDate,
                     in: outboundDate...,
                     displayedComponents: .date
@@ -1551,7 +1727,7 @@ private struct SearchTrainsScreen: View {
 
     private var localOperatorsCard: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Local Operators (NOC)")
+            Text(L.text(.localOperators, lang: language))
                 .font(.custom("AvenirNext-DemiBold", size: 18))
                 .foregroundStyle(.white)
             Text("ARCT, BLAC, KLCO, SCCU, SCMY, NUTT")
@@ -1565,12 +1741,12 @@ private struct SearchTrainsScreen: View {
 
     private var passengersCard: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Passengers")
+            Text(L.text(.passengers, lang: language))
                 .font(.custom("AvenirNext-DemiBold", size: 20))
                 .foregroundStyle(.white)
 
             HStack {
-                Text("\(passengerCount) passenger\(passengerCount == 1 ? "" : "s")")
+                Text(L.passengerCount(passengerCount, lang: language))
                     .font(.custom("AvenirNext-Medium", size: 16))
                     .foregroundStyle(.white)
                 Spacer()
@@ -1581,12 +1757,12 @@ private struct SearchTrainsScreen: View {
             .background(fieldCard)
 
             VStack(alignment: .leading, spacing: 8) {
-                Text("Railcard")
+                Text(L.text(.railcard, lang: language))
                     .font(.custom("AvenirNext-Medium", size: 14))
                     .foregroundStyle(.secondary)
 
-                Picker("Railcard", selection: $selectedRailcard) {
-                    ForEach(RailcardOption.all, id: \.self) { railcard in
+                Picker(L.text(.railcard, lang: language), selection: $selectedRailcard) {
+                    ForEach(RailcardOption.options(for: language), id: \.self) { railcard in
                         Text(railcard).tag(railcard)
                     }
                 }
@@ -1741,6 +1917,14 @@ private enum TripType: CaseIterable {
         case .openReturn: return "Open Return"
         }
     }
+
+    func shortTitle(in language: AppLanguage) -> String {
+        switch self {
+        case .single: return L.text(.single, lang: language)
+        case .return: return L.text(.returnLabel, lang: language)
+        case .openReturn: return L.text(.openReturn, lang: language)
+        }
+    }
 }
 
 private enum RailcardOption {
@@ -1756,6 +1940,76 @@ private enum RailcardOption {
         "Veterans Railcard",
         "Network Railcard"
     ]
+
+    static func options(for language: AppLanguage) -> [String] {
+        switch language {
+        case .en:
+            return [
+                "No Railcard",
+                "16-25 Railcard",
+                "26-30 Railcard",
+                "Senior Railcard",
+                "Two Together Railcard",
+                "Family & Friends Railcard",
+                "Disabled Persons Railcard",
+                "16-17 Saver",
+                "Veterans Railcard",
+                "Network Railcard"
+            ]
+        case .es:
+            return [
+                "Sin Railcard",
+                "Railcard 16-25",
+                "Railcard 26-30",
+                "Railcard Senior",
+                "Railcard Two Together",
+                "Railcard Family & Friends",
+                "Railcard Personas con Discapacidad",
+                "16-17 Saver",
+                "Railcard Veterans",
+                "Railcard Network"
+            ]
+        case .fr:
+            return [
+                "Sans Railcard",
+                "Railcard 16-25",
+                "Railcard 26-30",
+                "Railcard Senior",
+                "Railcard Two Together",
+                "Railcard Family & Friends",
+                "Railcard Personnes handicapées",
+                "16-17 Saver",
+                "Railcard Veterans",
+                "Railcard Network"
+            ]
+        case .de:
+            return [
+                "Keine Railcard",
+                "Railcard 16-25",
+                "Railcard 26-30",
+                "Senior Railcard",
+                "Two Together Railcard",
+                "Family & Friends Railcard",
+                "Railcard für Menschen mit Behinderung",
+                "16-17 Saver",
+                "Veterans Railcard",
+                "Network Railcard"
+            ]
+        case .zh:
+            return [
+                "无 Railcard",
+                "16-25 Railcard",
+                "26-30 Railcard",
+                "Senior Railcard",
+                "Two Together Railcard",
+                "Family & Friends Railcard",
+                "Disabled Persons Railcard",
+                "16-17 Saver",
+                "Veterans Railcard",
+                "Network Railcard"
+            ]
+        }
+    }
 }
 
 private enum TransportMode: String, CaseIterable {
@@ -1806,6 +2060,24 @@ private enum TransportMode: String, CaseIterable {
         case .bus: return 45
         case .taxi: return 22
         case .walk: return 32
+        }
+    }
+
+    func title(in language: AppLanguage) -> String {
+        switch self {
+        case .train: return L.text(.train, lang: language)
+        case .bus: return L.text(.bus, lang: language)
+        case .taxi: return L.text(.taxi, lang: language)
+        case .walk: return L.text(.walk, lang: language)
+        }
+    }
+
+    func stageTitle(in language: AppLanguage) -> String {
+        switch self {
+        case .train: return L.text(.trainStage, lang: language)
+        case .bus: return L.text(.busStage, lang: language)
+        case .taxi: return L.text(.taxiStage, lang: language)
+        case .walk: return L.text(.walkStage, lang: language)
         }
     }
 }
@@ -1872,11 +2144,12 @@ private struct HomeExperience: Identifiable {
 
 private struct SavedTripsScreen: View {
     let trips: [SavedTrip]
+    let language: AppLanguage
 
     var body: some View {
         List {
             if trips.isEmpty {
-                Text("No trips to show")
+                Text(L.text(.noTrips, lang: language))
                     .foregroundStyle(.secondary)
             } else {
                 ForEach(trips) { trip in
@@ -1890,18 +2163,19 @@ private struct SavedTripsScreen: View {
                 }
             }
         }
-        .navigationTitle("Saved Trips")
+        .navigationTitle(L.text(.savedTrips, lang: language))
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 private struct NotificationsScreen: View {
     let notifications: [AccountNotification]
+    let language: AppLanguage
 
     var body: some View {
         List {
             if notifications.isEmpty {
-                Text("No notifications to show")
+                Text(L.text(.noNotifications, lang: language))
                     .foregroundStyle(.secondary)
             } else {
                 ForEach(notifications) { notification in
@@ -1915,25 +2189,26 @@ private struct NotificationsScreen: View {
                 }
             }
         }
-        .navigationTitle("Notifications")
+        .navigationTitle(L.text(.notifications, lang: language))
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 private struct SavedStopsScreen: View {
     let stops: [SavedStop]
+    let language: AppLanguage
 
     var body: some View {
         List {
             if stops.isEmpty {
-                Text("No stops to show")
+                Text(L.text(.noStops, lang: language))
                     .foregroundStyle(.secondary)
             } else {
                 ForEach(stops) { stop in
                     VStack(alignment: .leading, spacing: 4) {
                         Text(stop.name)
                             .font(.headline)
-                        Text("\(stop.code) • \(stop.mode.title) • \(stop.distanceText)")
+                        Text("\(stop.code) • \(stop.mode.title(in: language)) • \(stop.distanceText)")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
@@ -1941,37 +2216,50 @@ private struct SavedStopsScreen: View {
                 }
             }
         }
-        .navigationTitle("Saved Stops")
+        .navigationTitle(L.text(.savedStops, lang: language))
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 private struct SettingsScreen: View {
     @Binding var preferredAppearance: String
+    @Binding var appLanguageRawValue: String
     @Binding var fullName: String
     @Binding var email: String
     @Binding var phone: String
 
+    private var language: AppLanguage {
+        AppLanguage(rawValue: appLanguageRawValue) ?? .en
+    }
+
     var body: some View {
         Form {
-            Section("Personal Data") {
-                TextField("Full Name", text: $fullName)
-                TextField("Email", text: $email)
+            Section(L.text(.personalData, lang: language)) {
+                TextField(L.text(.fullName, lang: language), text: $fullName)
+                TextField(L.text(.email, lang: language), text: $email)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled(true)
-                TextField("Phone", text: $phone)
+                TextField(L.text(.phone, lang: language), text: $phone)
             }
 
-            Section("Appearance") {
-                Picker("Theme", selection: $preferredAppearance) {
-                    Text("Dark").tag("dark")
-                    Text("Light").tag("light")
-                    Text("System").tag("system")
+            Section(L.text(.language, lang: language)) {
+                Picker(L.text(.language, lang: language), selection: $appLanguageRawValue) {
+                    ForEach(AppLanguage.allCases, id: \.rawValue) { option in
+                        Text(option.displayName).tag(option.rawValue)
+                    }
+                }
+            }
+
+            Section(L.text(.appearance, lang: language)) {
+                Picker(L.text(.theme, lang: language), selection: $preferredAppearance) {
+                    Text(L.text(.dark, lang: language)).tag("dark")
+                    Text(L.text(.light, lang: language)).tag("light")
+                    Text(L.text(.system, lang: language)).tag("system")
                 }
                 .pickerStyle(.segmented)
             }
         }
-        .navigationTitle("Settings")
+        .navigationTitle(L.text(.settings, lang: language))
         .navigationBarTitleDisplayMode(.inline)
     }
 }

@@ -27,8 +27,13 @@ struct ContentView: View {
     @State private var email = "alex.traveller@example.com"
     @State private var phone = "+44 7700 900000"
     @State private var showWelcomeSplash = true
-    @State private var splashScale: CGFloat = 0.92
-    @State private var splashOpacity: Double = 0.0
+    @State private var splashTrainOffset: CGFloat = -220
+    @State private var splashBusOffset: CGFloat = 220
+    @State private var splashVehiclesOpacity: Double = 0.0
+    @State private var splashVehiclesScale: CGFloat = 1.0
+    @State private var splashNexoOpacity: Double = 0.0
+    @State private var splashNexoScale: CGFloat = 0.88
+    @State private var splashOverlayOpacity: Double = 1.0
     @State private var showPassImporter = false
     @State private var walletPresentation: WalletPassPresentation?
     @State private var walletMessage: String?
@@ -72,6 +77,30 @@ struct ContentView: View {
         AppLanguage(rawValue: appLanguageRawValue) ?? .en
     }
 
+    private var usesLightPalette: Bool {
+        false
+    }
+
+    private var primaryTextColor: Color {
+        usesLightPalette ? Color.black : Color.white
+    }
+
+    private var secondaryTextColor: Color {
+        usesLightPalette ? Color.black.opacity(0.62) : Color.secondary
+    }
+
+    private var cardFillColor: Color {
+        usesLightPalette ? Color.white.opacity(0.96) : Color.white.opacity(0.08)
+    }
+
+    private var cardStrokeColor: Color {
+        usesLightPalette ? Color.black.opacity(0.10) : Color.white.opacity(0.06)
+    }
+
+    private var innerFillColor: Color {
+        usesLightPalette ? Color.black.opacity(0.05) : Color.white.opacity(0.05)
+    }
+
     private func t(_ key: L.Key) -> String {
         L.text(key, lang: appLanguage)
     }
@@ -112,7 +141,9 @@ struct ContentView: View {
         }
         .tint(.blue)
         .toolbarBackground(.visible, for: .tabBar)
-        .toolbarBackground(Color(red: 0.02, green: 0.07, blue: 0.14), for: .tabBar)
+        .toolbarBackground(usesLightPalette ? Color.white : Color(red: 0.02, green: 0.07, blue: 0.14), for: .tabBar)
+        .toolbarColorScheme(usesLightPalette ? .light : .dark, for: .tabBar)
+        .toolbarColorScheme(usesLightPalette ? .light : .dark, for: .navigationBar)
         .preferredColorScheme(preferredColorScheme)
         .onAppear {
             locationManager.requestPermissionIfNeeded()
@@ -154,37 +185,79 @@ struct ContentView: View {
             )
             .ignoresSafeArea()
 
-            VStack(spacing: 14) {
-                Image(systemName: "tram.fill")
-                    .font(.system(size: 44, weight: .semibold))
-                    .foregroundStyle(.blue)
-                Text(t(.welcomeSplash))
-                    .font(.title3.weight(.semibold))
-                    .foregroundStyle(.white)
+            GeometryReader { geo in
+                ZStack {
+                    Capsule()
+                        .fill(Color.blue.opacity(0.18))
+                        .frame(width: 220, height: 20)
+                        .blur(radius: 10)
+                        .opacity(splashVehiclesOpacity)
+
+                    HStack(spacing: 52) {
+                        Image(systemName: "tram.fill")
+                            .font(.system(size: 42, weight: .bold))
+                            .foregroundStyle(.cyan)
+                            .offset(x: splashTrainOffset)
+
+                        Image(systemName: "bus.fill")
+                            .font(.system(size: 42, weight: .bold))
+                            .foregroundStyle(.blue)
+                            .offset(x: splashBusOffset)
+                    }
+                    .opacity(splashVehiclesOpacity)
+                    .scaleEffect(splashVehiclesScale)
+
+                    Text("Nexo")
+                        .font(.system(size: 56, weight: .heavy, design: .rounded))
+                        .foregroundStyle(.white)
+                        .shadow(color: .blue.opacity(0.4), radius: 14)
+                        .opacity(splashNexoOpacity)
+                        .scaleEffect(splashNexoScale)
+                }
+                .frame(width: geo.size.width, height: geo.size.height)
             }
-            .scaleEffect(splashScale)
-            .opacity(splashOpacity)
         }
+        .opacity(splashOverlayOpacity)
     }
 
     private func startSplashAnimation() {
         guard showWelcomeSplash else { return }
 
-        splashScale = 0.92
-        splashOpacity = 0.0
+        splashTrainOffset = -220
+        splashBusOffset = 220
+        splashVehiclesOpacity = 0.0
+        splashVehiclesScale = 1.0
+        splashNexoOpacity = 0.0
+        splashNexoScale = 0.88
+        splashOverlayOpacity = 1.0
 
-        withAnimation(.easeOut(duration: 0.45)) {
-            splashScale = 1.0
-            splashOpacity = 1.0
+        withAnimation(.easeOut(duration: 0.35)) {
+            splashVehiclesOpacity = 1.0
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
-            withAnimation(.easeInOut(duration: 0.35)) {
-                splashOpacity = 0.0
+        withAnimation(.interpolatingSpring(stiffness: 90, damping: 12).delay(0.1)) {
+            splashTrainOffset = -14
+            splashBusOffset = 14
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
+            withAnimation(.easeInOut(duration: 0.28)) {
+                splashVehiclesScale = 0.72
+                splashVehiclesOpacity = 0.0
+            }
+            withAnimation(.spring(response: 0.42, dampingFraction: 0.72).delay(0.06)) {
+                splashNexoOpacity = 1.0
+                splashNexoScale = 1.0
             }
         }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
+            withAnimation(.easeInOut(duration: 0.35)) {
+                splashOverlayOpacity = 0.0
+            }
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.15) {
             withAnimation(.easeOut(duration: 0.2)) {
                 showWelcomeSplash = false
             }
@@ -232,20 +305,20 @@ struct ContentView: View {
     private var welcomeCard: some View {
         HStack {
             Circle()
-                .fill(Color.white.opacity(0.12))
+                .fill(usesLightPalette ? Color.black.opacity(0.08) : Color.white.opacity(0.12))
                 .frame(width: 40, height: 40)
                 .overlay {
                     Image(systemName: "person.fill")
-                        .foregroundStyle(.white)
+                        .foregroundStyle(usesLightPalette ? .black : .white)
                 }
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(t(.welcomeBack))
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(secondaryTextColor)
                 Text(fullName)
                     .font(.title3.weight(.semibold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(primaryTextColor)
             }
 
             Spacer()
@@ -260,10 +333,10 @@ struct ContentView: View {
             } label: {
                 Image(systemName: "gearshape.fill")
                     .font(.title2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(secondaryTextColor)
                     .frame(width: 36, height: 36)
                     .background(
-                        Circle().fill(Color.white.opacity(0.06))
+                        Circle().fill(usesLightPalette ? Color.black.opacity(0.06) : Color.white.opacity(0.06))
                     )
             }
             .buttonStyle(.plain)
@@ -284,19 +357,19 @@ struct ContentView: View {
 
                 Text(t(.searchAllTrains))
                     .font(.headline)
-                    .foregroundStyle(.white.opacity(0.9))
+                    .foregroundStyle(primaryTextColor)
 
                 Spacer()
 
                 Image(systemName: "chevron.right")
                     .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(secondaryTextColor)
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 16)
             .background(
                 RoundedRectangle(cornerRadius: 14)
-                    .fill(Color.white.opacity(0.06))
+                    .fill(innerFillColor)
             )
         }
         .buttonStyle(.plain)
@@ -309,7 +382,7 @@ struct ContentView: View {
             HStack {
                 Text(t(.recommended))
                     .font(.headline)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(primaryTextColor)
                 Spacer()
                 HStack(spacing: 6) {
                     Image(systemName: "mappin.circle.fill")
@@ -348,11 +421,11 @@ struct ContentView: View {
                             VStack(alignment: .leading, spacing: 6) {
                                 Text(item.title)
                                     .font(.subheadline.weight(.semibold))
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(primaryTextColor)
                                     .lineLimit(1)
                                 Text(item.location)
                                     .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(secondaryTextColor)
                                 HStack {
                                     Text(item.price)
                                         .font(.caption.weight(.semibold))
@@ -370,13 +443,13 @@ struct ContentView: View {
                                 }
                             }
                             .padding(10)
-                            .background(Color.white.opacity(0.05))
+                            .background(usesLightPalette ? Color.black.opacity(0.04) : Color.white.opacity(0.05))
                         }
                         .frame(width: 205)
                         .clipShape(RoundedRectangle(cornerRadius: 14))
                         .overlay(
                             RoundedRectangle(cornerRadius: 14)
-                                .stroke(Color.white.opacity(0.08), lineWidth: 1)
+                                .stroke(usesLightPalette ? Color.black.opacity(0.10) : Color.white.opacity(0.08), lineWidth: 1)
                         )
                     }
                 }
@@ -472,6 +545,19 @@ struct ContentView: View {
 
     private func transportModeButton(mode: TransportMode) -> some View {
         let isSelected = transportMode == mode
+        let foregroundColor: Color = {
+            if isSelected { return .white }
+            return usesLightPalette ? Color.black.opacity(0.65) : .secondary
+        }()
+        let backgroundColor: Color = {
+            if isSelected { return Color.blue.opacity(0.95) }
+            return usesLightPalette ? Color.black.opacity(0.05) : Color.white.opacity(0.06)
+        }()
+        let borderColor: Color = {
+            if isSelected { return .blue }
+            return usesLightPalette ? Color.black.opacity(0.10) : Color.white.opacity(0.08)
+        }()
+
         return Button {
             transportMode = mode
         } label: {
@@ -481,16 +567,16 @@ struct ContentView: View {
                 Text(mode.title(in: appLanguage))
                     .font(.subheadline.weight(.semibold))
             }
-            .foregroundStyle(isSelected ? .white : .secondary)
+            .foregroundStyle(foregroundColor)
             .frame(maxWidth: .infinity)
             .frame(height: 86)
             .background(
                 RoundedRectangle(cornerRadius: 14)
-                    .fill(isSelected ? Color.blue.opacity(0.95) : Color.white.opacity(0.06))
+                    .fill(backgroundColor)
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 14)
-                    .stroke(isSelected ? Color.blue : Color.white.opacity(0.08), lineWidth: 1)
+                    .stroke(borderColor, lineWidth: 1)
             )
         }
         .buttonStyle(.plain)
@@ -660,7 +746,7 @@ struct ContentView: View {
                         )
                     Text(stop.station.name)
                         .font(.headline.weight(.semibold))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(primaryTextColor)
                 }
 
                 Spacer()
@@ -670,14 +756,14 @@ struct ContentView: View {
                 } label: {
                     Image(systemName: saved ? "star.fill" : "star")
                         .font(.headline)
-                        .foregroundStyle(saved ? .yellow : .white)
+                        .foregroundStyle(saved ? .yellow : (usesLightPalette ? Color.black.opacity(0.7) : .white))
                 }
                 .buttonStyle(.plain)
             }
 
             Text("\(distanceText(for: stop.distanceMeters)) \(t(.away))")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(secondaryTextColor)
 
             HStack(spacing: 8) {
                 Button {
@@ -714,10 +800,10 @@ struct ContentView: View {
         .padding(12)
         .background(
             RoundedRectangle(cornerRadius: 14)
-                .fill(Color.black.opacity(0.45))
+                .fill(usesLightPalette ? Color.white.opacity(0.90) : Color.black.opacity(0.45))
                 .overlay(
                     RoundedRectangle(cornerRadius: 14)
-                        .stroke(Color.white.opacity(0.08), lineWidth: 1)
+                        .stroke(usesLightPalette ? Color.black.opacity(0.10) : Color.white.opacity(0.08), lineWidth: 1)
                 )
         )
     }
@@ -1344,21 +1430,23 @@ struct ContentView: View {
 
     private var cardBackground: some View {
         RoundedRectangle(cornerRadius: 18)
-            .fill(Color.white.opacity(0.08))
+            .fill(usesLightPalette ? Color.black.opacity(0.72) : cardFillColor)
             .overlay(
                 RoundedRectangle(cornerRadius: 18)
-                    .stroke(Color.white.opacity(0.06), lineWidth: 1)
+                    .stroke(usesLightPalette ? Color.black.opacity(0.28) : cardStrokeColor, lineWidth: 1)
             )
     }
 
     private var innerBackground: some View {
         RoundedRectangle(cornerRadius: 12)
-            .fill(Color.white.opacity(0.05))
+            .fill(usesLightPalette ? Color.black.opacity(0.58) : Color.white.opacity(0.05))
     }
 
     private var screenGradient: some View {
         LinearGradient(
-            colors: [Color(red: 0.03, green: 0.11, blue: 0.28), Color.black],
+            colors: usesLightPalette
+                ? [Color.white, Color(red: 0.94, green: 0.95, blue: 0.97)]
+                : [Color(red: 0.03, green: 0.11, blue: 0.28), Color.black],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )

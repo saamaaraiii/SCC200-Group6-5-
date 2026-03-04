@@ -34,6 +34,8 @@ struct ContentView: View {
     @State private var walletMessage: String?
     @State private var departuresMessage: String?
     @State private var selectedMapStationId: Int?
+    @State private var mapDepartureMode: TransportMode = .train
+    @State private var mapPanelExpanded = false
     @State private var mapPosition: MapCameraPosition = .region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 53.90, longitude: -2.95),
@@ -1059,6 +1061,12 @@ struct ContentView: View {
                 }
             }
             .animation(.easeInOut(duration: 0.25), value: selectedMapStationId)
+            .onChange(of: selectedMapStationId) { _, newValue in
+                if newValue != nil {
+                    mapDepartureMode = .train
+                    mapPanelExpanded = false
+                }
+            }
             .navigationTitle(t(.map))
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -1066,6 +1074,9 @@ struct ContentView: View {
 
     private func mapStationArrivalsCard(for station: Station) -> some View {
         let arrivals = upcomingMapArrivals(for: station)
+            .filter { $0.mode == mapDepartureMode }
+        let displayedArrivals = mapPanelExpanded ? arrivals : Array(arrivals.prefix(4))
+
         return VStack(alignment: .leading, spacing: 12) {
             Capsule()
                 .fill(Color.white.opacity(0.35))
@@ -1077,7 +1088,11 @@ struct ContentView: View {
                     Text(station.name)
                         .font(.headline)
                         .foregroundStyle(.white)
-                    Text("\(t(.departures)) • \(arrivals.count)")
+                    HStack(spacing: 8) {
+                        mapDepartureModeButton(mode: .train)
+                        mapDepartureModeButton(mode: .bus)
+                    }
+                    Text("\(t(.departures)) • \(displayedArrivals.count)")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -1095,7 +1110,7 @@ struct ContentView: View {
             }
 
             VStack(spacing: 8) {
-                ForEach(arrivals) { item in
+                ForEach(displayedArrivals) { item in
                     HStack(spacing: 10) {
                         Text(item.service)
                             .font(.subheadline.weight(.bold))
@@ -1117,9 +1132,10 @@ struct ContentView: View {
 
                         Spacer()
 
-                        Text(item.etaText)
+                        Text(mapEtaText(for: item))
                             .font(.subheadline.weight(.bold))
                             .foregroundStyle(.cyan)
+                            .multilineTextAlignment(.trailing)
                     }
                     .padding(.horizontal, 10)
                     .padding(.vertical, 10)
@@ -1129,8 +1145,28 @@ struct ContentView: View {
                     )
                 }
             }
+
+            if mapPanelExpanded {
+                Button {
+                } label: {
+                    HStack(spacing: 8) {
+                        Image(systemName: "clock.arrow.circlepath")
+                        Text(t(.viewLaterDepartures))
+                    }
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.blue)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.white.opacity(0.08))
+                    )
+                }
+                .buttonStyle(.plain)
+            }
         }
         .padding(12)
+        .frame(maxHeight: mapPanelExpanded ? UIScreen.main.bounds.height * 0.78 : 320, alignment: .top)
         .background(
             RoundedRectangle(cornerRadius: 18)
                 .fill(Color.black.opacity(0.65))
@@ -1139,6 +1175,33 @@ struct ContentView: View {
                         .stroke(Color.white.opacity(0.08), lineWidth: 1)
                 )
         )
+        .gesture(
+            DragGesture(minimumDistance: 15)
+                .onEnded { value in
+                    if value.translation.height < -40 {
+                        mapPanelExpanded = true
+                    } else if value.translation.height > 40 {
+                        mapPanelExpanded = false
+                    }
+                }
+        )
+    }
+
+    private func mapDepartureModeButton(mode: TransportMode) -> some View {
+        let selected = mapDepartureMode == mode
+        return Button {
+            mapDepartureMode = mode
+        } label: {
+            Image(systemName: mode == .train ? "tram.fill" : "bus.fill")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(selected ? .white : .secondary)
+                .frame(width: 30, height: 30)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(selected ? Color.blue : Color.white.opacity(0.08))
+                )
+        }
+        .buttonStyle(.plain)
     }
 
     private var accountScreen: some View {
@@ -1392,23 +1455,50 @@ struct ContentView: View {
     }
 
     private func upcomingMapArrivals(for station: Station) -> [MapArrival] {
-        let services = ["38", "14", "22", "19", "46"]
+        let trainServices = ["A1", "N4", "T2", "W8", "R6"]
+        let busServices = ["38", "14", "22", "19", "46"]
         let destinations = ["Lancaster", "Preston", "Blackpool North", "Penrith", "Warrington"]
-        let operators = ["Avanti West Coast", "Northern", "TransPennine", "West Midlands", "Regional Rail"]
+        let trainOperators = ["Avanti West Coast", "Northern", "TransPennine", "West Midlands", "Regional Rail"]
+        let busOperators = ["Stagecoach", "Stagecoach", "National Express", "Local Bus", "Metroline"]
         let colors: [Color] = [.red, .blue, .purple, .orange, .green]
         let baseOffset = station.id % 4
+        let etaPattern: [Double] = [0.0, 0.6, 3.0, 7.0, 12.0, 18.0]
 
-        return (0..<4).map { idx in
-            let serviceIdx = (idx + baseOffset) % services.count
-            let etaMinutes = max(1, (idx + 1) * 3 + baseOffset)
+        let trainItems = (0..<6).map { idx in
+            let i = (idx + baseOffset) % trainServices.count
             return MapArrival(
-                service: services[serviceIdx],
-                destination: destinations[serviceIdx],
-                operatorName: operators[serviceIdx],
-                etaText: "\(etaMinutes) \(t(.min))",
-                color: colors[serviceIdx]
+                service: trainServices[i],
+                destination: destinations[i],
+                operatorName: trainOperators[i],
+                etaMinutes: etaPattern[idx],
+                color: colors[i],
+                mode: .train
             )
         }
+
+        let busItems = (0..<6).map { idx in
+            let i = (idx + baseOffset) % busServices.count
+            return MapArrival(
+                service: busServices[i],
+                destination: destinations[i],
+                operatorName: busOperators[i],
+                etaMinutes: etaPattern[idx],
+                color: colors[i],
+                mode: .bus
+            )
+        }
+
+        return trainItems + busItems
+    }
+
+    private func mapEtaText(for item: MapArrival) -> String {
+        if item.etaMinutes <= 0.0 {
+            return "\(item.mode.title(in: appLanguage)) \(t(.atTheStation))"
+        }
+        if item.etaMinutes < 1.0 {
+            return t(.due)
+        }
+        return "\(Int(ceil(item.etaMinutes))) \(t(.min))"
     }
 
 }
@@ -1456,6 +1546,7 @@ private enum L {
         case noTrips, noNotifications, noStops
         case locatingNearestStop, appleWallet, ok
         case currentLocation, walletUnavailable, walletInvalidPass, walletNoPass
+        case viewLaterDepartures, due, atTheStation
         case train, bus, taxi, walk, trainStage, busStage, taxiStage, walkStage
     }
 
@@ -1496,6 +1587,7 @@ private enum L {
             "noTrips": "No trips to show", "noNotifications": "No notifications to show", "noStops": "No stops to show",
             "locatingNearestStop": "Locating nearest stop...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Current Location", "walletUnavailable": "This device cannot add passes to Apple Wallet.", "walletInvalidPass": "Could not read this pass. Please choose a valid signed .pkpass file.", "walletNoPass": "No pass selected.",
+            "viewLaterDepartures": "View later departures", "due": "Due", "atTheStation": "at the station",
             "train": "Train", "bus": "Bus", "taxi": "Taxi", "walk": "Walk", "trainStage": "Train Stage", "busStage": "Bus Stage", "taxiStage": "Taxi Stage", "walkStage": "Walk Stage"
         ],
         .es: [
@@ -1515,6 +1607,7 @@ private enum L {
             "noTrips": "No hay viajes para mostrar", "noNotifications": "No hay notificaciones para mostrar", "noStops": "No hay paradas para mostrar",
             "locatingNearestStop": "Buscando parada más cercana...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Ubicación actual", "walletUnavailable": "Este dispositivo no puede añadir pases a Apple Wallet.", "walletInvalidPass": "No se pudo leer el pase. Selecciona un .pkpass válido y firmado.", "walletNoPass": "No se ha seleccionado ningún pase.",
+            "viewLaterDepartures": "Ver salidas posteriores", "due": "Inminente", "atTheStation": "en la estación",
             "train": "Tren", "bus": "Bus", "taxi": "Taxi", "walk": "Andando", "trainStage": "Etapa de tren", "busStage": "Etapa de bus", "taxiStage": "Etapa de taxi", "walkStage": "Etapa a pie"
         ],
         .fr: [
@@ -1534,6 +1627,7 @@ private enum L {
             "noTrips": "Aucun trajet à afficher", "noNotifications": "Aucune notification à afficher", "noStops": "Aucun arrêt à afficher",
             "locatingNearestStop": "Recherche de l'arrêt le plus proche...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Position actuelle", "walletUnavailable": "Cet appareil ne peut pas ajouter de pass à Apple Wallet.", "walletInvalidPass": "Impossible de lire ce pass. Veuillez choisir un fichier .pkpass signé valide.", "walletNoPass": "Aucun pass sélectionné.",
+            "viewLaterDepartures": "Voir les départs suivants", "due": "Imminent", "atTheStation": "à la station",
             "train": "Train", "bus": "Bus", "taxi": "Taxi", "walk": "Marche", "trainStage": "Étape train", "busStage": "Étape bus", "taxiStage": "Étape taxi", "walkStage": "Étape à pied"
         ],
         .de: [
@@ -1553,6 +1647,7 @@ private enum L {
             "noTrips": "Keine Reisen vorhanden", "noNotifications": "Keine Benachrichtigungen vorhanden", "noStops": "Keine Haltestellen vorhanden",
             "locatingNearestStop": "Nächste Haltestelle wird gesucht...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Aktueller Standort", "walletUnavailable": "Dieses Gerät kann keine Pässe zu Apple Wallet hinzufügen.", "walletInvalidPass": "Dieser Pass konnte nicht gelesen werden. Bitte eine gültige signierte .pkpass-Datei wählen.", "walletNoPass": "Kein Pass ausgewählt.",
+            "viewLaterDepartures": "Spätere Abfahrten anzeigen", "due": "Sofort", "atTheStation": "an der Station",
             "train": "Zug", "bus": "Bus", "taxi": "Taxi", "walk": "Zu Fuß", "trainStage": "Zugabschnitt", "busStage": "Busabschnitt", "taxiStage": "Taxiabschnitt", "walkStage": "Fußweg"
         ],
         .zh: [
@@ -1572,6 +1667,7 @@ private enum L {
             "noTrips": "没有可显示的行程", "noNotifications": "没有可显示的通知", "noStops": "没有可显示的站点",
             "locatingNearestStop": "正在定位最近站点...", "appleWallet": "Apple Wallet", "ok": "确定",
             "currentLocation": "当前位置", "walletUnavailable": "此设备无法将票券添加到 Apple Wallet。", "walletInvalidPass": "无法读取该票券，请选择有效且已签名的 .pkpass 文件。", "walletNoPass": "未选择票券。",
+            "viewLaterDepartures": "查看稍后班次", "due": "即将到达", "atTheStation": "已到站",
             "train": "火车", "bus": "公交", "taxi": "出租车", "walk": "步行", "trainStage": "火车阶段", "busStage": "公交阶段", "taxiStage": "出租车阶段", "walkStage": "步行阶段"
         ]
     ]
@@ -2231,8 +2327,9 @@ private struct MapArrival: Identifiable {
     let service: String
     let destination: String
     let operatorName: String
-    let etaText: String
+    let etaMinutes: Double
     let color: Color
+    let mode: TransportMode
 }
 
 private struct HomeExperience: Identifiable {

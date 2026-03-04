@@ -36,6 +36,10 @@ struct ContentView: View {
     @State private var selectedMapStationId: Int?
     @State private var mapDepartureMode: TransportMode = .train
     @State private var mapPanelExpanded = false
+    @State private var ticketReference = "TR-8829"
+    @State private var ticketTravelDate = Date()
+    @State private var ticketDurationMins = 42
+    @State private var ticketRailcardUsed = true
     @State private var mapPosition: MapCameraPosition = .region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 53.90, longitude: -2.95),
@@ -943,21 +947,67 @@ struct ContentView: View {
                                 Text(t(.yourTicket))
                                     .font(.title3.weight(.semibold))
                                     .foregroundStyle(.white)
-                                RoundedRectangle(cornerRadius: 20)
-                                    .fill(Color.white.opacity(0.05))
-                                    .frame(height: 190)
-                                    .overlay {
-                                        VStack(spacing: 10) {
-                                            Image(systemName: "qrcode")
-                                                .font(.system(size: 50))
-                                                .foregroundStyle(.white)
-                                            Text("Preston → Lancaster")
-                                                .foregroundStyle(.white)
-                                            Text(t(.readyToScan))
-                                                .font(.caption)
-                                                .foregroundStyle(.secondary)
+
+                                VStack(spacing: 0) {
+                                    RoundedRectangle(cornerRadius: 18)
+                                        .fill(Color(red: 0.86, green: 0.65, blue: 0.49))
+                                        .frame(height: 170)
+                                        .overlay {
+                                            VStack(spacing: 8) {
+                                                Image(systemName: "qrcode")
+                                                    .font(.system(size: 48))
+                                                    .foregroundStyle(.black.opacity(0.85))
+                                                Text(t(.readyToScan))
+                                                    .font(.caption.weight(.semibold))
+                                                    .foregroundStyle(.black.opacity(0.75))
+                                            }
+                                        }
+                                        .padding(.horizontal, 28)
+                                        .padding(.top, 24)
+
+                                    Divider()
+                                        .overlay(Color.white.opacity(0.08))
+                                        .padding(.horizontal, 18)
+                                        .padding(.vertical, 18)
+
+                                    VStack(alignment: .leading, spacing: 16) {
+                                        Text("Preston → Lancaster")
+                                            .font(.title3.weight(.semibold))
+                                            .foregroundStyle(.white)
+
+                                        HStack(spacing: 16) {
+                                            ticketInfoCell(
+                                                label: "REFERENCE",
+                                                value: ticketReference
+                                            )
+                                            ticketInfoCell(
+                                                label: "DATE",
+                                                value: ticketDateText(ticketTravelDate)
+                                            )
+                                        }
+
+                                        HStack(spacing: 16) {
+                                            ticketInfoCell(
+                                                label: "DURATION",
+                                                value: "\(ticketDurationMins) \(t(.min))"
+                                            )
+                                            ticketInfoCell(
+                                                label: "RAILCARD",
+                                                value: ticketRailcardUsed ? "Used" : "Not used"
+                                            )
                                         }
                                     }
+                                    .padding(.horizontal, 20)
+                                    .padding(.bottom, 22)
+                                }
+                                .background(
+                                    RoundedRectangle(cornerRadius: 24)
+                                        .fill(Color.black.opacity(0.65))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 24)
+                                                .stroke(Color.white.opacity(0.08), lineWidth: 1)
+                                        )
+                                )
                             }
                             .padding()
                             .background(cardBackground)
@@ -1313,6 +1363,24 @@ struct ContentView: View {
             endPoint: .bottomTrailing
         )
         .ignoresSafeArea()
+    }
+
+    private func ticketInfoCell(label: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(label)
+                .font(.caption2.weight(.semibold))
+                .foregroundStyle(.secondary)
+            Text(value)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.white)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func ticketDateText(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMM yyyy"
+        return formatter.string(from: date)
     }
 
     private var nearestStopInfo: NearbyStopInfo? {
@@ -1911,7 +1979,6 @@ private struct SearchTrainsScreen: View {
             )
             .datePickerStyle(.graphical)
             .tint(.blue)
-            .environment(\.colorScheme, .dark)
             .onChange(of: outboundDate) { _, newDate in
                 if returnDate < newDate {
                     returnDate = Calendar.current.date(byAdding: .day, value: 1, to: newDate) ?? newDate
@@ -1927,7 +1994,6 @@ private struct SearchTrainsScreen: View {
                 )
                 .datePickerStyle(.graphical)
                 .tint(.blue)
-                .environment(\.colorScheme, .dark)
             }
         }
         .padding(14)
@@ -2452,34 +2518,90 @@ private struct SettingsScreen: View {
     }
 
     var body: some View {
-        Form {
-            Section(L.text(.personalData, lang: language)) {
-                TextField(L.text(.fullName, lang: language), text: $fullName)
-                TextField(L.text(.email, lang: language), text: $email)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled(true)
-                TextField(L.text(.phone, lang: language), text: $phone)
-            }
+        ZStack {
+            LinearGradient(
+                colors: [Color(red: 0.03, green: 0.11, blue: 0.28), Color.black],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
 
-            Section(L.text(.language, lang: language)) {
-                Picker(L.text(.language, lang: language), selection: $appLanguageRawValue) {
-                    ForEach(AppLanguage.allCases, id: \.rawValue) { option in
-                        Text(option.displayName).tag(option.rawValue)
+            ScrollView {
+                VStack(spacing: 14) {
+                    settingsSection(title: L.text(.personalData, lang: language), icon: "person.text.rectangle.fill") {
+                        settingsField(L.text(.fullName, lang: language), text: $fullName)
+                        settingsField(L.text(.email, lang: language), text: $email)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled(true)
+                        settingsField(L.text(.phone, lang: language), text: $phone)
+                    }
+
+                    settingsSection(title: L.text(.language, lang: language), icon: "globe") {
+                        Picker(L.text(.language, lang: language), selection: $appLanguageRawValue) {
+                            ForEach(AppLanguage.allCases, id: \.rawValue) { option in
+                                Text(option.displayName).tag(option.rawValue)
+                            }
+                        }
+                        .tint(.white)
+                        .padding(12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.white.opacity(0.06))
+                        )
+                    }
+
+                    settingsSection(title: L.text(.appearance, lang: language), icon: "paintbrush.pointed.fill") {
+                        Picker(L.text(.theme, lang: language), selection: $preferredAppearance) {
+                            Text(L.text(.dark, lang: language)).tag("dark")
+                            Text(L.text(.light, lang: language)).tag("light")
+                            Text(L.text(.system, lang: language)).tag("system")
+                        }
+                        .pickerStyle(.segmented)
+                        .tint(.blue)
                     }
                 }
-            }
-
-            Section(L.text(.appearance, lang: language)) {
-                Picker(L.text(.theme, lang: language), selection: $preferredAppearance) {
-                    Text(L.text(.dark, lang: language)).tag("dark")
-                    Text(L.text(.light, lang: language)).tag("light")
-                    Text(L.text(.system, lang: language)).tag("system")
-                }
-                .pickerStyle(.segmented)
+                .padding(.horizontal, 14)
+                .padding(.top, 12)
+                .padding(.bottom, 24)
             }
         }
         .navigationTitle(L.text(.settings, lang: language))
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func settingsSection<Content: View>(title: String, icon: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 10) {
+                Image(systemName: icon)
+                    .font(.headline)
+                    .foregroundStyle(.blue)
+                    .frame(width: 26, height: 26)
+                    .background(Circle().fill(Color.white.opacity(0.08)))
+                Text(title)
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(.white)
+            }
+            content()
+        }
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white.opacity(0.08))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color.white.opacity(0.06), lineWidth: 1)
+                )
+        )
+    }
+
+    private func settingsField(_ title: String, text: Binding<String>) -> some View {
+        TextField(title, text: text)
+            .foregroundStyle(.white)
+            .padding(12)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.white.opacity(0.06))
+            )
     }
 }
 

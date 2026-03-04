@@ -33,6 +33,7 @@ struct ContentView: View {
     @State private var walletPresentation: WalletPassPresentation?
     @State private var walletMessage: String?
     @State private var departuresMessage: String?
+    @State private var selectedMapStationId: Int?
     @State private var mapPosition: MapCameraPosition = .region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 53.90, longitude: -2.95),
@@ -54,6 +55,11 @@ struct ContentView: View {
         case "dark": return .dark
         default: return nil
         }
+    }
+
+    private var selectedMapStation: Station? {
+        guard let selectedMapStationId else { return nil }
+        return appState.stations.first(where: { $0.id == selectedMapStationId })
     }
 
     private var appLanguage: AppLanguage {
@@ -1015,11 +1021,12 @@ struct ContentView: View {
     private var mapScreen: some View {
         NavigationStack {
             ZStack(alignment: .bottomTrailing) {
-                Map(position: $mapPosition) {
+                Map(position: $mapPosition, selection: $selectedMapStationId) {
                     ForEach(appState.stations, id: \.id) { station in
                         if let lat = station.latitude, let lon = station.longitude {
                             Marker(station.name, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon))
                                 .tint(.blue)
+                                .tag(station.id)
                         }
                     }
                 }
@@ -1043,9 +1050,95 @@ struct ContentView: View {
                 .padding(.trailing, 16)
                 .padding(.bottom, 18)
             }
+            .safeAreaInset(edge: .bottom) {
+                if let station = selectedMapStation {
+                    mapStationArrivalsCard(for: station)
+                        .padding(.horizontal, 12)
+                        .padding(.bottom, 8)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+            }
+            .animation(.easeInOut(duration: 0.25), value: selectedMapStationId)
             .navigationTitle(t(.map))
             .navigationBarTitleDisplayMode(.inline)
         }
+    }
+
+    private func mapStationArrivalsCard(for station: Station) -> some View {
+        let arrivals = upcomingMapArrivals(for: station)
+        return VStack(alignment: .leading, spacing: 12) {
+            Capsule()
+                .fill(Color.white.opacity(0.35))
+                .frame(width: 36, height: 4)
+                .frame(maxWidth: .infinity)
+
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(station.name)
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                    Text("\(t(.departures)) • \(arrivals.count)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                Button {
+                    selectedMapStationId = nil
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.subheadline.weight(.bold))
+                        .foregroundStyle(.white.opacity(0.9))
+                        .frame(width: 28, height: 28)
+                        .background(Circle().fill(Color.white.opacity(0.12)))
+                }
+                .buttonStyle(.plain)
+            }
+
+            VStack(spacing: 8) {
+                ForEach(arrivals) { item in
+                    HStack(spacing: 10) {
+                        Text(item.service)
+                            .font(.subheadline.weight(.bold))
+                            .foregroundStyle(.white)
+                            .frame(width: 42, height: 30)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(item.color.opacity(0.8))
+                            )
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(item.destination)
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(.white)
+                            Text(item.operatorName)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+
+                        Spacer()
+
+                        Text(item.etaText)
+                            .font(.subheadline.weight(.bold))
+                            .foregroundStyle(.cyan)
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 10)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.white.opacity(0.06))
+                    )
+                }
+            }
+        }
+        .padding(12)
+        .background(
+            RoundedRectangle(cornerRadius: 18)
+                .fill(Color.black.opacity(0.65))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 18)
+                        .stroke(Color.white.opacity(0.08), lineWidth: 1)
+                )
+        )
     }
 
     private var accountScreen: some View {
@@ -1295,6 +1388,26 @@ struct ContentView: View {
             }
         case .failure:
             walletMessage = t(.walletNoPass)
+        }
+    }
+
+    private func upcomingMapArrivals(for station: Station) -> [MapArrival] {
+        let services = ["38", "14", "22", "19", "46"]
+        let destinations = ["Lancaster", "Preston", "Blackpool North", "Penrith", "Warrington"]
+        let operators = ["Avanti West Coast", "Northern", "TransPennine", "West Midlands", "Regional Rail"]
+        let colors: [Color] = [.red, .blue, .purple, .orange, .green]
+        let baseOffset = station.id % 4
+
+        return (0..<4).map { idx in
+            let serviceIdx = (idx + baseOffset) % services.count
+            let etaMinutes = max(1, (idx + 1) * 3 + baseOffset)
+            return MapArrival(
+                service: services[serviceIdx],
+                destination: destinations[serviceIdx],
+                operatorName: operators[serviceIdx],
+                etaText: "\(etaMinutes) \(t(.min))",
+                color: colors[serviceIdx]
+            )
         }
     }
 
@@ -2111,6 +2224,15 @@ private struct NearbyStopInfo {
 private struct WalletPassPresentation: Identifiable {
     let id = UUID()
     let passes: [PKPass]
+}
+
+private struct MapArrival: Identifiable {
+    let id = UUID()
+    let service: String
+    let destination: String
+    let operatorName: String
+    let etaText: String
+    let color: Color
 }
 
 private struct HomeExperience: Identifiable {

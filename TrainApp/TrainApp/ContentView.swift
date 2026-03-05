@@ -698,32 +698,28 @@ struct ContentView: View {
 
     private var nearbyStopMapCard: some View {
         VStack(spacing: 12) {
-            ZStack(alignment: .bottom) {
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.white.opacity(0.06))
-                    .frame(height: 220)
-                    .overlay {
-                        if let stop = nearestStopInfo {
-                            Map(position: .constant(nearestStopCamera(for: stop.station))) {
-                                if let lat = stop.station.latitude, let lon = stop.station.longitude {
-                                    Marker(stop.station.name, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon))
-                                        .tint(.blue)
-                                }
-                                UserAnnotation()
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white.opacity(0.06))
+                .frame(height: 340)
+                .overlay {
+                    if let stop = nearestStopInfo {
+                        Map(position: .constant(nearestStopCamera(for: stop.station))) {
+                            if let lat = stop.station.latitude, let lon = stop.station.longitude {
+                                Marker(stop.station.name, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon))
+                                    .tint(.blue)
                             }
-                            .mapStyle(.standard(elevation: .realistic))
-                            .clipShape(RoundedRectangle(cornerRadius: 16))
-                        } else {
-                            ProgressView(t(.locatingNearestStop))
-                                .tint(.white)
+                            UserAnnotation()
                         }
+                        .mapStyle(.standard(elevation: .realistic))
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                    } else {
+                        ProgressView(t(.locatingNearestStop))
+                            .tint(.white)
                     }
-
-                if let stop = nearestStopInfo {
-                    nearbyStopInfoBox(stop)
-                        .padding(.horizontal, 12)
-                        .padding(.bottom, 10)
                 }
+
+            if let stop = nearestStopInfo {
+                nearbyStopInfoBox(stop)
             }
         }
         .padding()
@@ -732,7 +728,7 @@ struct ContentView: View {
 
     private func nearbyStopInfoBox(_ stop: NearbyStopInfo) -> some View {
         let saved = isStopSaved(stop.station.id)
-        return VStack(alignment: .leading, spacing: 10) {
+        return VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .center) {
                 HStack(spacing: 7) {
                     Text(transportMode == .train ? t(.station) : t(.stop))
@@ -745,7 +741,7 @@ struct ContentView: View {
                                 .fill(transportMode == .train ? .blue : .green)
                         )
                     Text(stop.station.name)
-                        .font(.headline.weight(.semibold))
+                        .font(.subheadline.weight(.semibold))
                         .foregroundStyle(primaryTextColor)
                 }
 
@@ -762,7 +758,7 @@ struct ContentView: View {
             }
 
             Text("\(distanceText(for: stop.distanceMeters)) \(t(.away))")
-                .font(.subheadline)
+                .font(.caption)
                 .foregroundStyle(secondaryTextColor)
 
             HStack(spacing: 8) {
@@ -770,10 +766,10 @@ struct ContentView: View {
                     openDirections(to: stop.station)
                 } label: {
                     Label(t(.directions), systemImage: "arrow.triangle.turn.up.right.diamond.fill")
-                        .font(.subheadline.weight(.semibold))
+                        .font(.caption.weight(.semibold))
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
+                        .padding(.vertical, 8)
                         .background(
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.blue)
@@ -785,10 +781,10 @@ struct ContentView: View {
                     showDepartures(for: stop.station)
                 } label: {
                     Label(t(.departures), systemImage: "clock.fill")
-                        .font(.subheadline.weight(.semibold))
+                        .font(.caption.weight(.semibold))
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
+                        .padding(.vertical, 8)
                         .background(
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.white.opacity(0.12))
@@ -797,7 +793,7 @@ struct ContentView: View {
                 .buttonStyle(.plain)
             }
         }
-        .padding(12)
+        .padding(10)
         .background(
             RoundedRectangle(cornerRadius: 14)
                 .fill(usesLightPalette ? Color.white.opacity(0.90) : Color.black.opacity(0.45))
@@ -1212,6 +1208,7 @@ struct ContentView: View {
         let arrivals = upcomingMapArrivals(for: station)
             .filter { $0.mode == mapDepartureMode }
         let displayedArrivals = mapPanelExpanded ? arrivals : Array(arrivals.prefix(4))
+        let isSaved = isStopSaved(station.id)
 
         return VStack(alignment: .leading, spacing: 12) {
             Capsule()
@@ -1224,10 +1221,6 @@ struct ContentView: View {
                     Text(station.name)
                         .font(.headline)
                         .foregroundStyle(.white)
-                    HStack(spacing: 8) {
-                        mapDepartureModeButton(mode: .train)
-                        mapDepartureModeButton(mode: .bus)
-                    }
                     Text("\(t(.departures)) • \(displayedArrivals.count)")
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -1243,6 +1236,26 @@ struct ContentView: View {
                         .background(Circle().fill(Color.white.opacity(0.12)))
                 }
                 .buttonStyle(.plain)
+            }
+
+            HStack(spacing: 14) {
+                Spacer()
+                mapDepartureModeButton(mode: .train)
+                mapDepartureModeButton(mode: .bus)
+                Button {
+                    toggleSavedStopFromMap(station)
+                } label: {
+                    Image(systemName: isSaved ? "star.fill" : "star")
+                        .font(.title3.weight(.semibold))
+                        .foregroundStyle(isSaved ? .yellow : .white)
+                        .frame(width: 40, height: 40)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.white.opacity(0.08))
+                        )
+                }
+                .buttonStyle(.plain)
+                Spacer()
             }
 
             VStack(spacing: 8) {
@@ -1305,7 +1318,7 @@ struct ContentView: View {
         .frame(maxHeight: mapPanelExpanded ? UIScreen.main.bounds.height * 0.78 : 320, alignment: .top)
         .background(
             RoundedRectangle(cornerRadius: 18)
-                .fill(Color.black.opacity(0.65))
+                .fill(Color(red: 0.06, green: 0.11, blue: 0.20))
                 .overlay(
                     RoundedRectangle(cornerRadius: 18)
                         .stroke(Color.white.opacity(0.08), lineWidth: 1)
@@ -1329,9 +1342,9 @@ struct ContentView: View {
             mapDepartureMode = mode
         } label: {
             Image(systemName: mode == .train ? "tram.fill" : "bus.fill")
-                .font(.subheadline.weight(.semibold))
+                .font(.title3.weight(.semibold))
                 .foregroundStyle(selected ? .white : .secondary)
-                .frame(width: 30, height: 30)
+                .frame(width: 40, height: 40)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
                         .fill(selected ? Color.blue : Color.white.opacity(0.08))
@@ -1530,6 +1543,23 @@ struct ContentView: View {
                     code: stop.station.code,
                     mode: transportMode,
                     distanceText: distanceText(for: stop.distanceMeters)
+                ),
+                at: 0
+            )
+        }
+    }
+
+    private func toggleSavedStopFromMap(_ station: Station) {
+        if let idx = savedStops.firstIndex(where: { $0.stationId == station.id }) {
+            savedStops.remove(at: idx)
+        } else {
+            savedStops.insert(
+                SavedStop(
+                    stationId: station.id,
+                    name: station.name,
+                    code: station.code,
+                    mode: mapDepartureMode,
+                    distanceText: "--"
                 ),
                 at: 0
             )

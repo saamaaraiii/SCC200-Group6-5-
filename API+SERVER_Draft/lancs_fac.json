@@ -1,0 +1,818 @@
+{
+  "changeHistory": {
+    "changedBy": "Contentful",
+    "lastChangedDate": "2026-02-18T06:46:18.462Z"
+  },
+  "name": "Lancaster",
+  "slug": "lancaster",
+  "sixteenCharacterName": "LANCASTER.",
+  "crsCode": "LAN",
+  "nationalLocationCode": "268500",
+  "minimumConnectionTime": 6,
+  "address": {
+    "addressLine1": "Lancaster station",
+    "addressLine2": "Meeting House Lane",
+    "addressLine3": "Lancaster",
+    "addressLine4": "Lancashire",
+    "addressLine5": null,
+    "postcode": "LA1 5NW"
+  },
+  "location": {
+    "latitude": 54.04855789,
+    "longitude": -2.807909914
+  },
+  "stationAlerts": [
+    {
+      "name": "Lancaster Toilet",
+      "title": null,
+      "validFrom": "2026-02-06T00:00:00",
+      "validTo": null,
+      "alertText": "<p>All toilets are currently out of order at Lancaster station. Please use the temporary toilets located on the right of the platform 3 exit. </p>"
+    }
+  ],
+  "stationOperator": {
+    "name": "Avanti West Coast",
+    "slug": "avanti-west-coast",
+    "operatorCode": "VT"
+  },
+  "staffingLevel": "Full Time",
+  "stationMap": {
+    "name": "Lancaster station map",
+    "url": "https://images.nationalrail.co.uk/e8xgegruud3g/5ma2y9FENdd2PISP9zGMzV/b978d1da0954a6d22ef34d06f8e4a7e8/Lancaster_station_map.jpg"
+  },
+  "informationServices": {
+    "openingTimes": [
+      {
+        "daysOfTheWeek": [
+          "Sunday"
+        ],
+        "openingStatus": "Specific Hours",
+        "openPeriod": [
+          {
+            "startTime": "09:30:00.000",
+            "endTime": "23:00:00.000"
+          }
+        ]
+      },
+      {
+        "daysOfTheWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "openingStatus": "Specific Hours",
+        "openPeriod": [
+          {
+            "startTime": "04:50:00.000",
+            "endTime": "00:00:00.000"
+          }
+        ]
+      },
+      {
+        "daysOfTheWeek": [
+          "Saturday"
+        ],
+        "openingStatus": "Specific Hours",
+        "openPeriod": [
+          {
+            "startTime": "04:50:00.000",
+            "endTime": "00:00:00.000"
+          }
+        ]
+      }
+    ]
+  },
+  "toiletsAndChanging": {
+    "toilets": {
+      "accessibleToiletsAvailable": true,
+      "changingPlacesToiletsAvailable": false,
+      "babyChangingAvailable": true,
+      "locations": [
+        {
+          "name": "Unisex accessible toilet, platforms 4 & 5",
+          "radarKeyAvailable": "This toilet is accessed with a RADAR key",
+          "accessibleHandles": "The toilet entry handles may be operated by most people"
+        },
+        {
+          "name": "Unisex accessible toilet with baby change, platforms 1 & 2",
+          "radarKeyAvailable": "This toilet is accessed with a RADAR key",
+          "accessibleHandles": "The toilet entry handles may be operated by most people"
+        },
+        {
+          "name": "Toilet, Platform 1 & 2",
+          "radarKeyAvailable": null,
+          "accessibleHandles": null
+        },
+        {
+          "name": "Toilet, Platform 4 & 5",
+          "radarKeyAvailable": null,
+          "accessibleHandles": null
+        },
+        {
+          "name": "Toilet, Platform 1 & 2",
+          "radarKeyAvailable": null,
+          "accessibleHandles": null
+        },
+        {
+          "name": "Toilet, Platform 1 & 2",
+          "radarKeyAvailable": null,
+          "accessibleHandles": null
+        }
+      ],
+      "available": true,
+      "openingTimes": null,
+      "openingHoursNotes": null,
+      "operatorContactDetails": null,
+      "notes": null,
+      "location": "<p>The accessible&#160;toilets are located on Platforms 3 and 4; these toilets are operated by a RADAR key.</p><p>Toilets are open while the station is open.</p>"
+    },
+    "showers": null
+  },
+  "stationAccessibility": {
+    "stepFreeCategory": {
+      "category": "A, Compliant step-free access to all platform(s)",
+      "notes": "<p>Category A - This station has step-free access to all platforms</p><p>Lifts to All Platforms, accessible via taking the right hand entrance to the over bridge from the ticket office.</p>",
+      "levelAccess": null
+    },
+    "nearestAccessibleStations": null,
+    "ticketBarriers": {
+      "names": [],
+      "available": false,
+      "openingTimes": null,
+      "openingHoursNotes": null,
+      "operatorContactDetails": null,
+      "notes": null,
+      "location": null
+    },
+    "trainRamp": {
+      "storage": "Ramps are kept at this station to provide assistance",
+      "available": null,
+      "openingTimes": null,
+      "openingHoursNotes": null,
+      "operatorContactDetails": null,
+      "notes": null,
+      "location": null
+    },
+    "tactilePaving": "There are tactile warnings on all platforms",
+    "inductionLoop": {
+      "provision": "Induction loops are throughout this station",
+      "ticketCounters": null
+    },
+    "wheelchairsAvailable": false,
+    "escalatorInformation": null,
+    "passengerAssistance": [
+      {
+        "name": "Lancaster Passenger Assistance Meeting Point 0",
+        "available": true,
+        "notes": "<p>Through the main entrance to the ticket office area and the passenger assistance meeting point is on the right.</p>",
+        "location": "<p>Ticket Office Area</p>"
+      }
+    ]
+  },
+  "staffAssistance": {
+    "staffHelp": {
+      "available": true,
+      "openingTimes": [
+        {
+          "daysOfTheWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "openingStatus": "Specific Hours",
+          "openPeriod": [
+            {
+              "startTime": "04:50:00.000",
+              "endTime": "23:30:00.000"
+            }
+          ]
+        },
+        {
+          "daysOfTheWeek": [
+            "Saturday"
+          ],
+          "openingStatus": "Specific Hours",
+          "openPeriod": [
+            {
+              "startTime": "04:50:00.000",
+              "endTime": "23:30:00.000"
+            }
+          ]
+        },
+        {
+          "daysOfTheWeek": [
+            "Sunday"
+          ],
+          "openingStatus": "Specific Hours",
+          "openPeriod": [
+            {
+              "startTime": "08:00:00.000",
+              "endTime": "22:45:00.000"
+            }
+          ]
+        }
+      ],
+      "openingHoursNotes": null,
+      "operatorContactDetails": null,
+      "notes": "<p>Passenger Assist meeting point is opposite the ticket office. Staff assistance is available at all times during the stations opening hours for boarding and alighting. Turn up and go is available although booking recommended.</p>",
+      "location": null
+    },
+    "helpline": {
+      "available": true,
+      "openingTimes": null,
+      "openingHoursNotes": null,
+      "operatorContactDetails": {
+        "name": "Lancaster Help Line Contact Details",
+        "primaryTelephoneNumber": null,
+        "emailAddress": null,
+        "operatorName": null,
+        "note": "<p>08000 158 123 (08000 158 124 Textphone)</p>"
+      },
+      "notes": "<p>We want everyone to travel with confidence. That is why, if you are planning on travelling on national rail services, you can request an assistance booking in advance - now up to 2 hours before your journey is due to start, any time of the day. For more information about Passenger Assist and how to request an assistance booking via Passenger Assist, please <a href=\"https://www.nationalrail.co.uk/stations_destinations/passenger-assist.aspx\" title=\"\">click here</a>.</p>",
+      "location": null
+    },
+    "helpPoints": {
+      "available": true,
+      "location": "Help Points are only available in limited locations",
+      "notes": null,
+      "inductionLoop": "Most Help Points do have induction loops"
+    },
+    "informationAvailableFromStaff": [
+      "Yes - from help point",
+      "Yes - from information point",
+      "Yes - from ticket office"
+    ],
+    "customerInformation": [
+      "DepartureScreens",
+      "Announcements",
+      "ArrivalScreens"
+    ],
+    "announcements": "Announcements are made both visually and audibly",
+    "customerServiceNotes": "<p>There is one Customer Information points, situated on platform booking hall, however customers are encouraged to approach any member of station staff for information.​​​​​​​</p><p>Audio announcements are broadcast throughout the station giving information about train running, platforms, security and safety announcements.</p><p>Customer information screens are provided on the station concourse, displaying train running information, and on each platform showing the next train and service information. </p>"
+  },
+  "transportLinks": {
+    "replacementBus": {
+      "maps": [],
+      "available": true,
+      "notes": "<p>Pick Up / Drop Off at the bus stop outside the station rear entrance adjacent to platform 3.</p>"
+    },
+    "bus": {
+      "available": true,
+      "notes": "<p>Information to plan your onward journey is available in a printable format <a href=\"https://assets.nationalrail.co.uk/e8xgegruud3g/3iZ1PtsCbsezwUXsR7HPfl/17a9b49b674b6f634739b64de026ab16/Lancaster__LAN_.pdf\" title=\"\">here</a>.</p>"
+    },
+    "underground": {
+      "available": false,
+      "notes": null
+    },
+    "airport": {
+      "available": false,
+      "notes": null
+    },
+    "port": {
+      "available": false,
+      "notes": null
+    },
+    "carHire": {
+      "available": false,
+      "notes": null
+    },
+    "taxi": {
+      "available": true,
+      "notes": "There is taxi provision",
+      "taxiRanks": [
+        {
+          "name": "Taxi rank",
+          "taxiConfiguration": "Taxis pick up and drop off at this taxi rank",
+          "localityOnSameSide": null,
+          "covered": "The taxi rank is uncovered",
+          "deployableRamp": "Ramps cannot be deployed from the rear and side of a vehicle at this Taxi Rank",
+          "helpPoint": "There is no help point close to this taxi rank"
+        }
+      ]
+    }
+  },
+  "lifts": {
+    "available": true,
+    "statement": "There are lifts",
+    "liftsInfo": [
+      {
+        "name": "Lift, Platform 4",
+        "operationalAnnouncements": "There are audio announcements provided outside and inside this lift",
+        "liftControls": null,
+        "liftManoeuvrability": "The lift has a 1.5 metre turning circle inside",
+        "openingWidth": "Lift has clear door widths at least 0.9m wide"
+      },
+      {
+        "name": "Lift, Platform 3",
+        "operationalAnnouncements": "There are audio announcements provided outside and inside this lift",
+        "liftControls": null,
+        "liftManoeuvrability": "The lift has a 1.5 metre turning circle inside",
+        "openingWidth": "Lift has clear door widths at least 0.9m wide"
+      }
+    ]
+  },
+  "ticketBuying": {
+    "ticketOffice": {
+      "available": true,
+      "openingTimes": [
+        {
+          "daysOfTheWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "openingStatus": "Specific Hours",
+          "openPeriod": [
+            {
+              "startTime": "05:15:00.000",
+              "endTime": "19:45:00.000"
+            }
+          ]
+        },
+        {
+          "daysOfTheWeek": [
+            "Saturday"
+          ],
+          "openingStatus": "Specific Hours",
+          "openPeriod": [
+            {
+              "startTime": "05:15:00.000",
+              "endTime": "19:45:00.000"
+            }
+          ]
+        },
+        {
+          "daysOfTheWeek": [
+            "Sunday"
+          ],
+          "openingStatus": "Specific Hours",
+          "openPeriod": [
+            {
+              "startTime": "09:30:00.000",
+              "endTime": "20:00:00.000"
+            }
+          ]
+        }
+      ],
+      "openingHoursNotes": null,
+      "operatorContactDetails": null,
+      "notes": null,
+      "location": "<p>Ticket machines can be found in the ticket hall and on platform 3</p>"
+    },
+    "ticketSalesNotes": null,
+    "ticketMachinesAvailable": true,
+    "vending": [
+      {
+        "name": "Ticket buying and collection, west entrance",
+        "countersAvailable": "There are ticket counters here",
+        "countersWheelchairAccessible": "There is no Low-Level counter here",
+        "inductionLoopAvailable": "There are only induction loops at high-level ticket counters",
+        "vendingMachineAvailable": "There are ticket machines here",
+        "hasManoeuvringSpace": "There is space in front of the ticket machine to manoeuvre a wheelchair",
+        "isWheelchairHeight": "The controls may be at a suitable height for some people"
+      }
+    ],
+    "travelCentres": [],
+    "ticketMachines": [
+      {
+        "name": "Ticket buying and collection, west entrance",
+        "hasManoeuvringSpace": "There is space in front of the ticket machine to manoeuvre a wheelchair",
+        "isWheelchairHeight": "The controls are at a suitable height for wheelchair users"
+      },
+      {
+        "name": "Ticket buying and collection, west entrance",
+        "hasManoeuvringSpace": "There is space in front of the ticket machine to manoeuvre a wheelchair",
+        "isWheelchairHeight": "The controls may be at a suitable height for some people"
+      }
+    ],
+    "collectOnlineBookedTickets": {
+      "pickUpAtTicketOffice": false,
+      "pickUpAtTicketMachine": true
+    },
+    "londonFareZone": null,
+    "payAsYouGo": {
+      "oyster": {
+        "purchaseOyster": false,
+        "topUpOyster": {
+          "atTicketOffice": false,
+          "atTicketMachine": false
+        },
+        "useOyster": false,
+        "notes": null
+      },
+      "smartCards": {
+        "smartCardsIssued": false,
+        "topUpSmartCard": {
+          "atTicketOffice": true,
+          "atTicketMachine": true
+        },
+        "smartcardsValidators": false,
+        "notes": null
+      },
+      "contactless": {
+        "contactlessCards": false,
+        "notes": null
+      }
+    }
+  },
+  "loungesAndWaiting": {
+    "shelteredWaitingAvailable": true,
+    "waitingFacility": {
+      "available": true,
+      "openingTimes": null,
+      "openingHoursNotes": null,
+      "operatorContactDetails": null,
+      "notes": null,
+      "location": "<p>Yes, located platform 4/5 and platform 3</p>"
+    },
+    "seatingArea": {
+      "available": true,
+      "openingTimes": null,
+      "openingHoursNotes": null,
+      "operatorContactDetails": null,
+      "notes": null,
+      "location": null
+    },
+    "firstClass": null,
+    "waitingRooms": [
+      {
+        "name": "Waiting room on platform 4 & 5",
+        "automatedDoors": null,
+        "minimumSeatingStandard": "There is seating with backrests and armrests on both sides",
+        "heatingOrCoolingAvailable": "The waiting area is capable of being heated only",
+        "helpPointClose": "There is no Help Point close to the waiting room",
+        "inSightOfCis": "There is seating within view of the Customer Information Screen but not of trains in the waiting room"
+      },
+      {
+        "name": "Waiting room on platform 1 & 2 (south)",
+        "automatedDoors": null,
+        "minimumSeatingStandard": "There is seating with backrests and armrests on both sides",
+        "heatingOrCoolingAvailable": "The waiting area is capable of being heated only",
+        "helpPointClose": "There is no Help Point close to the waiting room",
+        "inSightOfCis": "There is seating available with a limited view of the Customer Information Screen and trains in the waiting room"
+      }
+    ],
+    "firstClassLounges": null,
+    "quietRoom": "There is no quiet room at this station",
+    "faithRoom": "There is no multi-faith room at this station"
+  },
+  "stationFacilities": {
+    "cctvAvailable": true,
+    "wifi": {
+      "available": false,
+      "openingTimes": null,
+      "openingHoursNotes": null,
+      "operatorContactDetails": null,
+      "notes": "<p><a href=\"https://www.btwifi.co.uk/find/?search=LA1+5NW\" title=\"\">Find WiFi Hotspots around Lancaster station</a></p>",
+      "location": null
+    },
+    "refreshments": {
+      "available": true,
+      "openingTimes": null,
+      "openingHoursNotes": null,
+      "operatorContactDetails": null,
+      "notes": null,
+      "location": null
+    },
+    "shops": {
+      "available": true,
+      "openingTimes": null,
+      "openingHoursNotes": null,
+      "operatorContactDetails": null,
+      "notes": "<p>News agent</p>",
+      "location": null
+    },
+    "payPhones": true,
+    "luggageStorage": {
+      "available": false,
+      "openingTimes": null,
+      "openingHoursNotes": null,
+      "operatorContactDetails": {
+        "name": "Lancaster Luggage Storage Contact Details",
+        "primaryTelephoneNumber": null,
+        "emailAddress": null,
+        "operatorName": null,
+        "note": null
+      },
+      "notes": null,
+      "location": null
+    },
+    "lostProperty": {
+      "available": true,
+      "openingTimes": null,
+      "openingHoursNotes": null,
+      "operatorContactDetails": {
+        "name": "Avanti West Coast Lost Property Contact Details",
+        "primaryTelephoneNumber": "0345 528 0253",
+        "emailAddress": null,
+        "operatorName": null,
+        "note": null
+      },
+      "notes": null,
+      "location": "<p>Find out more about the lost property process at this station <a href=\"https://www.avantiwestcoast.co.uk/help-and-support/lost-property\" title=\"\">here</a></p>"
+    },
+    "trolleys": {
+      "available": true,
+      "openingTimes": null,
+      "openingHoursNotes": null,
+      "operatorContactDetails": null,
+      "notes": null,
+      "location": null
+    },
+    "atm": {
+      "available": false,
+      "openingTimes": null,
+      "openingHoursNotes": null,
+      "operatorContactDetails": null,
+      "notes": null,
+      "location": "<p>Located on concourse Located by the ticket office</p>"
+    },
+    "currencyExchange": null,
+    "postBox": null,
+    "defibrillator": null,
+    "requestStop": null,
+    "limitedService": null
+  },
+  "helpAndSupport": {
+    "helpPoints": {
+      "available": true,
+      "location": "Help Points are only available in limited locations",
+      "notes": null,
+      "inductionLoop": "Induction loops are throughout this station"
+    },
+    "announcements": "Announcements are made both visually and audibly",
+    "inductionLoops": "Induction loops are throughout this station",
+    "printedLocalInformation": "There is printed information available",
+    "customerInformationScreens": [
+      "DepartureScreens",
+      "Announcements",
+      "ArrivalScreens"
+    ],
+    "staffInformation": [
+      "Yes - from help point",
+      "Yes - from information point",
+      "Yes - from ticket office"
+    ],
+    "informationPoints": "There are information points",
+    "accessibilityInformation": null,
+    "staffHelp": {
+      "available": true,
+      "openingTimes": [
+        {
+          "daysOfTheWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "openingStatus": "Specific Hours",
+          "openPeriod": [
+            {
+              "startTime": "04:50:00.000",
+              "endTime": "23:30:00.000"
+            }
+          ]
+        },
+        {
+          "daysOfTheWeek": [
+            "Saturday"
+          ],
+          "openingStatus": "Specific Hours",
+          "openPeriod": [
+            {
+              "startTime": "04:50:00.000",
+              "endTime": "23:30:00.000"
+            }
+          ]
+        },
+        {
+          "daysOfTheWeek": [
+            "Sunday"
+          ],
+          "openingStatus": "Specific Hours",
+          "openPeriod": [
+            {
+              "startTime": "08:00:00.000",
+              "endTime": "22:45:00.000"
+            }
+          ]
+        }
+      ],
+      "openingHoursNotes": null,
+      "operatorContactDetails": null,
+      "notes": "<p>Passenger Assist meeting point is opposite the ticket office. Staff assistance is available at all times during the stations opening hours for boarding and alighting. Turn up and go is available although booking recommended.</p>",
+      "location": null
+    }
+  },
+  "platformFacilities": {
+    "entranceLevels": "The platforms are level with the Main Entrance of the station",
+    "tactileWarnings": "There are tactile warnings on all platforms",
+    "numberOfPlatforms": 5,
+    "platforms": [
+      {
+        "name": "Platform 5",
+        "waitingType": "There is seating/waiting under a roof or canopy on this platform",
+        "seatingAtIntervals": "There is seating at regular intervals of 50 metres apart or less",
+        "helpPointClose": "There is no Help Point close to this platform"
+      },
+      {
+        "name": "Platform 4",
+        "waitingType": null,
+        "seatingAtIntervals": "Seating is limited on this platform",
+        "helpPointClose": "There is no Help Point close to this platform"
+      },
+      {
+        "name": "Platform 3",
+        "waitingType": null,
+        "seatingAtIntervals": "There is seating at regular intervals of 50 metres apart or less",
+        "helpPointClose": "There is no Help Point close to this platform"
+      },
+      {
+        "name": "Platform 2",
+        "waitingType": "There is seating/waiting under a roof or canopy on this platform",
+        "seatingAtIntervals": "There is seating at regular intervals of 50 metres apart or less",
+        "helpPointClose": "There is no Help Point close to this platform"
+      },
+      {
+        "name": "Platform 1",
+        "waitingType": null,
+        "seatingAtIntervals": "There is no seating on this platform",
+        "helpPointClose": "There is no Help Point close to this platform"
+      }
+    ]
+  },
+  "cycling": {
+    "cycleStorageAvailable": true,
+    "cycleHireNotes": "<p>Leisure Lakes Bikes\n103 Penny Street, Lancaster\n01524 844389\n<a href=\"mailto:lancaster@leisure-lakes.com\" title=\"\">lancaster@leisure-lakes.com</a>\n<a href=\"http://www.leisurelakesbikes.com\" title=\"\">www.leisurelakesbikes.com</a></p>",
+    "spaces": {
+      "numberOfSpaces": 188,
+      "notes": "<p>120 stands by platform 1 (120 spaces) 8 hoops on platfrom 3 (2 x cycles per hoop = 16 spaces) 6 hoops on platform 4 (2 x cycles per hoop = 12 spaces) 20 hoops on platform 5 (2 x cycles per hoop = 40 spaces)</p>"
+    },
+    "typesOfStorage": [
+      "Stands"
+    ],
+    "location": "<p>Platform 1 (south end)120 Stands</p><p>Platform 3 (middle) 16</p><p>Platform 4 (North End), 12 Stands</p><p>Platform 5, 40 Stands</p>",
+    "sheltered": true,
+    "cctv": true
+  },
+  "dropOffPickUp": {
+    "available": true,
+    "notes": null,
+    "location": null,
+    "points": [
+      {
+        "name": "Drop-off",
+        "sameSideAsStation": "The drop-off and/or pick-up point is on the same side of the road as the station",
+        "waitingAreaForDisabledPickup": "This is a combined drop-off and pick-up point",
+        "typeOfFacility": null,
+        "carAccommodationCount": "There is space for up to 3 vehicles to drop-off and/or pick-up",
+        "easyToDeployRamp": null,
+        "helpPointClose": "There is no Help Point close to the drop-off and/or pick-up point"
+      }
+    ]
+  },
+  "carParks": {
+    "parkingSpacesAvailable": true,
+    "numberOfSpaces": 163,
+    "accessibleParkingSpacesAvailable": true,
+    "numberOfAccessibleSpaces": 12,
+    "carParks": [
+      {
+        "name": "Short stay accessible parking",
+        "operator": null,
+        "openingHours": null,
+        "numberOfSpaces": null,
+        "numberOfAccessibleSpaces": 6,
+        "cctv": null,
+        "freeParking": null,
+        "charges": null,
+        "notes": null,
+        "accessibleSpacesNotes": null,
+        "accessibleLocations": [
+          {
+            "name": "via Station Road",
+            "accessibilityInfo": {
+              "accessibleParkingSpaces": "There is/are 4 accessible bay(s) available at this car parking location",
+              "numberOfAccessibleParkingSpaces": 4,
+              "location": "There is accessible parking in a car park",
+              "parkingDuration": "Parking is short stay",
+              "sizeOfOffRoadBays": "The car park bays measure 2.4 x 4.8m & 1.2m zone front & at least 1 side",
+              "sizeOfRoadBays": "There are no roadside bays",
+              "evChargingAccessible": "There are No EV Charging points available in the accessible bays",
+              "evChargingNonAccessible": "There are no EV charging points in standard parking bays",
+              "rampDeployable": "Ramps cannot be deployed from the rear or side of a vehicle",
+              "helpPointClose": "There is no Help Point close to the accessible parking"
+            }
+          },
+          {
+            "name": "via Westbourne Road",
+            "accessibilityInfo": {
+              "accessibleParkingSpaces": "There is/are 2 accessible bay(s) available at this car parking location",
+              "numberOfAccessibleParkingSpaces": 2,
+              "location": "There is accessible parking in a car park",
+              "parkingDuration": "Parking is short stay",
+              "sizeOfOffRoadBays": "The car park bays measure less than 2.4 metres x 4.8 metres",
+              "sizeOfRoadBays": "There are no roadside bays",
+              "evChargingAccessible": "There are No EV Charging points available in the accessible bays",
+              "evChargingNonAccessible": "There are no EV charging points in standard parking bays",
+              "rampDeployable": "Ramps cannot be deployed from the rear or side of a vehicle",
+              "helpPointClose": "There is no Help Point close to the accessible parking"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Long stay accessible parking",
+        "operator": null,
+        "openingHours": null,
+        "numberOfSpaces": null,
+        "numberOfAccessibleSpaces": 6,
+        "cctv": null,
+        "freeParking": null,
+        "charges": null,
+        "notes": null,
+        "accessibleSpacesNotes": null,
+        "accessibleLocations": [
+          {
+            "name": "via Sibsey Street",
+            "accessibilityInfo": {
+              "accessibleParkingSpaces": "There is/are 6 accessible bay(s) available at this car parking location",
+              "numberOfAccessibleParkingSpaces": 6,
+              "location": "There is accessible parking in a car park",
+              "parkingDuration": "Parking is long stay",
+              "sizeOfOffRoadBays": "The car park bays measure 2.4 x 4.8m & 1.2m zone front & at least 1 side",
+              "sizeOfRoadBays": "There are no roadside bays",
+              "evChargingAccessible": "There are No EV Charging points available in the accessible bays",
+              "evChargingNonAccessible": "There are no EV charging points in standard parking bays",
+              "rampDeployable": "Ramps can only be deployed from the side of a vehicle",
+              "helpPointClose": "There is no Help Point close to the accessible parking"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Lancaster Car Park",
+        "operator": {
+          "contactDetails": {
+            "postalAddress": {
+              "addressLine1": "Meeting House Lane",
+              "addressLine2": "Lancaster",
+              "addressLine3": null,
+              "addressLine4": null,
+              "addressLine5": null,
+              "postcode": "LA1 5NW"
+            },
+            "url": "https://www.nationalrail.co.uk/",
+            "name": "Lancaster Car Park Contact Details",
+            "primaryTelephoneNumber": null,
+            "emailAddress": null,
+            "operatorName": "Avanti West Coast",
+            "note": "<p>For information on how to get to the car park, plus work out the cost of your stay visit the <a href=\"https://www.avantiwestcoast.co.uk/destinations/parking\" title=\"\">Avanti West Coast website.</a></p><p>Different rates apply to non rail users, please speak to a member of staff.</p>"
+          }
+        },
+        "openingHours": [
+          {
+            "daysOfTheWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday",
+              "Public Holidays"
+            ],
+            "openingStatus": "24 Hours",
+            "openPeriod": []
+          }
+        ],
+        "numberOfSpaces": 163,
+        "numberOfAccessibleSpaces": null,
+        "cctv": true,
+        "freeParking": false,
+        "charges": {
+          "perHourRate": null,
+          "offPeakRate": null,
+          "dailyRate": "£12.50",
+          "saturdayRate": "£4.50",
+          "sundayRate": "£4.50",
+          "weeklyRate": null,
+          "monthlyRate": "£166.00",
+          "threeMonthlyRate": "£374.00",
+          "sixMonthlyRate": null,
+          "annualRate": "£1,200.00"
+        },
+        "notes": "<p>For information on how to get to the car park, prebooking your space or working out the cost of your stay, please visit the <a href=\"https://www.avantiwestcoast.co.uk/where-we-go/parking/lancaster-railway-station-parking\" title=\"\">Avanti West Coast website</a>.</p><p>Different rates apply to non-rail users - please speak to a member of staff.</p>",
+        "accessibleSpacesNotes": null,
+        "accessibleLocations": null
+      }
+    ]
+  }
+}

@@ -2,7 +2,8 @@ A complete, production-ready REST API system that handles data in 3 formats (JSO
 ### Step 1: Install 
 ```bash
 extract DB_Scc.zip to coding space
-ensure requirements.txt holds the dependencies you will need to run 
+ensure requirements.txt holds the dependencies you will need to run
+Go to https://drive.google.com/drive/folders/1ED0FHn_5fVBsqUdayo4-L3Pphhs3Wh_J?usp=drive_link and add the packages to the directory.
 ```
 
 ### Step 2: Run 

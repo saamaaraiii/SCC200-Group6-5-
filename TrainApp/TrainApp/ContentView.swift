@@ -6,6 +6,7 @@ import UniformTypeIdentifiers
 
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
+    @Environment(\.colorScheme) private var systemColorScheme
     @AppStorage("preferredAppearance") private var preferredAppearance = "dark"
     @AppStorage("appLanguage") private var appLanguageRawValue = AppLanguage.en.rawValue
     @StateObject private var locationManager = UserLocationManager()
@@ -78,7 +79,14 @@ struct ContentView: View {
     }
 
     private var usesLightPalette: Bool {
-        false
+        switch preferredAppearance {
+        case "light":
+            return true
+        case "dark":
+            return false
+        default:
+            return systemColorScheme == .light
+        }
     }
 
     private var primaryTextColor: Color {
@@ -1028,7 +1036,7 @@ struct ContentView: View {
                             VStack(alignment: .leading, spacing: 10) {
                                 Text(t(.yourTicket))
                                     .font(.title3.weight(.semibold))
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(primaryTextColor)
 
                                 VStack(spacing: 0) {
                                     RoundedRectangle(cornerRadius: 18)
@@ -1361,9 +1369,9 @@ struct ContentView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(t(.studentAccount))
                             .font(.title3.weight(.semibold))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(primaryTextColor)
                         Text("UPSA Exchange - Lancaster University")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(secondaryTextColor)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
@@ -1372,7 +1380,7 @@ struct ContentView: View {
                     VStack(alignment: .leading, spacing: 12) {
                         Text(t(.quickActions))
                             .font(.headline)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(primaryTextColor)
 
                         NavigationLink {
                             SavedTripsScreen(trips: savedTrips, language: appLanguage)
@@ -1426,33 +1434,33 @@ struct ContentView: View {
                 .frame(width: 26)
             Text(title)
                 .font(.title3.weight(.semibold))
-                .foregroundStyle(.white)
+                .foregroundStyle(primaryTextColor)
             Spacer()
             Image(systemName: "chevron.right")
                 .font(.headline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(secondaryTextColor)
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 16)
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 14)
-                .fill(Color.white.opacity(0.06))
+                .fill(innerFillColor)
         )
     }
 
     private var cardBackground: some View {
         RoundedRectangle(cornerRadius: 18)
-            .fill(usesLightPalette ? Color.black.opacity(0.72) : cardFillColor)
+            .fill(usesLightPalette ? cardFillColor : Color.white.opacity(0.08))
             .overlay(
                 RoundedRectangle(cornerRadius: 18)
-                    .stroke(usesLightPalette ? Color.black.opacity(0.28) : cardStrokeColor, lineWidth: 1)
+                    .stroke(usesLightPalette ? cardStrokeColor : Color.white.opacity(0.06), lineWidth: 1)
             )
     }
 
     private var innerBackground: some View {
         RoundedRectangle(cornerRadius: 12)
-            .fill(usesLightPalette ? Color.black.opacity(0.58) : Color.white.opacity(0.05))
+            .fill(innerFillColor)
     }
 
     private var screenGradient: some View {
@@ -1469,8 +1477,8 @@ struct ContentView: View {
     private func ticketInfoCell(label: String, value: String) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(label)
-                .font(.caption2.weight(.semibold))
-                .foregroundStyle(.secondary)
+                .font(.caption.weight(.bold))
+                .foregroundStyle(Color.white.opacity(0.82))
             Text(value)
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.white)
@@ -2625,6 +2633,7 @@ private struct SavedStopsScreen: View {
 }
 
 private struct SettingsScreen: View {
+    @Environment(\.colorScheme) private var systemColorScheme
     @Binding var preferredAppearance: String
     @Binding var appLanguageRawValue: String
     @Binding var fullName: String
@@ -2635,10 +2644,27 @@ private struct SettingsScreen: View {
         AppLanguage(rawValue: appLanguageRawValue) ?? .en
     }
 
+    private var usesLightPalette: Bool {
+        switch preferredAppearance {
+        case "light":
+            return true
+        case "dark":
+            return false
+        default:
+            return systemColorScheme == .light
+        }
+    }
+
+    private var primaryTextColor: Color {
+        usesLightPalette ? .black : .white
+    }
+
     var body: some View {
         ZStack {
             LinearGradient(
-                colors: [Color(red: 0.03, green: 0.11, blue: 0.28), Color.black],
+                colors: usesLightPalette
+                    ? [Color.white, Color(red: 0.95, green: 0.96, blue: 0.98)]
+                    : [Color(red: 0.03, green: 0.11, blue: 0.28), Color.black],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -2660,11 +2686,11 @@ private struct SettingsScreen: View {
                                 Text(option.displayName).tag(option.rawValue)
                             }
                         }
-                        .tint(.white)
+                        .tint(primaryTextColor)
                         .padding(12)
                         .background(
                             RoundedRectangle(cornerRadius: 12)
-                                .fill(Color.white.opacity(0.06))
+                                .fill(usesLightPalette ? Color.black.opacity(0.06) : Color.white.opacity(0.06))
                         )
                     }
 
@@ -2697,28 +2723,28 @@ private struct SettingsScreen: View {
                     .background(Circle().fill(Color.white.opacity(0.08)))
                 Text(title)
                     .font(.headline.weight(.semibold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(primaryTextColor)
             }
             content()
         }
         .padding(14)
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color.white.opacity(0.08))
+                .fill(usesLightPalette ? Color.white.opacity(0.95) : Color.white.opacity(0.08))
                 .overlay(
                     RoundedRectangle(cornerRadius: 16)
-                        .stroke(Color.white.opacity(0.06), lineWidth: 1)
+                        .stroke(usesLightPalette ? Color.black.opacity(0.10) : Color.white.opacity(0.06), lineWidth: 1)
                 )
         )
     }
 
     private func settingsField(_ title: String, text: Binding<String>) -> some View {
         TextField(title, text: text)
-            .foregroundStyle(.white)
+            .foregroundStyle(primaryTextColor)
             .padding(12)
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.white.opacity(0.06))
+                    .fill(usesLightPalette ? Color.black.opacity(0.06) : Color.white.opacity(0.06))
             )
     }
 }

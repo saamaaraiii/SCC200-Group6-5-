@@ -1,0 +1,11 @@
+﻿{
+    "name":  "scc200-group6-backend",
+    "private":  true,
+    "type":  "commonjs",
+    "scripts":  {
+                    "start":  "node backend/main.js",
+                    "test":  "node --test --test-concurrency=1 backend/test/api.test.js",
+                    "start:py":  "python backend/main.py",
+                    "test:py":  "python -m unittest -v backend/test/test_api_python.py"
+                }
+}

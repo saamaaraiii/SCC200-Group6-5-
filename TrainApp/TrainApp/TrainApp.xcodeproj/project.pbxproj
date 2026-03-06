@@ -57,7 +57,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A10000000000000100000023 /*  */ = {
+		A10000000000000100000023 = {
 			isa = PBXGroup;
 			children = (
 				A10000000000000100000002 /* TrainAppApp.swift */,
@@ -73,7 +73,6 @@
 				A1000000000000010000002E /* Products */,
 				E3A0A28A2F476062008715F6 /* Recovered References */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		A10000000000000100000026 /* Models */ = {
@@ -191,7 +190,7 @@
 				en,
 				Base,
 			);
-			mainGroup = A10000000000000100000023 /*  */;
+			mainGroup = A10000000000000100000023;
 			productRefGroup = A1000000000000010000002E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -350,6 +349,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = QZUWT52MP4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We use your location to show the nearest train station or bus stop.";
@@ -381,6 +381,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = QZUWT52MP4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We use your location to show the nearest train station or bus stop.";

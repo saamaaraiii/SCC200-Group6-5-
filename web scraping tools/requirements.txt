@@ -1,0 +1,16 @@
+# Lancashire Places — Python dependencies
+# Install with: pip install -r requirements.txt
+
+# Core (always needed)
+requests>=2.31.0          # scraper HTTP calls
+numpy>=1.24.0             # semantic search vector ops
+
+# Semantic search (semantic.py)
+sentence-transformers>=2.6.0   # embedding model (downloads ~90MB on first run)
+
+# REST API (api.py)
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+
+# SQLite is built into Python — no extra package needed
+# build_db.py and search.py have no extra dependencies beyond the standard library

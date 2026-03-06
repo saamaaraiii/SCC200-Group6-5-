@@ -1,0 +1,384 @@
+category,name,type,cuisine,address,postcode,town,latitude,longitude,phone,website,opening_hours,stars,wheelchair,osm_id,osm_type,scraped_at
+attractions,Janet's Foss,attraction,,,,,54.0658197,-2.1361716,,,,,,12867574,node,2026-03-06T09:52:37.364299
+attractions,Foldys Cross,monument,,,,,53.7720842,-2.2256454,,,,,,27452990,node,2026-03-06T09:52:37.364319
+attractions,Clitheroe Castle Museum,museum,,,,,53.8701567,-2.3931551,,https://www.lancashire.gov.uk/leisure-and-culture/museums/clitheroe-castle-museum/,,,,27603890,node,2026-03-06T09:52:37.364324
+attractions,Malham Cove,attraction,,,,,54.0726842,-2.1579062,,,,,,28887497,node,2026-03-06T09:52:37.364326
+attractions,Jubilee Tower (Darwen Tower),monument,,,,,53.6896455,-2.4879552,,,,,,29295678,node,2026-03-06T09:52:37.364330
+attractions,Walton's Monument,monument,,,,,53.8321116,-2.1623332,,,,,,29784308,node,2026-03-06T09:52:37.364332
+attractions,Rivington Pinetum,attraction,,,,,53.6209902,-2.5567414,,,,,,322878689,node,2026-03-06T09:52:37.364339
+attractions,Listening Gallery,gallery,,,,,54.0669925,-2.2776186,,,24/7,,,370914473,node,2026-03-06T09:52:37.364342
+attractions,Slaidburn War Memorial,monument,,,,,53.9669089,-2.4406974,,,,,,471203787,node,2026-03-06T09:52:37.364344
+attractions,Slaidburn Archive,museum,,"25, Church Street, Clitheroe, BB7 3ER",BB7 3ER,Clitheroe,53.9649409,-2.4429895,,http://www.slaidburnarchive.org/,,,,471203799,node,2026-03-06T09:52:37.364347
+attractions,Covell Cross,monument,,,,,54.0501078,-2.8034475,,,,,,619431000,node,2026-03-06T09:52:37.364349
+attractions,Towngate Cafe,cafe,,"15-17, Blackburn Road, Blackburn, BB6 7DF",BB6 7DF,Blackburn,53.7852432,-2.4084372,,,,,,632879752,node,2026-03-06T09:52:37.364352
+attractions,Yarrow Valley Country Park,attraction,,,,,53.6319759,-2.6515859,,,,,,639840913,node,2026-03-06T09:52:37.364353
+attractions,Catrigg Force,attraction,,,,,54.099345,-2.2580954,,,,,,703392345,node,2026-03-06T09:52:37.364355
+attractions,Noon Hill,monument,,,,,53.630318,-2.535315,,,,,,872427863,node,2026-03-06T09:52:37.364357
+attractions,HAPPA Horses And Ponies Protection Association,attraction,,,,,53.810806,-2.1752534,,,,,,944055913,node,2026-03-06T09:52:37.364359
+attractions,The Whitaker,museum,,"Haslingden Road, Rossendale, BB4 6RE",BB4 6RE,Rossendale,53.7002144,-2.2971973,+44 170 626 0785,https://www.thewhitaker.org/,"We, Fr-Su 10:00-16:00; Th 10:00-20:00",,,981435146,node,2026-03-06T09:52:37.364363
+attractions,Scaleber Force,attraction,,,,,54.0588481,-2.244933,,,,,,1079623580,node,2026-03-06T09:52:37.364366
+attractions,British in India,museum,,"Hallam Road, Nelson, BB9 8AD",BB9 8AD,Nelson,53.8394735,-2.2011897,,https://www.visitpendle.com/things-to-do/british-in-india-museum-p7152,Mo-Fr 09:00-16:00,,,1730727200,node,2026-03-06T09:52:37.364527
+attractions,Buoy,monument,,,,,53.7612658,-2.7413117,,,,,,1906691056,node,2026-03-06T09:52:37.364530
+attractions,Buoy,monument,,,,,53.7612801,-2.7413546,,,,,,1906691085,node,2026-03-06T09:52:37.364532
+attractions,Nelson Buoy,monument,,,,,53.7625437,-2.7413707,,,,,,1906691092,node,2026-03-06T09:52:37.364534
+attractions,Buoy,monument,,,,,53.7595294,-2.7422327,,,,,,1906691181,node,2026-03-06T09:52:37.364536
+attractions,Buoy,monument,,,,,53.7612464,-2.7413557,,,,,,1906691198,node,2026-03-06T09:52:37.364538
+attractions,Sebastopol Cannon,monument,,,,,53.7527799,-2.6963681,,,,,,1914411537,node,2026-03-06T09:52:37.364540
+attractions,Inglewhite Cross,monument,,,,,53.8539599,-2.6904447,,,,,,1948087414,node,2026-03-06T09:52:37.364541
+attractions,Mount Cross,monument,,,,,53.7418463,-2.130961,,,,,,2445802715,node,2026-03-06T09:52:37.364546
+attractions,Millennium Bench,monument,,,,,53.6415824,-2.338338,,,,,,3124731201,node,2026-03-06T09:52:37.364548
+attractions,Weir War Memorial,monument,,,,,53.7366221,-2.2097468,,,,,,3586390828,node,2026-03-06T09:52:37.364550
+attractions,Lightning XS921 (replica),attraction,,,,,53.7795352,-2.5704446,,,,,,4143702889,node,2026-03-06T09:52:37.364552
+attractions,Waugh's Well,monument,,,,,53.6722973,-2.2606508,,,,,,4219615889,node,2026-03-06T09:52:37.364554
+attractions,Baxenden Cricket Club,attraction,,,,,53.733661,-2.3408992,,,,,,4448410196,node,2026-03-06T09:52:37.364556
+attractions,Whittaker Park West Entrance,park,,,,,53.7015212,-2.2983847,,,,,,4594806706,node,2026-03-06T09:52:37.364558
+attractions,F35 Lightning II (replica),attraction,,,,,53.7794169,-2.5703067,,,,,,4904841880,node,2026-03-06T09:52:37.364561
+attractions,Rochdale War Memorial,monument,,,,,53.6162784,-2.1597311,,,,,,5085948975,node,2026-03-06T09:52:37.364563
+attractions,Wildgoose Wood Nature Area,nature_reserve,,,,,53.9020053,-2.7541186,,,,,,5138716917,node,2026-03-06T09:52:37.364565
+attractions,Woodland Walkway,park,,,,,54.0628902,-2.1534037,,,,,,5213931272,node,2026-03-06T09:52:37.364568
+attractions,Peter Scott Gallery,gallery,,,,,54.0119458,-2.7853971,+44 1524 594755,https://www.lancasterarts.org/visiting/performance-venues/peter-scott-gallery,,,,5322040132,node,2026-03-06T09:52:37.364570
+attractions,Sebastopol Cannon,monument,,,,,53.7528264,-2.6961908,,,,,,5334221020,node,2026-03-06T09:52:37.364572
+attractions,Yarrow Valley Country Park,attraction,,,,,53.6597448,-2.6616311,,,,,,5638066731,node,2026-03-06T09:52:37.364574
+attractions,Leyland War Memorial,monument,,,,,53.6891861,-2.696359,,,,,,5772809106,node,2026-03-06T09:52:37.364576
+attractions,Iron Waters,park,,,,,53.6413885,-2.1544803,,,,,,5952571293,node,2026-03-06T09:52:37.364578
+attractions,Berry's Garden,monument,,,,,53.6247479,-2.6527114,,,,,,6027203877,node,2026-03-06T09:52:37.364580
+attractions,King Street Studios,gallery,,"5A, King Street, Lancaster, LA1 1JN",LA1 1JN,Lancaster,54.0484593,-2.8028732,,https://www.kingstreetstudios.art/,Fr-Sa 11:00-17:30,,,6532295923,node,2026-03-06T09:52:37.364582
+attractions,WS Contemporary Fine Art,gallery,,,,,53.6824809,-2.7026206,,,,,,6745888597,node,2026-03-06T09:52:37.364584
+attractions,Bartleyart,gallery,,,,,53.6825381,-2.7023055,,,,,,6745888600,node,2026-03-06T09:52:37.364586
+attractions,Centurion Tank,attraction,,,,,53.7133284,-2.7161899,,,,,,6785946638,node,2026-03-06T09:52:37.364590
+attractions,King's Own Regiment Museum,museum,,"Market Square, Lancaster, LA1 1HT",LA1 1HT,Lancaster,54.0489898,-2.8017465,,http://www.kingsownmuseum.com/,"Mo-Tu,Fr-Su 10:30-16:00; We-Th off",,,6820159648,node,2026-03-06T09:52:37.364592
+attractions,Gordale Scar,attraction,,,,,54.0726558,-2.1305677,,,,,,7028294218,node,2026-03-06T09:52:37.364594
+attractions,Obelisk,monument,,,,,53.826249,-2.6704347,,,,,,7522720425,node,2026-03-06T09:52:37.364596
+attractions,Lancashire Dialect Poets Monument,monument,,,,,53.6147266,-2.16147,,,,,,8033553288,node,2026-03-06T09:52:37.364597
+attractions,Top of Orr's Mill Tower,monument,,,,,53.736795,-2.6581742,,,,,,8600557857,node,2026-03-06T09:52:37.364599
+attractions,Victoria Cave,attraction,,,,,54.080988,-2.2487083,,,,,,9457943140,node,2026-03-06T09:52:37.364602
+attractions,Martholme Viaduct,monument,,,,,53.8005336,-2.3786886,,,,,,9531100617,node,2026-03-06T09:52:37.364603
+attractions,Jubilee Cave,attraction,,,,,54.0853889,-2.2498231,,,,,,9635002688,node,2026-03-06T09:52:37.364605
+attractions,Big White Shed,gallery,,"30, Yorkshire Street West, Morecambe",,Morecambe,54.0655068,-2.8805644,,,,,yes,9643922939,node,2026-03-06T09:52:37.364608
+attractions,Museum of North Craven Life,museum,,,,,54.0676176,-2.2753449,,https://www.thefolly.org.uk/,,,,9708902641,node,2026-03-06T09:52:37.364612
+attractions,Lancashire Police Museum,museum,,"Castle Park, Lancaster, LA1 1YJ",LA1 1YJ,Lancaster,54.0502506,-2.8054194,,https://www.lancashirepolicemuseum.co.uk/,"Th-Sa 10:30-12:30,13:30-16:00",,no,9785617591,node,2026-03-06T09:52:37.364614
+attractions,Market Cross,monument,,,,,53.7825961,-2.8714134,,,,,,10688519615,node,2026-03-06T09:52:37.364616
+attractions,Victoria Jubilee Light,monument,,,,,53.7821468,-2.8754072,,,,,,10690412391,node,2026-03-06T09:52:37.364617
+attractions,Ellenroad Steam Museum,museum,,"Elizabethan Way, Rochdale, OL16 4LG",OL16 4LG,Rochdale,53.6013833,-2.1066841,,https://www.ellenroad.org.uk,,,,10815532370,node,2026-03-06T09:52:37.364619
+attractions,Studio Vault,gallery,,"Settle, BD24 9EJ",BD24 9EJ,Settle,54.068463,-2.2768149,,https://studiovault.co.uk/,Tu-Sa 10:30-17:00,,,10828142395,node,2026-03-06T09:52:37.364621
+attractions,Longitutde Art Gallery and Interiors,gallery,,,,,53.8714045,-2.3916928,,,,,,11510447895,node,2026-03-06T09:52:37.364625
+attractions,Pilgrim's Stone,monument,,,,,53.6598279,-2.3468591,,,,,,11579944803,node,2026-03-06T09:52:37.364627
+attractions,Waverly Park [Formerly Ribbleton Park],park,,,,,53.7667077,-2.6682069,,,,,,12229882848,node,2026-03-06T09:52:37.364629
+attractions,Duke of Lancaster's Own Yeomanry Museum,museum,,,,,53.7612999,-2.6883701,,https://sites.google.com/site/archivesofthedloyeomanry/,,,,12526955807,node,2026-03-06T09:52:37.364631
+attractions,Lancashire Infantry Museum,museum,,,,,53.778271,-2.6862404,,https://www.lancashireinfantrymuseum.org.uk/,,,,12526966773,node,2026-03-06T09:52:37.364635
+attractions,Gawthorpe Textiles Collection,museum,,,,,53.8027319,-2.2949081,,https://www.gawthorpetextiles.org.uk/,,,,12563938680,node,2026-03-06T09:52:37.364637
+attractions,Higher Mill,museum,,,,,53.689447,-2.3375505,,,,,,12625528800,node,2026-03-06T09:52:37.364639
+attractions,Whitakers' Mill,museum,,,,,53.6898742,-2.3372743,,,,,,12625580101,node,2026-03-06T09:52:37.364641
+attractions,The Pinnacle,monument,,,,,53.8696905,-2.3933617,,https://www.heritage-cr.co.uk/project/clitheroe-castle-pinnacle/,,,,13011682655,node,2026-03-06T09:52:37.364643
+attractions,The Astronomy Centre,attraction,,"501, Bacup Road, Todmorden, OL14 7HP",OL14 7HP,Todmorden,53.7112863,-2.1545045,,,Sa 19:30-00:00,,,13169247601,node,2026-03-06T09:52:37.364645
+attractions,Mercer Park,park,,,,,53.7753222,-2.3899371,,,,,,4214174,way,2026-03-06T09:52:37.364647
+attractions,Bold Venture Park,park,,,,,53.6914948,-2.4736347,,,,,,4565424,way,2026-03-06T09:52:37.364649
+attractions,Queen's Park,park,,,,,53.7405576,-2.4601933,,,,,,4719407,way,2026-03-06T09:52:37.364651
+attractions,Winckley Square,park,,,,,53.7561172,-2.7016155,,,,,,4721278,way,2026-03-06T09:52:37.364653
+attractions,Moor Park,attraction,,,,,53.7731267,-2.6986199,,https://historicengland.org.uk/listing/the-list/list-entry/1001309,,,,4920226,way,2026-03-06T09:52:37.364657
+attractions,Haslam Park,park,,,,,53.7731561,-2.7354617,,,,,,4920236,way,2026-03-06T09:52:37.364659
+attractions,Williamson Park,park,,,,,54.0456494,-2.7818923,,,24/7,,,10904749,way,2026-03-06T09:52:37.364661
+attractions,Ribbleton Park,park,,,,,53.7669034,-2.6683959,,,,,,20015271,way,2026-03-06T09:52:37.364663
+attractions,Miller Park,park,,,,,53.7520353,-2.7043859,,,,,,22794769,way,2026-03-06T09:52:37.364665
+attractions,Martin Mere Wetland Centre,nature_reserve,,"Fish Lane, Burscough, L40 0TA",L40 0TA,Burscough,53.6197434,-2.8660207,+44 1704 895181,https://www.wwt.org.uk/wetland-centres/martin-mere/,Apr 1-Oct 28 09:30-18:00; Oct 29-Mar 31 09:30-16:30; Dec 25 off,,yes,23030226,way,2026-03-06T09:52:37.364667
+attractions,Thompson Park,park,,,,,53.795031,-2.2374151,,,,,,23360483,way,2026-03-06T09:52:37.364669
+attractions,West End Gardens,park,,,,,54.0656303,-2.8834219,,,,,,24642679,way,2026-03-06T09:52:37.364671
+attractions,Happy Mount Park,park,,,,,54.0801215,-2.8330744,,,,,,24705346,way,2026-03-06T09:52:37.364673
+attractions,Greaves Park,park,,,,,54.0401782,-2.7947296,,,,,,24710899,way,2026-03-06T09:52:37.364674
+attractions,Hall Park,park,,,,,54.0670947,-2.8371655,,,,,,25517842,way,2026-03-06T09:52:37.364678
+attractions,Withy Grove Park,park,,,,,53.7287141,-2.6545173,,,,,,28882881,way,2026-03-06T09:52:37.364680
+attractions,Sunny Slopes,park,,,,,54.0547251,-2.8936818,,,,,,30219691,way,2026-03-06T09:52:37.364682
+attractions,Fishwick Bottoms Nature Reserve,nature_reserve,,,,,53.7572268,-2.674857,,,,,,31776100,way,2026-03-06T09:52:37.364683
+attractions,Grange Park,park,,,,,53.7785629,-2.652204,,,,,,31787243,way,2026-03-06T09:52:37.364685
+attractions,Eaves Brook Linear Park,park,,,,,53.7795006,-2.6668831,,,,,,31797805,way,2026-03-06T09:52:37.364687
+attractions,Eaves Brook Linear Park,park,,,,,53.7792451,-2.6607894,,,,,,31798263,way,2026-03-06T09:52:37.364688
+attractions,Towneley Gardens,park,,,,,53.8315746,-2.6046045,,,,,,32441612,way,2026-03-06T09:52:37.364690
+attractions,Highfield Park,park,,,,,53.8278853,-2.6000558,,,,,,37608787,way,2026-03-06T09:52:37.364692
+attractions,Regent Park,park,,"Regent Road, Morecambe, LA4 4QY",LA4 4QY,Morecambe,54.0632975,-2.8740851,,,,,,37730236,way,2026-03-06T09:52:37.364694
+attractions,Hurst Grange Park,park,,,,,53.7443131,-2.7244523,,,,,,39976962,way,2026-03-06T09:52:37.364697
+attractions,Bailrigg House,castle,,,,,54.0148241,-2.7874833,,,,,,42826750,way,2026-03-06T09:52:37.364699
+attractions,Village Park,park,,,,,53.6847217,-2.6669232,,,,,,43855149,way,2026-03-06T09:52:37.364701
+attractions,Coronation Recreation Ground,park,,,,,53.6517549,-2.6364847,,,,,,44171661,way,2026-03-06T09:52:37.364703
+attractions,Carr Brook Linear Park,park,,,,,53.7013326,-2.6364694,,,,,,46333214,way,2026-03-06T09:52:37.364705
+attractions,Dalton Square,park,,,,,54.0478535,-2.797719,,,,,,48065150,way,2026-03-06T09:52:37.364707
+attractions,Green Ayre,park,,,,,54.0532762,-2.7969585,,,,,,48775520,way,2026-03-06T09:52:37.364709
+attractions,Lancaster Castle,attraction,,"Castle Parade, Lancaster, LA1 1YJ",LA1 1YJ,Lancaster,54.0499181,-2.805383,+44 1524 64998,https://lancastercastle.com/,,,limited,48815019,way,2026-03-06T09:52:37.364711
+attractions,Lancaster City Museum,museum,,"Market Square, Lancaster, LA1 1HT",LA1 1HT,Lancaster,54.0489464,-2.8017937,,https://www.lancaster.gov.uk/sites/museums/city,"Mo-Tu,Fr-Su 10:30-16:00; We-Th off",,,48815025,way,2026-03-06T09:52:37.364713
+attractions,Ryelands Park,park,,,,,54.0579259,-2.8047197,,,,,,48820418,way,2026-03-06T09:52:37.364715
+attractions,Lowerfold Park,park,,,,,53.7895254,-2.4080873,,,,,,49780802,way,2026-03-06T09:52:37.364718
+attractions,Windsor Road Recreation ground,park,,,,,53.7875636,-2.400356,,,,,,49781646,way,2026-03-06T09:52:37.364720
+attractions,The Turrets Community Garden,park,,,,,53.7669112,-2.4209258,,,,,,50806302,way,2026-03-06T09:52:37.364724
+attractions,War Memorial,park,,,,,53.7647695,-2.4255182,,,,,,51334629,way,2026-03-06T09:52:37.364726
+attractions,Long Wood Park,park,,,,,53.8221922,-2.4512735,,,,,,51985517,way,2026-03-06T09:52:37.364728
+attractions,Burnley Training Ground,attraction,,,,,53.8020843,-2.2986455,,,,,,52345146,way,2026-03-06T09:52:37.364730
+attractions,Gawthorpe Hall,museum,,"Burnley Road, Burnley, BB12 8UA",BB12 8UA,Burnley,53.8027522,-2.2948019,,https://www.nationaltrust.org.uk/visit/liverpool-lancashire/gawthorpe-hall,,,,52345147,way,2026-03-06T09:52:37.364732
+attractions,Mardale Road Play Area,park,,,,,53.8209761,-2.6107284,,,,,,52402276,way,2026-03-06T09:52:37.364733
+attractions,Henthorn Park,park,,,,,53.8666049,-2.4022181,,,,,,52512901,way,2026-03-06T09:52:37.364739
+attractions,Clitheroe Castle,castle,,,,,53.870797,-2.3931467,,,,,,53573360,way,2026-03-06T09:52:37.364742
+attractions,Cleatop Park,nature_reserve,,,,,54.0468555,-2.2768038,,,,,,55147719,way,2026-03-06T09:52:37.364746
+attractions,Primrose Nature Reserve,nature_reserve,,,,,53.8646224,-2.3977252,,,,,,55212496,way,2026-03-06T09:52:37.364747
+attractions,Stainforth Foss,attraction,,,,,54.1000552,-2.2791743,,,,,,56015518,way,2026-03-06T09:52:37.364749
+attractions,Globe Flower Wood,nature_reserve,,,,,54.0957646,-2.1961331,,https://www.ywt.org.uk/nature-reserves/globeflower-wood-nature-reserve,,,no,56241721,way,2026-03-06T09:52:37.364751
+attractions,Ribble Steam Railway,museum,,"Chain Caul Road, Preston, PR2 2PD",PR2 2PD,Preston,53.758848,-2.7538032,,https://ribblesteam.org.uk/,,,,56690630,way,2026-03-06T09:52:37.364754
+attractions,Ribble Steam Railway,attraction,,"Chain Caul Road, Preston, PR2 2PD",PR2 2PD,Preston,53.7594137,-2.7540853,,,,,,56892984,way,2026-03-06T09:52:37.364756
+attractions,Brungerley Park,park,,,,,53.8810958,-2.3959925,,,,,,57376209,way,2026-03-06T09:52:37.364757
+attractions,Sunnyhurst Wood,park,,,,,53.7006129,-2.4914071,,,,,,57931831,way,2026-03-06T09:52:37.364759
+attractions,Nuttall Park,park,,,,,53.6426208,-2.3118752,,,,,,59830665,way,2026-03-06T09:52:37.364761
+attractions,Lane Ends Amenity Area,nature_reserve,,,,,53.9377453,-2.8933826,,,,,,60100032,way,2026-03-06T09:52:37.364763
+attractions,Clough Park,park,,,,,53.9137478,-2.1902693,,,,,,62067486,way,2026-03-06T09:52:37.364766
+attractions,Denehurst Park,park,,,,,53.6204814,-2.1846729,,,,,,62286053,way,2026-03-06T09:52:37.364768
+attractions,Falinge Park,park,,,,,53.623632,-2.1652914,,,,,,62286886,way,2026-03-06T09:52:37.364770
+attractions,Mandale Park,park,,,,,53.6092106,-2.1692358,,,,,,62311602,way,2026-03-06T09:52:37.364771
+attractions,Broadfield Park,park,,,,,53.6138973,-2.1607086,,,,,,62326473,way,2026-03-06T09:52:37.364773
+attractions,Thursby Park,park,,,,,53.8027216,-2.2280964,,,,,,72409970,way,2026-03-06T09:52:37.364775
+attractions,Museum of Lancashire,museum,,"Preston, PR1 4YP",PR1 4YP,Preston,53.7613352,-2.6881495,,,closed,,,73584630,way,2026-03-06T09:52:37.364777
+attractions,Harris Museum,museum,,"Market Square, Preston, PR1 2PP",PR1 2PP,Preston,53.759152,-2.6983764,+44 1772 905421,http://www.harrismuseum.org.uk/,Mo-Sa 09:00-17:00; Su 11:00-16:00,,yes,73584906,way,2026-03-06T09:52:37.364779
+attractions,Turton Tower,attraction,,,,,53.6327949,-2.4089642,,https://turtontower.com/,Mar-Oct We-Su 11:00-16:00,,,73904577,way,2026-03-06T09:52:37.364781
+attractions,Farm Yard Wood,park,,,,,53.6813257,-2.6944746,,,,,,78145902,way,2026-03-06T09:52:37.364783
+attractions,Rangletts Recreation Ground,park,,,,,53.6453843,-2.6303829,,,,,,79702918,way,2026-03-06T09:52:37.364786
+attractions,Granny Park,park,,,,,53.7662261,-2.7575425,,,,,,80867504,way,2026-03-06T09:52:37.364788
+attractions,Bilsborrow Village Hall Park,park,,,,,53.8805991,-2.7810888,,,,,,83176749,way,2026-03-06T09:52:37.364790
+attractions,Victoria Park,park,,,,,53.6975609,-2.3247577,,,,,,87977520,way,2026-03-06T09:52:37.364791
+attractions,Gatty Park,park,,,,,53.7563372,-2.380604,,,,,,92286640,way,2026-03-06T09:52:37.364793
+attractions,Queen's Park,park,,,,,53.6005362,-2.2131673,,https://www.rochdale.gov.uk/directory-record/744/queens-park-green-flag-award-heywood,,,,92435499,way,2026-03-06T09:52:37.364795
+attractions,Springfield Park,park,,,,,53.6053741,-2.1941099,,,,,,93148550,way,2026-03-06T09:52:37.364797
+attractions,Milnshaw Park,park,,,,,53.7570434,-2.3750602,,,,,,98344415,way,2026-03-06T09:52:37.364798
+attractions,William Hodgson Sagar Recreation Grounds,park,,,,,53.7853331,-2.8763447,,,,,,98778971,way,2026-03-06T09:52:37.364800
+attractions,Ruskin Library,library,,"Lancaster, LA1 4YW",LA1 4YW,Lancaster,54.0099852,-2.7879626,,,,,,100696493,way,2026-03-06T09:52:37.364802
+attractions,Scott Park,park,,,,,53.7806675,-2.2570138,,,,,,102215333,way,2026-03-06T09:52:37.364806
+attractions,Ightenhill Park,park,,,,,53.7969502,-2.2715059,,,,,,102657420,way,2026-03-06T09:52:37.364807
+attractions,Marsden Park,park,,,,,53.8386033,-2.1893376,,,,,,103058204,way,2026-03-06T09:52:37.364809
+attractions,Brockholes Nature Reserve,nature_reserve,,,,,53.7717959,-2.6314339,,https://www.lancswt.org.uk/brockholes,,,,110367032,way,2026-03-06T09:52:37.364811
+attractions,Brockholes Visitor Village,attraction,,,,,53.7711157,-2.6272054,,,,,,110647408,way,2026-03-06T09:52:37.364813
+attractions,Low Green,park,,,,,53.9832356,-2.1007464,,,,,,114999756,way,2026-03-06T09:52:37.364815
+attractions,Jubilee Playing Fields,park,,,,,53.6099964,-2.6065352,,,,,,117609728,way,2026-03-06T09:52:37.364817
+attractions,King George's Field,park,,,,,53.6197298,-2.5979111,,,,,,117817508,way,2026-03-06T09:52:37.364819
+attractions,Town Head Barn,attraction,,"Cove Road, Skipton, BD23 4DJ",BD23 4DJ,Skipton,54.0649317,-2.1558922,,,,,,118318396,way,2026-03-06T09:52:37.364822
+attractions,Royal Albert Playing Fields,park,,,,,54.0303809,-2.8003795,,,,,,121514536,way,2026-03-06T09:52:37.364824
+attractions,Heysham Moss,nature_reserve,,,,,54.0398034,-2.8821132,,,,,,123138573,way,2026-03-06T09:52:37.364828
+attractions,Quay Meadow,park,,,,,54.0524964,-2.8064578,,,,,,125697050,way,2026-03-06T09:52:37.364830
+attractions,Dobroyd Castle,castle,,,,,53.7106571,-2.1081069,,,,,,126355228,way,2026-03-06T09:52:37.364832
+attractions,Centre Vale Park,park,,,,,53.7187875,-2.1059996,,,,,,127577513,way,2026-03-06T09:52:37.364833
+attractions,Cutwood Park,park,,,,,53.7647021,-2.4301123,,,,,,131873950,way,2026-03-06T09:52:37.364835
+attractions,Moss Side Village Green,park,,,,,53.6912586,-2.7316803,,,,,,155995174,way,2026-03-06T09:52:37.364838
+attractions,Paradise Park,park,,,,,53.6959804,-2.7326037,,,,,,158018636,way,2026-03-06T09:52:37.364840
+attractions,Standen Park House,castle,,"Standen Park House, Lancaster, LA1 3FF",LA1 3FF,Lancaster,54.0470948,-2.7764954,,,,,,158261637,way,2026-03-06T09:52:37.364842
+attractions,Butterfly House,attraction,,,,,54.0453967,-2.7811467,,https://www.lancaster.gov.uk/sites/williamson-park/butterfly-house,,,,158264239,way,2026-03-06T09:52:37.364844
+attractions,Letcliffe Country Park,park,,,,,53.9095028,-2.1862661,,,,,,158706428,way,2026-03-06T09:52:37.364845
+attractions,Victory Park,park,,,,,53.9227937,-2.1876663,,,,,,158721697,way,2026-03-06T09:52:37.364849
+attractions,Bold Venture Park (Upper Section),park,,,,,53.6889191,-2.4774396,,,,,,158857557,way,2026-03-06T09:52:37.364851
+attractions,Valley Gardens,park,,,,,53.9183238,-2.1903922,,,,,,158935107,way,2026-03-06T09:52:37.364852
+attractions,Millenium Green,park,,,,,53.8539298,-2.1758844,,,,,,159327008,way,2026-03-06T09:52:37.364854
+attractions,Pendle Heritage Centre,museum,,,,,53.8538177,-2.2107392,,https://www.pendleheritage.co.uk/pendle-heritage-centre/,,,,160947761,way,2026-03-06T09:52:37.364856
+attractions,Barrowford Park,park,,,,,53.8523749,-2.2132881,,https://www.pendle.gov.uk/info/20088/parks_and_outdoor_recreation/243/parks_in_pendle/4,,,,160948471,way,2026-03-06T09:52:37.364858
+attractions,Burnley Wood Park,park,,,,,53.7827034,-2.2342011,,,,,,168615310,way,2026-03-06T09:52:37.364860
+attractions,Stock Park,park,,,,,53.8070026,-2.2373759,,,,,,170297350,way,2026-03-06T09:52:37.364862
+attractions,Rhyddings Park,park,,,,,53.7418333,-2.3888659,,,,,,177526832,way,2026-03-06T09:52:37.364865
+attractions,RSPB Reserve Hesketh Out Marsh,nature_reserve,,,,,53.7191387,-2.8861848,,,,,,179959099,way,2026-03-06T09:52:37.364869
+attractions,Avenham Park,park,,,,,53.753092,-2.6992346,,,,,,181000231,way,2026-03-06T09:52:37.364872
+attractions,Frenchwood Knoll,park,,,,,53.7537288,-2.6933763,,,,,,181000239,way,2026-03-06T09:52:37.364874
+attractions,Freeman's Woods,park,,,,,54.0462942,-2.8252619,,https://www.freemanswood.com/,,,,181597678,way,2026-03-06T09:52:37.364877
+attractions,Coronation Field,park,,,,,54.0453851,-2.8216448,,,,,,181644924,way,2026-03-06T09:52:37.364878
+attractions,Jubilee Park,park,,,,,53.7684283,-2.7636857,,,,,,182894907,way,2026-03-06T09:52:37.364880
+attractions,Winmarleigh Moss,nature_reserve,,,,,53.9254672,-2.8462141,,,,,,186052915,way,2026-03-06T09:52:37.364882
+attractions,Kepple Lane Park,park,,,,,53.8971842,-2.7854266,,,,,,188455830,way,2026-03-06T09:52:37.364884
+attractions,Buckshaw Village Green,park,,,,,53.6795034,-2.6583226,,,,,,191074476,way,2026-03-06T09:52:37.364886
+attractions,Maltby Square,park,,,,,53.6781357,-2.653228,,,,,,191539807,way,2026-03-06T09:52:37.364888
+attractions,Jubilee Tower,monument,,,,,54.0097393,-2.7000203,,,,,,200987541,way,2026-03-06T09:52:37.364890
+attractions,Whalley Playing Field,park,,,,,54.0517478,-2.7879369,,https://misswhalleysfield.org.uk/,,,,202716137,way,2026-03-06T09:52:37.364893
+attractions,King George V Playing Fields,park,,,,,53.7409834,-2.3590226,,,,,,203084723,way,2026-03-06T09:52:37.364895
+attractions,Lightning XS928,attraction,,,,,53.7466,-2.8896551,,,,,,205956782,way,2026-03-06T09:52:37.364897
+attractions,Hazel Moor,park,,,,,53.7908882,-2.4838308,,,,,,211713907,way,2026-03-06T09:52:37.364899
+attractions,Wycoller Hall,attraction,,,,,53.8491292,-2.1038691,,,,,,212401539,way,2026-03-06T09:52:37.364901
+attractions,Smithills Hall,attraction,,"Smithills Dean Road, Bolton, BL1 7NP",BL1 7NP,Bolton,53.6025311,-2.4556285,,https://www.friendsofsmithillshall.co.uk/,We-Fr 10:00-16:00; Su 12:00-16:00,,,215189410,way,2026-03-06T09:52:37.364902
+attractions,Beacon Fell Country Park,park,,,,,53.8793555,-2.657554,,,,,,218400679,way,2026-03-06T09:52:37.364904
+attractions,Quarry Hill Nature Reserve,nature_reserve,,,,,53.8273023,-2.2056724,,https://www.pendle.gov.uk/info/20088/parks_and_outdoor_recreation/264/local_nature_reserves/6,,,,219710543,way,2026-03-06T09:52:37.364906
+attractions,Witton Country Park,park,,,,,53.743404,-2.5206645,,,,,yes,226067069,way,2026-03-06T09:52:37.364908
+attractions,Memorial Park,park,,,,,53.7835189,-2.8732969,,,,,,230110478,way,2026-03-06T09:52:37.364913
+attractions,Memorial Gardens,park,,,,,53.6163981,-2.1601964,,,,,,247043989,way,2026-03-06T09:52:37.364917
+attractions,Touchstones,museum,,,,,53.6151097,-2.1620867,,https://www.yourtrustrochdale.co.uk/venues/touchstones-rochdale/,,,yes,247043990,way,2026-03-06T09:52:37.364918
+attractions,Cockersand Abbey,attraction,,,,,53.9767192,-2.8749211,,https://historicengland.org.uk/listing/the-list/list-entry/1018919,,,,248610770,way,2026-03-06T09:52:37.364920
+attractions,Martin Mere Visitor Centre,attraction,,,,,53.6226553,-2.8651297,,,,,,253366605,way,2026-03-06T09:52:37.364922
+attractions,The Aisled Barn,museum,,,,,53.8487911,-2.1033127,,,,,,254161399,way,2026-03-06T09:52:37.364924
+attractions,Bridge Street Gardens,park,,,,,53.6482237,-2.3138153,,,,,,263480191,way,2026-03-06T09:52:37.364925
+attractions,Stanney Brook Park,park,,,,,53.6053891,-2.1207807,,,,,,266688929,way,2026-03-06T09:52:37.364927
+attractions,Haworth Art Gallery,museum,,,,,53.7403578,-2.3544982,,https://historicengland.org.uk/listing/the-list/list-entry/1205787,,,,288010239,way,2026-03-06T09:52:37.364929
+attractions,Haworth Park,park,,,,,53.7408758,-2.3547094,,,,,,288010240,way,2026-03-06T09:52:37.364933
+attractions,Blackburn Museum and Art Gallery,museum,,"Museum Street, Blackburn, BB1 7AJ",BB1 7AJ,Blackburn,53.7504135,-2.483967,,https://www.blackburn.gov.uk/Pages/Museum-and-art-gallery.aspx,,,,294440013,way,2026-03-06T09:52:37.364936
+attractions,Burrs Country Park,park,,,,,53.6102536,-2.3054368,,,,,,312095805,way,2026-03-06T09:52:37.364939
+attractions,Eaves Brook Linear Park,park,,,,,53.7773965,-2.6813373,,,,,,320516377,way,2026-03-06T09:52:37.364941
+attractions,Sawley Abbey,attraction,,,,,53.9133379,-2.3416185,,https://www.english-heritage.org.uk/visit/places/sawley-abbey/,,,,327481008,way,2026-03-06T09:52:37.364943
+attractions,Museum of Local Crafts & Industries,museum,,,,,53.7741404,-2.2230967,,https://historicengland.org.uk/listing/the-list/list-entry/1247300,,,,330265161,way,2026-03-06T09:52:37.364945
+attractions,Towneley Hall,museum,,"Holmes Street, Burnley, BB11 3RQ",BB11 3RQ,Burnley,53.7739655,-2.2223586,,https://towneley.org.uk/,Sa-Th 12:00-17:00,,,330265163,way,2026-03-06T09:52:37.364947
+attractions,Memorial Park,park,,,,,53.7925751,-2.4047747,,,,,,334341925,way,2026-03-06T09:52:37.364949
+attractions,Astley Hall,museum,,,,,53.6595631,-2.6453112,,https://historicengland.org.uk/listing/the-list/list-entry/1362068,,,,334358384,way,2026-03-06T09:52:37.364951
+attractions,Stable Block to Astley Hall,attraction,,,,,53.6598849,-2.6463112,,https://historicengland.org.uk/listing/the-list/list-entry/1072628,,,,334358390,way,2026-03-06T09:52:37.364952
+attractions,Tansley Recreation Ground,park,,,,,53.6204463,-2.6727755,,,,,,339298496,way,2026-03-06T09:52:37.364954
+attractions,Hamer Pasture Reservoir,nature_reserve,,,,,53.6419898,-2.1609592,,,,,,351227294,way,2026-03-06T09:52:37.364956
+attractions,Middleforth Green,park,,,,,53.7412989,-2.7100169,,,,,,353241426,way,2026-03-06T09:52:37.364959
+attractions,British Commercial Vehicle Museum,museum,,"King Street, Leyland, PR25 2LE",PR25 2LE,Leyland,53.6936796,-2.6947436,,https://www.britishcommercialvehiclemuseum.com/,,,,367005537,way,2026-03-06T09:52:37.364961
+attractions,Highfield Recreation Ground,park,,,,,54.0480335,-2.7843574,,,24/7,,,370013142,way,2026-03-06T09:52:37.364963
+attractions,Barton Road Playing Field,park,,,,,54.0313546,-2.790749,,,,,,374406918,way,2026-03-06T09:52:37.364965
+attractions,Judges' Lodgings Museum,museum,,"Castle Hill, Lancaster, LA1 1YS",LA1 1YS,Lancaster,54.0501234,-2.803866,,,,,,387154361,way,2026-03-06T09:52:37.364967
+attractions,Healy Wood,park,,,,,53.7795982,-2.247273,,,,,,388926964,way,2026-03-06T09:52:37.364969
+attractions,Sharples Park,park,,,,,53.607331,-2.4273383,,,,,,394138792,way,2026-03-06T09:52:37.364971
+attractions,Barlow Park,park,,,,,53.6027554,-2.446616,,,,,,394509880,way,2026-03-06T09:52:37.364972
+attractions,Clarence Park,park,,,,,53.6058103,-2.2865722,,,,,,395192753,way,2026-03-06T09:52:37.364974
+attractions,South Ribble Museum & Exhibition Centre,museum,,"Church Road, Leyland, PR25 3FJ",PR25 3FJ,Leyland,53.6888932,-2.6953094,+44 1772 422041,http://south-ribble.co.uk/srmuseum/,Tu 10:00-16:00;Th 13:00-16:00;Fr 10:00-16:00;Sa 10:00-13:00,,limited,406436717,way,2026-03-06T09:52:37.364976
+attractions,Strawberry Valley Park,park,,,,,53.6923776,-2.6825549,,,,,,407707887,way,2026-03-06T09:52:37.364982
+attractions,Farington Park,park,,,,,53.7045993,-2.6857686,,,,,,407713481,way,2026-03-06T09:52:37.364983
+attractions,Thornton Hall Country Park,attraction,,,,,53.9288665,-2.1513033,+44 1282 841148,https://www.thorntonhallcountrypark.co.uk/,,,,418173209,way,2026-03-06T09:52:37.364986
+attractions,Hic Bibi,nature_reserve,,,,,53.6083311,-2.6548301,,,,,,424489541,way,2026-03-06T09:52:37.364987
+attractions,Rufford Old Hall,attraction,,,,,53.6386538,-2.8137835,,,,,,425298918,way,2026-03-06T09:52:37.364989
+attractions,Egerton Park,park,,,,,53.6291719,-2.4394415,,,,,,425547987,way,2026-03-06T09:52:37.364991
+attractions,Village Green,park,,,,,54.0807277,-2.2731083,,,,,,427643886,way,2026-03-06T09:52:37.364992
+attractions,Oak Hill Park,park,,,,,53.7456894,-2.3572757,,,,,,428431976,way,2026-03-06T09:52:37.364994
+attractions,Chapel Lane Park,park,,,,,53.7277622,-2.7484821,,,,,,429753277,way,2026-03-06T09:52:37.364996
+attractions,Harpers Lane Recreation Ground,park,,,,,53.6603584,-2.622275,,,,,,429896184,way,2026-03-06T09:52:37.364997
+attractions,Unnamed,castle,,"Quernmore Road, Quernmore, LA2 9HN",LA2 9HN,Quernmore,54.0585438,-2.7403429,,,,,,432535203,way,2026-03-06T09:52:37.365002
+attractions,Ball Street Gardens,park,,,,,53.6199707,-2.1512524,,,,,,435147271,way,2026-03-06T09:52:37.365003
+attractions,Douglas Park,park,,,,,54.0425476,-2.8937532,,,,,,439010238,way,2026-03-06T09:52:37.365005
+attractions,Ashton Hall,castle,,,,,54.0088335,-2.8229074,,,,,,439140854,way,2026-03-06T09:52:37.365009
+attractions,The Grove Park,park,,,,,53.7225874,-2.7894433,,,,,,458920600,way,2026-03-06T09:52:37.365012
+attractions,Motte and Bailey,castle,,,,,54.0768215,-2.7659702,,,,,,460814056,way,2026-03-06T09:52:37.365013
+attractions,Queen's Park,park,,,,,53.7962974,-2.2297896,,,,,,461234057,way,2026-03-06T09:52:37.365015
+attractions,Barden Gardens,park,,,,,53.8084449,-2.2423446,,,,,,462382855,way,2026-03-06T09:52:37.365017
+attractions,Fall barn park,park,,,,,53.6986205,-2.2846641,,,,,,462771489,way,2026-03-06T09:52:37.365018
+attractions,Whittaker Park,park,,,,,53.7012955,-2.2974484,,,,,,462776427,way,2026-03-06T09:52:37.365020
+attractions,Ground Work,park,,,,,53.6951278,-2.3000296,,,,,,462792674,way,2026-03-06T09:52:37.365024
+attractions,Alkincoats Park,park,,,,,53.8622019,-2.1836854,,https://www.pendle.gov.uk/info/20088/parks_and_outdoor_recreation/243/parks_in_pendle/2,,,,463743045,way,2026-03-06T09:52:37.365025
+attractions,Greenfield Road Local Nature Reserve,nature_reserve,,,,,53.8521592,-2.1957439,,,,,,466504724,way,2026-03-06T09:52:37.365029
+attractions,Greenfield Memorial Gardens,park,,,,,53.7026865,-2.3243208,,,,,,468418520,way,2026-03-06T09:52:37.365031
+attractions,King George V Playing Field,park,,"Queensway, Preston, PR1 0DT",PR1 0DT,Preston,53.7528174,-2.7371697,,,24/7,,,468511931,way,2026-03-06T09:52:37.365032
+attractions,Hodge House,park,,,,,53.8445112,-2.2082412,,,,,,469210580,way,2026-03-06T09:52:37.365034
+attractions,Town Meadow Park,park,,,,,53.6131733,-2.3388457,,,,,,469217131,way,2026-03-06T09:52:37.365036
+attractions,Whitehead Gardens,park,,,,,53.6159954,-2.3419357,,,,,,469225832,way,2026-03-06T09:52:37.365038
+attractions,Ashton Memorial,attraction,,,,,54.0453158,-2.7818968,,https://www.lancaster.gov.uk/sites/williamson-park/ashton-memorial,10:00-17:00,,,470632481,way,2026-03-06T09:52:37.365040
+attractions,Haslam Park Nature Reserve,nature_reserve,,,,,53.775465,-2.7380248,,,,,,473384041,way,2026-03-06T09:52:37.365041
+attractions,Victoria Park (south),park,,,,,53.8381785,-2.226171,,,,,,477705083,way,2026-03-06T09:52:37.365045
+attractions,Victoria Park (north),park,,,,,53.8406088,-2.2244255,,,,,,477705084,way,2026-03-06T09:52:37.365047
+attractions,Rowley,park,,,,,53.7908786,-2.210499,,,,,,477715701,way,2026-03-06T09:52:37.365048
+attractions,Hapton recreation ground,park,,,,,53.7798514,-2.3204211,,,,,,477744308,way,2026-03-06T09:52:37.365050
+attractions,the bonk park,park,,,,,53.6300639,-2.1125298,,,,,,479562448,way,2026-03-06T09:52:37.365052
+attractions,Longsight Park,park,,,,,53.6025611,-2.4014078,,,,,,483777581,way,2026-03-06T09:52:37.365054
+attractions,Andrew Lane Park,park,,,,,53.6097432,-2.4307435,,,,,,489770564,way,2026-03-06T09:52:37.365056
+attractions,Top Field,park,,,,,53.6114101,-2.4383627,,,,,,489771490,way,2026-03-06T09:52:37.365057
+attractions,Hoyles Park,park,,,,,53.5995343,-2.2766766,,,,,,504125266,way,2026-03-06T09:52:37.365059
+attractions,Corporation Park,park,,,,,53.7558416,-2.4957818,,,,,,517212001,way,2026-03-06T09:52:37.365061
+attractions,Stubbylee Park,park,,,,,53.6929525,-2.2036906,,,,,,518209274,way,2026-03-06T09:52:37.365064
+attractions,Wardle History Wall,monument,,,,,53.6567804,-2.1319136,,,,,,526516232,way,2026-03-06T09:52:37.365066
+attractions,Ribchester Roman Museum,museum,,,,,53.8105476,-2.5324972,,https://ribchestermuseum.org/,,,,528743494,way,2026-03-06T09:52:37.365068
+attractions,Phyllis Moss Gardens,park,,,,,53.6957466,-2.5540062,,,,,,536418422,way,2026-03-06T09:52:37.365069
+attractions,Smithy Bridge park,park,,,,,53.6329096,-2.1060333,,,,,,538662053,way,2026-03-06T09:52:37.365071
+attractions,Hall i' th' Wood Museum,museum,,"Green Way, Bolton, BL1 8UA",BL1 8UA,Bolton,53.6004681,-2.4190312,+44 1204 332377,https://www.boltonlams.co.uk/hall-i-th-wood-museum,Tu 10:00-16:00; Sa 12:00-16:00,,,541331388,way,2026-03-06T09:52:37.365073
+attractions,Dallas Road Gardens,park,,,,,54.0457421,-2.8042666,,,,,,542391678,way,2026-03-06T09:52:37.365075
+attractions,Astley Bridge Park,park,,,,,53.6016347,-2.4373143,,,,,,543055462,way,2026-03-06T09:52:37.365076
+attractions,Woburn Green,park,,,,,53.6967674,-2.6876194,,,,,,544398637,way,2026-03-06T09:52:37.365078
+attractions,Fairfield Nature Reserve,nature_reserve,,,,,54.0410231,-2.8121182,,,,,,550473076,way,2026-03-06T09:52:37.365080
+attractions,Sebastopol Cannon Memorial Park,park,,,,,53.752375,-2.6961179,,,,,,552420489,way,2026-03-06T09:52:37.365083
+attractions,Vernons Sports & Leisure Park,park,,,,,53.7426752,-2.7021229,,,,,,553229389,way,2026-03-06T09:52:37.365085
+attractions,Upper Farm Nature Reserve & Leisure Park,park,,,,,53.7471283,-2.7011056,,,,,,553232294,way,2026-03-06T09:52:37.365087
+attractions,Much Hoole Vilage Hall & Leisure Park,park,,,,,53.7036603,-2.7993628,,,,,,553236629,way,2026-03-06T09:52:37.365088
+attractions,Poulton Hall Park,park,,,,,54.0733525,-2.8605791,,,,,,553314081,way,2026-03-06T09:52:37.365090
+attractions,Brunton House,castle,,"Scotforth Road, Lancaster, LA1 4TU",LA1 4TU,Lancaster,54.0360919,-2.7948343,,,,,,564741752,way,2026-03-06T09:52:37.365092
+attractions,Cottage Museum,museum,,"15, Castle Hill, Lancaster, LA1 1YS",LA1 1YS,Lancaster,54.049594,-2.8040622,,https://visitlancaster.org.uk/museums/cottage-museum/,,,,569405731,way,2026-03-06T09:52:37.365094
+attractions,Crescent Gallery,gallery,,"11, Princes Crescent",,,54.0785644,-2.8400055,,,,,,578205376,way,2026-03-06T09:52:37.365096
+attractions,Bancroft Mill,museum,,,,,53.9110977,-2.1919498,,,,,,581289883,way,2026-03-06T09:52:37.365098
+attractions,Middleton Nature Reserve,nature_reserve,,,,,54.0234198,-2.8967211,,,,,,581513828,way,2026-03-06T09:52:37.365100
+attractions,Middleton Nature Reserve,nature_reserve,,,,,54.021797,-2.8886063,,,,,,581515399,way,2026-03-06T09:52:37.365104
+attractions,Northumberland Street Gardens,park,,"Northumberland Street, Chorley",,Chorley,53.6503385,-2.6293545,,,,,,583913490,way,2026-03-06T09:52:37.365106
+attractions,Great Harwood Community Space.,park,,,,,53.792826,-2.3909183,,,,,,584892024,way,2026-03-06T09:52:37.365108
+attractions,Ribble Valley Live Steamers,attraction,,,,,53.866659,-2.4181042,,,,,,614303317,way,2026-03-06T09:52:37.365110
+attractions,Helmshore Mills Textile Museum,museum,,"Holcombe Road, Rossendale, BB4 4NP",BB4 4NP,Rossendale,53.6896288,-2.3373419,,https://www.lancashire.gov.uk/leisure-and-culture/museums/helmshore-mills-textile-museum/,Fr-Su 12:00-16:00; PH off,,,620398274,way,2026-03-06T09:52:37.365112
+attractions,Healey Dell Gallery & Studios,gallery,,,,,53.636047,-2.1840032,,,,,,630362088,way,2026-03-06T09:52:37.365114
+attractions,Helmshore Memorial Park (Snig Hole),park,,,,,53.683353,-2.3305261,,https://friendsofsnigholepark.wordpress.com/,,,,631950803,way,2026-03-06T09:52:37.365116
+attractions,Berry's Garden,park,,,,,53.6246443,-2.6527359,,,,,,639682342,way,2026-03-06T09:52:37.365120
+attractions,Top Mill Park,park,,,,,53.6540086,-2.3024696,,,,,,642113087,way,2026-03-06T09:52:37.365121
+attractions,The Geoff Witts Millenium Green,park,,,,,53.6596033,-2.6770799,,,,,,643845978,way,2026-03-06T09:52:37.365123
+attractions,Peel Tower,monument,,,,,53.6433897,-2.3379921,,,,,,644335615,way,2026-03-06T09:52:37.365127
+attractions,Eccleston Millenium Green,park,,,,,53.6457525,-2.7274849,,,,,,656341671,way,2026-03-06T09:52:37.365130
+attractions,Horwich Heritage Centre,museum,,,,,53.6005647,-2.544255,,https://www.horwichheritage.co.uk/,,,,665303873,way,2026-03-06T09:52:37.365132
+attractions,Fairview Youth & Community Centre,community_centre,,"Highfield Road North, Chorley, PR6 9RN",PR6 9RN,Chorley,53.6173027,-2.6064774,,,,,,673841876,way,2026-03-06T09:52:37.365134
+attractions,Roman Bath House,attraction,,,,,54.0514882,-2.8037674,,https://www.lancaster.gov.uk/sport-and-leisure/museums/roman-bath-house,24/7,,,674246059,way,2026-03-06T09:52:37.365137
+attractions,Corporation Park War Memorial,park,,,,,53.7525701,-2.4919934,,,,,,688152627,way,2026-03-06T09:52:37.365139
+attractions,Martin Mere Education Centre,attraction,,,,,53.6227987,-2.8643996,,,,,,689355907,way,2026-03-06T09:52:37.365143
+attractions,Beaumont Cote Manor,castle,,,,,54.0876907,-2.7691028,,,,,,690208609,way,2026-03-06T09:52:37.365145
+attractions,Lomeshaye Marsh,park,,,,,53.8345113,-2.2352761,,,,,,692214769,way,2026-03-06T09:52:37.365146
+attractions,Off-River Spawning Unit,nature_reserve,,,,,54.0686209,-2.788041,,,,,,694977843,way,2026-03-06T09:52:37.365148
+attractions,Spurrier Square,park,,,,,53.6432909,-2.6265227,,,,,,706464988,way,2026-03-06T09:52:37.365152
+attractions,Torrisholme Park,park,,,,,54.0665401,-2.8342845,,,,,,707395837,way,2026-03-06T09:52:37.365154
+attractions,New House Farm National Nature Reserve,nature_reserve,,,,,54.0742381,-2.1055122,,,,,,707823211,way,2026-03-06T09:52:37.365156
+attractions,Mayflower Gardens,park,,,,,53.6311539,-2.6369742,,,,,,710635457,way,2026-03-06T09:52:37.365158
+attractions,Balshaw Villa Garden,park,,,,,53.660713,-2.6742818,,,,,,738488213,way,2026-03-06T09:52:37.365160
+attractions,Shorey Bank,park,,,,,53.6992393,-2.4699235,,,,,,746406388,way,2026-03-06T09:52:37.365187
+attractions,Bank Street Park,park,,,,,53.9176893,-2.1823992,,,,,,749048107,way,2026-03-06T09:52:37.365196
+attractions,Unnamed,park,,"Lomeshaye Road, Nelson",,Nelson,53.8345557,-2.2248541,,,,,,764289544,way,2026-03-06T09:52:37.365201
+attractions,Mile Stone Meadow,park,,,,,53.6749473,-2.6749148,,,,,,764386673,way,2026-03-06T09:52:37.365203
+attractions,Yarrow Valley Country Park - Dob Brow Pastures,park,,,,,53.6426314,-2.6547653,,,,,,765151430,way,2026-03-06T09:52:37.365205
+attractions,Keasden Moor,nature_reserve,,,,,54.0927733,-2.4228065,,,,,,770894898,way,2026-03-06T09:52:37.365211
+attractions,Unnamed,park,,"Netherfield Road, Nelson",,Nelson,53.8360882,-2.2106492,,,,,,772722891,way,2026-03-06T09:52:37.365213
+attractions,Unnamed,park,,"Stanworth Road, Nelson",,Nelson,53.8342513,-2.2154589,,,,,,773875245,way,2026-03-06T09:52:37.365215
+attractions,Thursby Gardens,park,,,,,53.7952541,-2.2420329,,,,,,784638026,way,2026-03-06T09:52:37.365217
+attractions,Queen Street Mill Textile Museum,museum,,"Queen Street, Burnley, BB10 2HX",BB10 2HX,Burnley,53.8102317,-2.2018909,,https://www.lancashire.gov.uk/leisure-and-culture/museums/queen-street-mill-textile-museum/,,,yes,788205301,way,2026-03-06T09:52:37.365220
+attractions,Whitehall Park,park,,,,,53.6782052,-2.4633263,,,,,,794787161,way,2026-03-06T09:52:37.365222
+attractions,Chipping Showground,attraction,,"Longridge Road, Preston, PR3 2QF",PR3 2QF,Preston,53.8800648,-2.5757699,,https://www.chippingshow.co.uk/,,,,803282229,way,2026-03-06T09:52:37.365225
+attractions,Heyhead Park,park,,,,,53.823,-2.2285907,,https://www.pendle.gov.uk/info/20088/parks_and_outdoor_recreation/243/parks_in_pendle/5,,,,806208504,way,2026-03-06T09:52:37.365227
+attractions,Rufford Park,park,,,,,53.6390078,-2.8256966,,,,,,817265572,way,2026-03-06T09:52:37.365230
+attractions,Bofors gun emplacement and attached pillbox,attraction,,,,,53.682282,-2.6335518,,https://historicengland.org.uk/listing/the-list/list-entry/1417481,,,,826578391,way,2026-03-06T09:52:37.365232
+attractions,Whalley Park,park,,,,,53.8219453,-2.4062395,,,,,,829329143,way,2026-03-06T09:52:37.365236
+attractions,Memorial Gardens,park,,,,,53.914061,-2.1836032,,,,,,883199274,way,2026-03-06T09:52:37.365239
+attractions,Padiham Memorial Park,park,,,,,53.7992171,-2.3186717,,https://www.burnley.gov.uk/residents/parks-open-spaces/padiham-memorial-park,,,,894037581,way,2026-03-06T09:52:37.365242
+attractions,Castercliff,castle,,,,,53.8416826,-2.1763373,,,,,,896780453,way,2026-03-06T09:52:37.365244
+attractions,Sough Park,park,,,,,53.9063893,-2.1467042,,,,,,905928029,way,2026-03-06T09:52:37.365246
+attractions,Eccleston Recreation Ground,park,,,,,53.6468193,-2.7194133,,,,,,909603115,way,2026-03-06T09:52:37.365248
+attractions,Gorpley Clough Local Nature Reserve,nature_reserve,,,,,53.707498,-2.1298362,,,,,,910152181,way,2026-03-06T09:52:37.365249
+attractions,Sabden Park,park,,,,,53.8322864,-2.3377903,,,,,,910502051,way,2026-03-06T09:52:37.365251
+attractions,Pit Head Pocket Park,park,,,,,53.7058599,-2.3202677,,,,,,912193054,way,2026-03-06T09:52:37.365253
+attractions,Lancaster Moor,park,,,,,54.0509402,-2.7717064,,,,,,913807137,way,2026-03-06T09:52:37.365255
+attractions,Buckshaw Community Pond,park,,,,,53.6660321,-2.6427939,,,,,,930780379,way,2026-03-06T09:52:37.365261
+attractions,Broadfields Pond,park,,,,,53.6641266,-2.6425371,,,,,,930964840,way,2026-03-06T09:52:37.365262
+attractions,Astley Park,attraction,,,,,53.6589632,-2.6441832,,https://historicengland.org.uk/listing/the-list/list-entry/1000943,,,,956239430,way,2026-03-06T09:52:37.365266
+attractions,Rivington Gardens,attraction,,,,,53.6209675,-2.5484022,,https://historicengland.org.uk/listing/the-list/list-entry/1000950,,,,956271286,way,2026-03-06T09:52:37.365268
+attractions,Lever Park,attraction,,,,,53.6173038,-2.5569094,,https://historicengland.org.uk/listing/the-list/list-entry/1000948,,,,956272757,way,2026-03-06T09:52:37.365271
+attractions,Worden Park,attraction,,,,,53.6830987,-2.7003267,,https://historicengland.org.uk/listing/the-list/list-entry/1000955,,,,956287432,way,2026-03-06T09:52:37.365273
+attractions,Yarrow Valley Country Park,park,,,,,53.6311863,-2.6353082,,,,,,970676318,way,2026-03-06T09:52:37.365275
+attractions,Yarrow Valley Country Park,park,,,,,53.631742,-2.653776,,,,,,970676319,way,2026-03-06T09:52:37.365277
+attractions,Yarrow Valley Country Park,park,,,,,53.6467837,-2.6567099,,,,,,970676320,way,2026-03-06T09:52:37.365279
+attractions,Barley Picnic Area,park,,,,,53.8588424,-2.2712155,,,,,,977038070,way,2026-03-06T09:52:37.365282
+attractions,Croston Village Green,park,,,,,53.6611441,-2.7743898,,,,,,994015312,way,2026-03-06T09:52:37.365286
+attractions,Hellicliffs MTB Park,park,,,,,53.8203528,-2.3981687,,,sunrise-sunset,,,1006198719,way,2026-03-06T09:52:37.365288
+attractions,Ball Grove Park,park,,,,,53.8587751,-2.1392526,,,,,,1007790285,way,2026-03-06T09:52:37.365289
+attractions,Settle Station Signal Box,museum,,,,,54.0664195,-2.2810049,,https://www.foscl.org.uk/content/settle-station-signal-box,,,,1047840787,way,2026-03-06T09:52:37.365292
+attractions,Queen Elizabeth II Jubilee Biological Heritage Site,nature_reserve,,,,,53.7234974,-2.542629,,,,,,1053770283,way,2026-03-06T09:52:37.365294
+attractions,Hermitage Field,park,,,,,54.0779592,-2.7338249,,https://hermitagefieldcommunitymeadow.com/,,,,1055116230,way,2026-03-06T09:52:37.365297
+attractions,Memorial Park,park,,"115, Newhey Road, OL16 4JF",OL16 4JF,,53.6036698,-2.1018293,,,,,,1126664451,way,2026-03-06T09:52:37.365303
+attractions,Lancaster Maritime Museum,museum,,"St George's Quay, Lancaster, LA1 1RB",LA1 1RB,Lancaster,54.0537377,-2.8056539,+44 1524 382264,https://www.lancaster.gov.uk/sport-and-leisure/museums/maritime-museum,Fr-Mo 12:00-16:00,,,1145359079,way,2026-03-06T09:52:37.365307
+attractions,Summerseat Nature Reserve,nature_reserve,,"Railway Street, Bury, BL9 5QD",BL9 5QD,Bury,53.629376,-2.3159737,,https://www.lancswt.org.uk/nature-reserves/summerseat-nature-reserve,,,,1147209590,way,2026-03-06T09:52:37.365310
+attractions,West Lancashire Light Railway,attraction,,,,,53.700391,-2.8381603,,,,,,1178588916,way,2026-03-06T09:52:37.365314
+attractions,Earby Waterfalls Park,park,,,,,53.9187647,-2.1270065,,,24/7,,,1193288940,way,2026-03-06T09:52:37.365319
+attractions,Griffin Park,park,,,,,53.7400119,-2.5039032,,,,,,1212807833,way,2026-03-06T09:52:37.365322
+attractions,Greaves Forage Garden,park,,,,,54.0361862,-2.7975832,,http://www.lancastergreenspaces.org.uk/projects-weve-funded/greaves-forage-gardens#comments,,,,1222347464,way,2026-03-06T09:52:37.365324
+attractions,Euxton Parish Church Gate,monument,,,,,53.665547,-2.6749516,,,,,,1222923758,way,2026-03-06T09:52:37.365326
+attractions,Wild Share with Mearbeck,nature_reserve,,,,,54.0430066,-2.243154,,https://www.ydmt.org/wildshare-wood,24/7,,,1223822026,way,2026-03-06T09:52:37.365328
+attractions,Mere Sands Wood Nature Reserve,nature_reserve,,,,,53.6356222,-2.8372227,,,24/7,,,1232226671,way,2026-03-06T09:52:37.365331
+attractions,Millennium Garden,park,,,,,54.0685154,-2.2806019,,,,,,1239652210,way,2026-03-06T09:52:37.365332
+attractions,Cedar Farm,attraction,,,,,53.6203402,-2.7665634,,https://www.cedarfarm.net/,,,,1257158959,way,2026-03-06T09:52:37.365335
+attractions,The Rec,park,,,,,53.9739306,-2.7385149,,,,,,1273940082,way,2026-03-06T09:52:37.365340
+attractions,King Georges Playing Fields,park,,,,,53.8084709,-2.7212506,,,,,,1282115440,way,2026-03-06T09:52:37.365342
+attractions,The Pocket Park,park,,,,,53.7537081,-2.3928488,,,,,,1295209308,way,2026-03-06T09:52:37.365348
+attractions,Worsley Park,park,,,,,53.7166215,-2.3233488,,,,,,1305519479,way,2026-03-06T09:52:37.365352
+attractions,Burnley Crematorium,park,,,,,53.7823899,-2.2888242,,,,,,1305975324,way,2026-03-06T09:52:37.365354
+attractions,Pan Beck Fen SSSI,nature_reserve,,,,,53.9996776,-2.2331987,,,,,,1311255317,way,2026-03-06T09:52:37.365356
+attractions,Hesley Moss SSSI,nature_reserve,,,,,54.0373211,-2.3325318,,,,,,1311327833,way,2026-03-06T09:52:37.365358
+attractions,Cocket Moss SSSI,nature_reserve,,,,,54.0520564,-2.3265747,,,,,,1312107634,way,2026-03-06T09:52:37.365360
+attractions,Dunkenhalgh Park,park,,,,,53.7658979,-2.4010357,,,,,,1340125236,way,2026-03-06T09:52:37.365361
+attractions,Roe Lee Park,park,,,,,53.7721918,-2.4753004,,,,,,1345182915,way,2026-03-06T09:52:37.365364
+attractions,Jubilee Gardens,park,,,,,53.7427414,-2.3977635,,,,,,1396214620,way,2026-03-06T09:52:37.365366
+attractions,Longton Brickcroft Nature Reserve,nature_reserve,,,,,53.720539,-2.7872481,,,,,,1418318667,way,2026-03-06T09:52:37.365368
+attractions,Longton Brickcroft Nature Reserve,nature_reserve,,,,,53.7183417,-2.7902547,,,,,,1418318668,way,2026-03-06T09:52:37.365372
+attractions,Standridge Farm Pasture,nature_reserve,,,,,53.9760206,-2.4080438,,,,,,1428270961,way,2026-03-06T09:52:37.365374
+attractions,Barn Gill Meadow,nature_reserve,,,,,53.9876186,-2.4111532,,,,,,1428278247,way,2026-03-06T09:52:37.365376
+attractions,Black Knights Skydiving Centre,attraction,,,,,53.9632764,-2.8358404,,,,,,1429901243,way,2026-03-06T09:52:37.365378
+attractions,Tottie's Park,park,,,,,53.9995659,-2.1777649,,,,,,1456880777,way,2026-03-06T09:52:37.365380
+attractions,Grimsargh Wetlands,nature_reserve,,,,,53.8069256,-2.6227175,,https://www.grimsarghwetlands.org/,,,,1472099532,way,2026-03-06T09:52:37.365382
+attractions,Ryelands Nature Reserve,nature_reserve,,,,,54.0589978,-2.8124634,,https://rewildingroots.org,,,,1473800349,way,2026-03-06T09:52:37.365383

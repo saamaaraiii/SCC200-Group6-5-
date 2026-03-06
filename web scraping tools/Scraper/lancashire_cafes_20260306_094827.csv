@@ -1,0 +1,469 @@
+category,name,type,cuisine,address,postcode,town,latitude,longitude,phone,website,opening_hours,stars,wheelchair,osm_id,osm_type,scraped_at
+cafes,The Health Shack,cafe,,"22, Miller Arcade, Lancaster Road, Preston, PR1 2QY",PR1 2QY,Preston,53.7588487,-2.6978054,+44 1772 561443,,Mo-Sa 10:00-19:00,,,30770935,node,2026-03-06T09:48:34.157401
+cafes,Cafe Blanc,cafe,,"King William Street, Blackburn, BB1 7DJ",BB1 7DJ,Blackburn,53.7494,-2.4844469,,,,,,46816239,node,2026-03-06T09:48:34.157426
+cafes,Exchange Coffee,cafe,,"13-15, Fleming Square, Blackburn, BB2 2DG",BB2 2DG,Blackburn,53.7473798,-2.4837922,,,,,,59745885,node,2026-03-06T09:48:34.157433
+cafes,Cobble Hey,cafe,,,,,53.8980035,-2.7067686,,,,,,267720378,node,2026-03-06T09:48:34.157444
+cafes,Watershed Mill,cafe,,"Langcliffe Road, Settle, BD24 9LR",BD24 9LR,Settle,54.0746484,-2.2785853,,,,,,280788460,node,2026-03-06T09:48:34.157455
+cafes,The Cobbled Corner,cafe,,"Chipping, PR3 2QH",PR3 2QH,Chipping,53.8844326,-2.5767457,,,,,,321824494,node,2026-03-06T09:48:34.157460
+cafes,Riverbank Tearooms,cafe,tea;coffee;cake;breakfast;lunch,"23, Chapel Street, Clitheroe, BB7 3ES",BB7 3ES,Clitheroe,53.9662737,-2.4382207,,,,,,471076572,node,2026-03-06T09:48:34.157463
+cafes,Car and Kitchen,cafe,,"Market Place, Settle, BD24 9EF",BD24 9EF,Settle,54.069142,-2.2769,,https://thecafe.carandkitchen.co.uk/cafe,,,,486270579,node,2026-03-06T09:48:34.157466
+cafes,The Water Trough,cafe,coffee_shop;breakfast;wine;brunch;lunch,"1095, Burnley Road East, Rossendale, BB4 9QR",BB4 9QR,Rossendale,53.7282723,-2.2411902,+44 1706 231533,https://www.watertrough.co.uk,Tu-Th 08:30-16:30; Fr-Sa 09:00-22:00; Su 09:00-14:30,,,569990821,node,2026-03-06T09:48:34.157476
+cafes,Whale Tail Cafe,cafe,regional;coffee,"78a, Penny Street, Lancaster, LA1 1XN",LA1 1XN,Lancaster,54.0465632,-2.8003042,+44 1524 845133,https://whaletailcafe.co.uk/,Mo-Fr 09:00-16:00; Su 10:00-15:30; Sa 09:00-16:30,,no,610595515,node,2026-03-06T09:48:34.157485
+cafes,Cafe Latte,cafe,,"53-55, Queen Street, Blackburn, BB6 7QP",BB6 7QP,Blackburn,53.7863341,-2.4055296,,,,,,631635803,node,2026-03-06T09:48:34.157489
+cafes,Towngate Cafe,cafe,,"15-17, Blackburn Road, Blackburn, BB6 7DF",BB6 7DF,Blackburn,53.7852432,-2.4084372,,,,,,632879752,node,2026-03-06T09:48:34.157492
+cafes,Palatine,cafe,,,,,53.7859176,-2.407584,,,,,,636094841,node,2026-03-06T09:48:34.157496
+cafes,White Bear Marina,cafe,,,,,53.6127711,-2.6065647,,,,,,643084942,node,2026-03-06T09:48:34.157504
+cafes,Garden Makers - The Grubbery,cafe,,,,,53.9857783,-2.311951,,,,,,651847091,node,2026-03-06T09:48:34.157514
+cafes,Birkacre,cafe,,,,,53.6346088,-2.652824,,,,,,654111030,node,2026-03-06T09:48:34.157518
+cafes,Brewschetta,cafe,,,,,53.8028785,-2.3832269,,,,,,664509579,node,2026-03-06T09:48:34.157702
+cafes,CJ'S,cafe,,"75, King Street, Whalley, BB7 9SW",BB7 9SW,Whalley,53.8220395,-2.4069109,,,,,,664572800,node,2026-03-06T09:48:34.157713
+cafes,The Pavilion,cafe,,,,,53.8877448,-2.3585797,,,,,,667361058,node,2026-03-06T09:48:34.157721
+cafes,The Lemon House,cafe,,,,,53.8926663,-2.3529714,,,,,,669561053,node,2026-03-06T09:48:34.157724
+cafes,Downham Post Office and Tea Rooms,cafe,,,,,53.894487,-2.3286114,,,,,,674092194,node,2026-03-06T09:48:34.157727
+cafes,Village Green Tea Room,cafe,,"Sheep House Lane, Bolton, BL6 7SD",BL6 7SD,Bolton,53.625902,-2.5653199,,https://www.rivingtonvillagegreentearoom.co.uk/,Mo-Su 10:00-16:00,,,695188950,node,2026-03-06T09:48:34.157730
+cafes,Blueberries,cafe,,,,,53.872719,-2.3930779,,,,,,697306701,node,2026-03-06T09:48:34.157732
+cafes,Colborne House,cafe,,,,,53.8727863,-2.3901508,,,,,,703219585,node,2026-03-06T09:48:34.157742
+cafes,Exchange Coffee,cafe,,,,,53.8724782,-2.3896936,,,,,,703219635,node,2026-03-06T09:48:34.157752
+cafes,Beach cafe,cafe,,,,,53.7599351,-2.7443315,,,,,,713353303,node,2026-03-06T09:48:34.157755
+cafes,Take Five Coffee Shop,cafe,,"Chain Caul Road, Preston, PR2 2PD",PR2 2PD,Preston,53.7606711,-2.7496639,,,,,,725221162,node,2026-03-06T09:48:34.157759
+cafes,The Folly Coffee House,cafe,coffee_shop,"Victoria Street, Settle, BD24 9EY",BD24 9EY,Settle,54.067665,-2.2754039,,https://thefolly.org.uk/coffee-house/,,,,735115699,node,2026-03-06T09:48:34.157762
+cafes,Ye Olde Naked Man Cafe,cafe,bakery;cake;cafe;ice_cream,"Market Place, Settle, BD24 9ED",BD24 9ED,Settle,54.0688057,-2.2773912,,https://yeoldenakedmancafe.com/,,,,735129540,node,2026-03-06T09:48:34.157765
+cafes,Zara Cafe,cafe,british,,,,53.7888814,-2.239848,,,,,,745753607,node,2026-03-06T09:48:34.157771
+cafes,Town End Farm Shop and Cafe,cafe,,"Skipton, BD23 4BE",BD23 4BE,Skipton,54.0324256,-2.1529195,,https://townendfarmshop.co.uk/,Tu-Sa 9:30-17:00; Su 10:00-17:00,,,767961257,node,2026-03-06T09:48:34.157780
+cafes,Puddleducks Cafe PO and Village Store,cafe,,,,,53.9457978,-2.5195734,,,,,,773619497,node,2026-03-06T09:48:34.157784
+cafes,The Greedy Goose,cafe,,"192, Station Road, Preston, PR5 6TP",PR5 6TP,Preston,53.7286615,-2.660854,,,Mo-Sa 08:30-14:00; Su 10:00-14:00,,no,836237494,node,2026-03-06T09:48:34.157787
+cafes,Costa,cafe,coffee_shop,"260-261, Marine Road Central, Morecambe, LA4 5BX",LA4 5BX,Morecambe,54.0728826,-2.8666029,,,,,,1116465208,node,2026-03-06T09:48:34.157791
+cafes,Bull Beck Snack Bar,cafe,,,,,54.0786769,-2.7017063,,,,,,1309181881,node,2026-03-06T09:48:34.157794
+cafes,Lune Valley IT Centre,cafe,,,,,54.0757579,-2.7181813,,,,,,1309181884,node,2026-03-06T09:48:34.157798
+cafes,The Music Room,cafe,,"Sun Square, Lancaster, LA1 1EW",LA1 1EW,Lancaster,54.0491525,-2.8029816,+44 1524 65470,https://thecoffeehopper.com/locations/the-music-room/,Mo-Su 10:00-16:30,,,1554051643,node,2026-03-06T09:48:34.157808
+cafes,The Cabin,cafe,,,,,53.8590313,-2.2705397,,,,,,1562565565,node,2026-03-06T09:48:34.157812
+cafes,Whites Sandwich & Coffee Bar,cafe,sandwich,,,,53.750532,-2.8923006,,,,,,1565835203,node,2026-03-06T09:48:34.157815
+cafes,Cafe Cargo,cafe,,"Warehouse Lane, Colne, BB8 7PP",BB8 7PP,Colne,53.8792024,-2.1708621,,,,,,1606190700,node,2026-03-06T09:48:34.157818
+cafes,"The Dalesman Cafe, Tea Room and Sweet Emporium",cafe,,"54, High Street, Skipton, BD23 3LX",BD23 3LX,Skipton,53.9832538,-2.1059097,+44 1756 749250,,Tu-Su 09:00-16:00; Mo off,,,1664975376,node,2026-03-06T09:48:34.157821
+cafes,The Kiosk,cafe,,,,,53.7021609,-2.4891063,,http://www.sunnyhurstwood.co.uk/,,,,1709946505,node,2026-03-06T09:48:34.157824
+cafes,Costa,cafe,coffee_shop,LA2 9DU,LA2 9DU,,53.961642,-2.7601473,,,,,,1883791452,node,2026-03-06T09:48:34.157830
+cafes,Costa,cafe,coffee_shop,"286, Garstang Road, Preston, PR2 9RX",PR2 9RX,Preston,53.7912522,-2.7131171,,,Mo-Sa 07:00-18:00; Su 09:00-18:00,,,1898617360,node,2026-03-06T09:48:34.157844
+cafes,Starbucks,cafe,coffee_shop,"Preston, PR5 4AW",PR5 4AW,Preston,53.7480861,-2.6771005,+44 1772 252068,https://www.starbucks.com/store-locator/store/1013121/preston-capitol-park-retail-unit-8-capital-retail-park-capital-way-preston-eng,,,,1906077784,node,2026-03-06T09:48:34.157848
+cafes,The Barlow,cafe,sandwich,"216, Bolton Road, Bolton, BL7 0AP",BL7 0AP,Bolton,53.645283,-2.393273,,,,,,1916715723,node,2026-03-06T09:48:34.157853
+cafes,Hugo's,cafe,,,,,53.602868,-2.8420727,,,Mo-Sa 08:00-16:30; Su 08:00-16:00,,,1932208318,node,2026-03-06T09:48:34.157858
+cafes,The Bridge,cafe,,"114, Derby Road, Preston, PR3 2AA",PR3 2AA,Preston,53.8289394,-2.6079893,,,,,,2019988933,node,2026-03-06T09:48:34.157869
+cafes,Booths Cafe,cafe,,,,,53.7273392,-2.7844989,,,Mo-Sa 08:00-17:00; Su 09:30-16:00,,,2024600901,node,2026-03-06T09:48:34.157873
+cafes,Printroom Cafe & Bar,cafe,soup;sandwich;salad;breakfast;cake,"Meeting House Lane, Lancaster, LA1 1TH",LA1 1TH,Lancaster,54.0488131,-2.8042362,,,Mo-Fr 08:30-18:00; Sa 09:00-18:00; Su off,,limited,2078802328,node,2026-03-06T09:48:34.157876
+cafes,KC's,cafe,,,,,53.7882822,-2.2399261,,,,,,2079201378,node,2026-03-06T09:48:34.157879
+cafes,Starbucks,cafe,coffee_shop,"200, Blackpool Road, Preston, PR1 6UY",PR1 6UY,Preston,53.7729057,-2.6804526,+44 1772 792918,https://www.starbucks.com/store-locator/store/20092/preston-blackpool-road-dt-200-blackpool-road-preston-eng-pr-1-6-uy-gb,,,,2174391437,node,2026-03-06T09:48:34.157883
+cafes,Costa,cafe,coffee_shop,"Blackpool Road, Preston, PR1 6QY",PR1 6QY,Preston,53.7724504,-2.6771904,,,Mo-Sa 07:00-19:00; Su 09:00-17:00,,,2174393809,node,2026-03-06T09:48:34.157886
+cafes,Costa,cafe,coffee_shop,,,,53.7481097,-2.8937173,,,,,,2179160908,node,2026-03-06T09:48:34.157901
+cafes,Tootsies Ice Cream,cafe,coffee_shop,"Bridge Court, Preston, PR4 5JT",PR4 5JT,Preston,53.7071095,-2.7956158,,,,,,2182294175,node,2026-03-06T09:48:34.157906
+cafes,The Centre @ Halton Coffee Shop,cafe,,"Low Road, Halton, LA2 6NB",LA2 6NB,Halton,54.0783965,-2.7562733,,,"Mo-Fr 14:00-17:00; Sa,Su 10:00-17:00; PH 11:00-17:00",,yes,2275824271,node,2026-03-06T09:48:34.157909
+cafes,Craft Centre and tea room,cafe,coffee_shop,,,,53.8496934,-2.1047824,,,,,,2286779718,node,2026-03-06T09:48:34.157912
+cafes,Costa,cafe,coffee_shop,"14-15, Fishergate, Preston, PR1 3NN",PR1 3NN,Preston,53.7581563,-2.6996141,+44 1772 825638,,Mo-Sa 07:00-19:00; Su 08:00-18:00,,,2290400504,node,2026-03-06T09:48:34.157916
+cafes,Costa,cafe,coffee_shop,"2, Fleet Walk, Burnley, BB11 1QE",BB11 1QE,Burnley,53.7892896,-2.2430129,,,,,,2320761434,node,2026-03-06T09:48:34.157927
+cafes,Moka,cafe,,"85a, Fishergate, Preston, PR1 2NJ",PR1 2NJ,Preston,53.7576802,-2.7045388,+44 1772 888863,https://mokarestaurantpreston.co.uk,,,,2398784967,node,2026-03-06T09:48:34.157931
+cafes,About Coffee Ltd,cafe,coffee_shop,"26, Church Street, Colne, BB8 0LG",BB8 0LG,Colne,53.8570956,-2.1696055,,,"Mo-Fr 08:00-17:00, Sa 09:00-16:00",,,2405539734,node,2026-03-06T09:48:34.157934
+cafes,All A,cafe,bubble_tea,"Alexandra Square, Lancaster, LA1 4YW",LA1 4YW,Lancaster,54.0102091,-2.7846158,,,"Mo-Fr 11:00-18:00; Sa,Su off",,,2415818856,node,2026-03-06T09:48:34.157937
+cafes,Mere Side Café,cafe,,,,,53.6223904,-2.8646909,,,,,,2593023580,node,2026-03-06T09:48:34.157940
+cafes,Lily Maes,cafe,,,,,53.7546838,-2.3677901,,,,,yes,2702728061,node,2026-03-06T09:48:34.157948
+cafes,Roots Cafe,cafe,coffee_shop;regional,"Roots Lane, Preston, PR4 0JB",PR4 0JB,Preston,53.8039172,-2.7978803,+44 1772 691866,,,,,2738175194,node,2026-03-06T09:48:34.157958
+cafes,Canal View,cafe,coffee_shop,"2 - 4, Hermitage Street, Blackburn, BB1 4NL",BB1 4NL,Blackburn,53.7684663,-2.4120511,,,,,yes,2777017440,node,2026-03-06T09:48:34.157962
+cafes,The Hall,cafe,coffee_shop,"10, China Street, Lancaster, LA1 1EX",LA1 1EX,Lancaster,54.0492448,-2.8033735,+44 1524 65470,https://thecoffeehopper.com/locations/the-hall/,"Mo-Sa 09:00-17:00, Su 09:00-16:30",,,2895135039,node,2026-03-06T09:48:34.157965
+cafes,Bolton by Bowland Tea Room and Shop,cafe,,"2, Main Street, Bolton by Bowland, BB7 4NW",BB7 4NW,Bolton by Bowland,53.9397689,-2.3300445,,,,,,2917033458,node,2026-03-06T09:48:34.157968
+cafes,Costa,cafe,coffee_shop,"Westbourne Road, Lancaster, LA1 5SJ",LA1 5SJ,Lancaster,54.0486025,-2.8074586,+44 1524 844653,,Mo-Fr 06:00-19:30; Sa 06:30-19:00; Su 09:00-17:00,,limited,3114626432,node,2026-03-06T09:48:34.157972
+cafes,Beacon Fell Visitor Centre,cafe,coffee_shop,"Beacon Fell Road, Preston, PR3 2NL",PR3 2NL,Preston,53.8787703,-2.6640835,+44 1995 640557,https://new.lancashire.gov.uk/leisure-and-culture/country-parks-and-nature-reserves/beacon-fell-country-park.aspx,,,,3188165144,node,2026-03-06T09:48:34.157985
+cafes,Porky's,cafe,sausages,,,,53.8181569,-2.3085738,,,,,,3247817561,node,2026-03-06T09:48:34.157992
+cafes,The Dispensary,cafe,coffee_shop,"408, Heysham Road, Heysham, LA3 2BJ",LA3 2BJ,Heysham,54.0471275,-2.892511,,,,,,3260529318,node,2026-03-06T09:48:34.157996
+cafes,Cafe Ambio,cafe,coffee_shop,"Park Road, Chorley, PR7 1NP",PR7 1NP,Chorley,53.6598922,-2.64651,,,Mo-Su 09:00-16:30,,yes,3469306532,node,2026-03-06T09:48:34.157999
+cafes,Starbucks,cafe,coffee_shop,"49, Fishergate, Preston, PR1 8HJ",PR1 8HJ,Preston,53.757226,-2.7057381,,https://www.starbucks.com/store-locator/store/1013124/preston-fishergate-unit-3-3-a-and-3-3-b-preston-eng-pr-1-8-hl-gb,Mo-Sa 07:00-19:00; Su 07:00-18:00,,,3470387994,node,2026-03-06T09:48:34.158008
+cafes,Tea Rooms,cafe,,,,,54.018699,-2.2543129,,,,,,3670032726,node,2026-03-06T09:48:34.158018
+cafes,Potters Barn,cafe,regional,,,,53.8122401,-2.5336068,,,,,,3787606388,node,2026-03-06T09:48:34.158022
+cafes,Caffè Nero,cafe,coffee_shop,"23, Market Street, Lancaster, LA1 1HZ",LA1 1HZ,Lancaster,54.0486412,-2.8010242,,https://www.caffenero.com/uk/stores/lancaster,Mo-Fr 07:00-18:30; Sa 07:30-18:30; Su 08:30-18:00,,limited,3789045757,node,2026-03-06T09:48:34.158025
+cafes,Costa,cafe,coffee_shop,"2, Ashton Walk, Lancaster, LA1 1ND",LA1 1ND,Lancaster,54.0491798,-2.7996929,,,Mo-Fr 07:30-18:00; Sa 07:30-18:00; Su 08:30-17:00,,,3789045758,node,2026-03-06T09:48:34.158033
+cafes,The Farm at Burscough,cafe,,,,,53.6096373,-2.887698,,,,,,3802509717,node,2026-03-06T09:48:34.158037
+cafes,Costa,cafe,coffee_shop,"Bowland Avenue South, Lancaster",,Lancaster,54.0101046,-2.7849165,,,Mo-Tu 10:00-17:00; We-Fr 08:00-17:00; Sa-Su 10:00-17:00,,,3827052768,node,2026-03-06T09:48:34.158047
+cafes,Apple Store Cafe,cafe,,,,,53.936505,-2.7494248,+44 1524 792296,https://wyresdalepark.co.uk/applestore-cafe-scorton,09:00-16:00,,,3859087524,node,2026-03-06T09:48:34.158051
+cafes,Boba Boba,cafe,bubble_tea;gyoza,"58, Market Street, Lancaster, LA1 1HS",LA1 1HS,Lancaster,54.048743,-2.8030964,,,We-Sa 12:00-18:00; Su-Tu off,,limited,3904779148,node,2026-03-06T09:48:34.158054
+cafes,Holm,cafe,coffee_shop;bakery;sandwich,"20-22, King Street, Lancaster, LA1 1JY",LA1 1JY,Lancaster,54.0476221,-2.8021602,,https://holmcoffee.square.site/,,,,3904927286,node,2026-03-06T09:48:34.158058
+cafes,Cafe Dolce,cafe,coffee_shop,"10-12, Market Street, Lancaster, LA1 1HT",LA1 1HT,Lancaster,54.0488157,-2.8004538,,https://www.facebook.com/cafedolcelancaster/,,,limited,3930495776,node,2026-03-06T09:48:34.158066
+cafes,Eden Bay Bistro,cafe,,"281, Marine Road Central, Morecambe, LA4 5BY",LA4 5BY,Morecambe,54.0737668,-2.8648197,,,,,,3958341124,node,2026-03-06T09:48:34.158076
+cafes,Clock Tower Cafe,cafe,,,,,54.073431,-2.8661702,,,,,,3958376971,node,2026-03-06T09:48:34.158080
+cafes,From The Bay,cafe,,"9, Plaza Arcade, Morecambe",,Morecambe,54.0726696,-2.8637414,,,,,,3958415628,node,2026-03-06T09:48:34.158083
+cafes,Sanctuary,cafe,,"13, Queen Street, Morecambe, LA4 5EQ",LA4 5EQ,Morecambe,54.0731152,-2.8646794,,https://www.morecambeparish.church/sanctuary,,,,3959631516,node,2026-03-06T09:48:34.158087
+cafes,Sunsets Cafe,cafe,,"Morecambe, LA4 5DH",LA4 5DH,Morecambe,54.0719502,-2.8660597,,,,,,3959705529,node,2026-03-06T09:48:34.158090
+cafes,Mia Mio,cafe,ice_cream;pizza,"272, Marine Road Central, Morecambe, LA4 5BX",LA4 5BX,Morecambe,54.0732523,-2.8655185,,,,,,3959736967,node,2026-03-06T09:48:34.158092
+cafes,Bay Cafe,cafe,fish_and_chips,"Queen Street, Morecambe, LA4 5BZ",LA4 5BZ,Morecambe,54.0732541,-2.8653472,,,,,,3959736968,node,2026-03-06T09:48:34.158098
+cafes,Lewis's,cafe,coffee_shop;ice_cream,"253, Marine Road Central, Morecambe, LA4 4BJ",LA4 4BJ,Morecambe,54.0726632,-2.8672832,,,,,,3959767867,node,2026-03-06T09:48:34.158107
+cafes,Eric's Cafe,cafe,,"245, Marine Road Central, Morecambe, LA4 4BJ",LA4 4BJ,Morecambe,54.0725988,-2.8677572,,,,,,3959767869,node,2026-03-06T09:48:34.158110
+cafes,Costa,cafe,coffee_shop,"219, Marine Road Central, Morecambe, LA4 4BU",LA4 4BU,Morecambe,54.0723652,-2.8704813,,,Mo-Su 09:00-16:00,,,3967771419,node,2026-03-06T09:48:34.158118
+cafes,Brucciani,cafe,coffee_shop;ice_cream,"216-217, Marine Road Central, Morecambe, LA4 4BU",LA4 4BU,Morecambe,54.072358,-2.8706114,,,"Mo-Sa 10:00-16:00, Sa 10:00-16:30, Su 10:00-16:30",,,3967771420,node,2026-03-06T09:48:34.158121
+cafes,SO Cafe,cafe,,"238, Marine Road Central, Morecambe, LA4 4BQ",LA4 4BQ,Morecambe,54.072507,-2.8686763,,,,,,3967775544,node,2026-03-06T09:48:34.158123
+cafes,Rita's Cafe,cafe,,"200, Marine Road Central, Morecambe, LA4 4BU",LA4 4BU,Morecambe,54.0720535,-2.8732755,,,"Mo-Fr 08:00-17:00; Sa,Su 08:00-17:30",,,3968430689,node,2026-03-06T09:48:34.158133
+cafes,The Coffee Pot,cafe,,"93, Marine Road West, Morecambe, LA4 4DQ",LA4 4DQ,Morecambe,54.0676701,-2.8782664,,,,,,3982170141,node,2026-03-06T09:48:34.158138
+cafes,The Westminster Cafe,cafe,,"41, Clarendon Road East, Morecambe, LA4 4HT",LA4 4HT,Morecambe,54.0658843,-2.8781084,,,,,,3982223993,node,2026-03-06T09:48:34.158141
+cafes,The Salty Bean,cafe,coffee_shop,"65, Marine Road West, Morecambe, LA4 4ET",LA4 4ET,Morecambe,54.0666509,-2.8799171,,,,,,3982235960,node,2026-03-06T09:48:34.158148
+cafes,The Beach House Cafe,cafe,,"40a, Regent Road, Morecambe, LA3 1QN",LA3 1QN,Morecambe,54.0654441,-2.8790527,,,,,,3983899233,node,2026-03-06T09:48:34.158151
+cafes,Unnamed,cafe,,"Leyland Lane, Leyland",,Leyland,53.6906503,-2.7169028,,,,,,4086508607,node,2026-03-06T09:48:34.158155
+cafes,Peppers Grill,cafe,,"Leyland Lane, Leyland, PR25 1XB",PR25 1XB,Leyland,53.6985487,-2.7131159,,,,,,4086543891,node,2026-03-06T09:48:34.158197
+cafes,Lucy's Teatime Treats,cafe,,"123, Towngate, Leyland, PR25 2LQ",PR25 2LQ,Leyland,53.6926468,-2.6967329,,,,,,4087836109,node,2026-03-06T09:48:34.158213
+cafes,Roccoco Cafe Lounge & Bakery,cafe,,"41-45, Chapel Brow, Leyland, PR25 3NH",PR25 3NH,Leyland,53.6967617,-2.6899222,,,,,,4088553842,node,2026-03-06T09:48:34.158216
+cafes,Aromas,cafe,,"13-15, Hough Lane, Leyland, PR25 2SD",PR25 2SD,Leyland,53.6948738,-2.6956416,,,,,,4096901366,node,2026-03-06T09:48:34.158219
+cafes,Peppermint Cottage,cafe,,"Hough Lane, Leyland",,Leyland,53.6957193,-2.692918,,,,,,4096992522,node,2026-03-06T09:48:34.158227
+cafes,Coffee Lounge,cafe,,"Golden Hill Lane, Leyland",,Leyland,53.6979982,-2.6902321,,,,,,4097050936,node,2026-03-06T09:48:34.158233
+cafes,Bus Station Cafe,cafe,,"Tithebarn Street, Preston, PR1 1YT",PR1 1YT,Preston,53.761255,-2.696407,,,,,,4138891723,node,2026-03-06T09:48:34.158237
+cafes,The Hub Cafe,cafe,,,,,53.6784852,-2.6574507,,,,,,4238017690,node,2026-03-06T09:48:34.158240
+cafes,Tea Room,cafe,,,,,53.637957,-2.813284,,,,,no,4250407647,node,2026-03-06T09:48:34.158243
+cafes,The Chocolate Cafe,cafe,,"2, Bolton Street, Bury, BL0 9HX",BL0 9HX,Bury,53.6487827,-2.3187427,,,,,,4320386883,node,2026-03-06T09:48:34.158247
+cafes,Mrs P's Luxury Ice Cream,cafe,ice_cream,"9, Market Place, Bury, BL0 9AJ",BL0 9AJ,Bury,53.6490561,-2.3189197,,,,,,4320386894,node,2026-03-06T09:48:34.158250
+cafes,Tastebuds,cafe,coffee_shop;sandwich;ice_cream,"1-3, George Street, Clitheroe, BB7 9TH",BB7 9TH,Clitheroe,53.8218351,-2.407295,+44 1254 824 468,https://www.tastebudsatwhalley.co.uk,,,,4342612481,node,2026-03-06T09:48:34.158267
+cafes,Nellie & Marls Neighbourhood Kitchen,cafe,,"130, Preston Road, Chorley, PR7 5ED",PR7 5ED,Chorley,53.6182079,-2.6738843,,,,,,4347686722,node,2026-03-06T09:48:34.158271
+cafes,Aroma Cafe,cafe,,,,,53.7972178,-2.8901597,,,,,,4363621583,node,2026-03-06T09:48:34.158274
+cafes,Starbucks,cafe,coffee_shop,"19, Market Street, Lancaster, LA1 1HZ",LA1 1HZ,Lancaster,54.048659,-2.8007818,,https://www.starbucks.com/store-locator/store/1013128/lancaster-market-street-19-market-street-lancaster-eng-la-1-1-hz-gb,"Mo-Sa 07:00-18:30; Su,PH 08:30-17:30",,limited,4412023603,node,2026-03-06T09:48:34.158277
+cafes,Heavenly Desserts,cafe,,"5-6, Cheapside, Preston, PR1 2AP",PR1 2AP,Preston,53.7586167,-2.6993895,,https://www.heavenlydesserts.co.uk/stores/preston,,,,4475206553,node,2026-03-06T09:48:34.158283
+cafes,Cafeteria,cafe,,,,,53.9209007,-2.8089442,,,,,,4509027244,node,2026-03-06T09:48:34.158291
+cafes,Cube Shisha & Dessert Bar,cafe,,"St Peter Street, Blackburn",,Blackburn,53.7466457,-2.4830941,,,,,,4510881366,node,2026-03-06T09:48:34.158295
+cafes,Costa,cafe,coffee_shop,"Preston, PR2 2YQ",PR2 2YQ,Preston,53.7595962,-2.7289115,,,,,,4560320026,node,2026-03-06T09:48:34.158298
+cafes,Morrisons,cafe,,,,,53.7621581,-2.7361166,,,,,,4560320028,node,2026-03-06T09:48:34.158301
+cafes,The Basement,cafe,,Shear Brow,,,53.7591442,-2.4873908,,,,,,4580749499,node,2026-03-06T09:48:34.158304
+cafes,The Reading Rooms Kitchen,cafe,,"Bolton by Bowland Road, Bolton by Bowland, BB7 4PF",BB7 4PF,Bolton by Bowland,53.9415978,-2.3464591,+44 1200 447615,https://www.holdenclough.com/food,Mo-Su 09:00-16:00,,,4581795400,node,2026-03-06T09:48:34.158312
+cafes,Costa,cafe,coffee_shop,"Market Walk, Chorley, PR7 1DE",PR7 1DE,Chorley,53.6533936,-2.6295546,,,,,yes,4596744352,node,2026-03-06T09:48:34.158323
+cafes,Moor,cafe,,,,,53.8709246,-2.3916942,,,,,,4596820224,node,2026-03-06T09:48:34.158327
+cafes,Brucciani,cafe,,"91C, Fishergate, Preston, PR1 2NJ",PR1 2NJ,Preston,53.7577914,-2.703855,,https://www.facebook.com/bruccianis1932/,,,,4600170392,node,2026-03-06T09:48:34.158330
+cafes,La Viva,cafe,,"88, Fishergate, Preston, PR1 2NJ",PR1 2NJ,Preston,53.7577189,-2.7042974,,,,,,4600170397,node,2026-03-06T09:48:34.158333
+cafes,Caffè Nero,cafe,coffee_shop,"84, Fishergate, Preston, PR1 2NJ",PR1 2NJ,Preston,53.7576562,-2.7047034,,https://www.caffenero.com/uk/stores/preston-fishergate,Mo-Fr 06:30-18:00; Sa 07:30-18:00; Su 08:30-17:30,,,4600170400,node,2026-03-06T09:48:34.158336
+cafes,Courtyard Caffe,cafe,,"17, High Street, PR3 0ZB",PR3 0ZB,,53.8549306,-2.8718855,+44 1995 672011,,,,,4605525914,node,2026-03-06T09:48:34.158340
+cafes,Snacks & Drinks,cafe,,,,,53.6207176,-2.8612987,,,,,,4619407652,node,2026-03-06T09:48:34.158350
+cafes,Royavie,cafe,,"14, Penny Street, Lancaster, LA1 1UA",LA1 1UA,Lancaster,54.0483425,-2.800019,,,,,,4625758468,node,2026-03-06T09:48:34.158354
+cafes,Bob & Berts,cafe,coffee_shop,"18-20, Penny Street, Lancaster, LA1 1UA",LA1 1UA,Lancaster,54.048215,-2.800019,,,Mo-Sa 07:30-18:00; Su 09:00-18:00,,,4625758470,node,2026-03-06T09:48:34.158357
+cafes,The Cornish Bakery,cafe,,"53, Penny Street, Lancaster, LA1 1XF",LA1 1XF,Lancaster,54.0472727,-2.7997616,,,,,yes,4674456020,node,2026-03-06T09:48:34.158365
+cafes,Costa,cafe,coffee_shop,"Finsley Gate, Burnley, BB11 2HE",BB11 2HE,Burnley,53.7857994,-2.2414796,,,,,,4909101827,node,2026-03-06T09:48:34.158368
+cafes,Grind & Tamp,cafe,,"45, Bridge Street, Bury, BL0 9AD",BL0 9AD,Bury,53.648621,-2.3177244,,,Th-Tu 08:30-16:00,,,4959794623,node,2026-03-06T09:48:34.158377
+cafes,DRINC,cafe,coffee_shop,"9, Bridge Street, Bury, BL0 9AB",BL0 9AB,Bury,53.6480005,-2.3149075,,,,,,4992828567,node,2026-03-06T09:48:34.158382
+cafes,The Cultured Bean,cafe,,"9E, Bridge Street, Bury, BL0 9AB",BL0 9AB,Bury,53.6480338,-2.3150695,,,,,,4992828569,node,2026-03-06T09:48:34.158385
+cafes,Black Sheep Coffee,cafe,coffee_shop,,,,53.7578984,-2.701239,,https://blacksheepcoffee.co.uk/blogs/locations/fishergate,,,,5000582896,node,2026-03-06T09:48:34.158389
+cafes,Horrocks Tea Room,cafe,,"Preston, PR3 0UH",PR3 0UH,Preston,53.8665357,-2.8708662,,,,,,5017597191,node,2026-03-06T09:48:34.158392
+cafes,Flapjacks,cafe,,"Preston, PR4 1PD",PR4 1PD,Preston,53.7543441,-2.8649238,,,,,,5017750744,node,2026-03-06T09:48:34.158394
+cafes,The Mill,cafe,,"Lostock Lane, Preston, PR5 5XU",PR5 5XU,Preston,53.7224915,-2.6754563,,,,,,5018116659,node,2026-03-06T09:48:34.158397
+cafes,Twin Lakes Velo Cafe,cafe,,"Brickcroft Lane, Leyland, PR26 9RF",PR26 9RF,Leyland,53.6658121,-2.7820298,,,"Mo-Su 10:00-15:00,Sa 3:30-6:30",,,5057614923,node,2026-03-06T09:48:34.158402
+cafes,Lillybetts Coffee Shop,cafe,,"784, Blackpool Road, Preston, PR2 1XL",PR2 1XL,Preston,53.7676763,-2.7596143,,,,,,5057663223,node,2026-03-06T09:48:34.158417
+cafes,Riverside Cafe,cafe,,"1-3, Leyland Road, Preston, PR1 9QH",PR1 9QH,Preston,53.7482866,-2.7143227,,,,,,5164793488,node,2026-03-06T09:48:34.158421
+cafes,Costa,cafe,coffee_shop,"79, Friargate Walk, Preston, PR1 2NQ",PR1 2NQ,Preston,53.7587426,-2.7019109,,,,,,5169371355,node,2026-03-06T09:48:34.158423
+cafes,Cedarwood Coffee Co.,cafe,coffee_shop,"10, Winckley Street, Preston, PR1 2AA",PR1 2AA,Preston,53.7572159,-2.7018133,,,,,,5169371381,node,2026-03-06T09:48:34.158426
+cafes,Strictly Cup Cakes,cafe,cake,"42, Cannon Street, Preston, PR1 3NT",PR1 3NT,Preston,53.7576025,-2.6996671,,,,,,5169371384,node,2026-03-06T09:48:34.158430
+cafes,Mystery Tea House,cafe,tea_shop,"23, Cannon Street, Preston, PR1 3NR",PR1 3NR,Preston,53.7568704,-2.6992195,,,,,,5169371385,node,2026-03-06T09:48:34.158440
+cafes,Starbucks,cafe,coffee_shop,,,,53.6004826,-2.5732289,,https://www.starbucks.com/store-locator/store/20391/bolton-rivington-south-m-61-motorway-southbound-bolton-eng-bl-6-5-uz-gb,,,,5203208447,node,2026-03-06T09:48:34.158444
+cafes,Sanwitches Cafe,cafe,,"Watt Street, Clitheroe, BB7 9ED",BB7 9ED,Clitheroe,53.8297982,-2.3398234,,,,,,5245351709,node,2026-03-06T09:48:34.158447
+cafes,Oldbell,cafe,,"Bashful Alley, Lancaster, LA1 1LF",LA1 1LF,Lancaster,54.0484808,-2.8026211,,,,,limited,5266972044,node,2026-03-06T09:48:34.158451
+cafes,Choc Stop,cafe,dessert,,,,53.7853093,-2.2486626,,,,,,5307287745,node,2026-03-06T09:48:34.158454
+cafes,Costa,cafe,coffee_shop,"21, Cobden Court, Blackburn, BB1 7JG",BB1 7JG,Blackburn,53.7486083,-2.4820703,+44 1254 665068,,"Mo-Sa 08:00-17:30, Su 10:00-17:00",,,5518400825,node,2026-03-06T09:48:34.158462
+cafes,Costa,cafe,coffee_shop,"Lancaster Way, Chorley, PR7 7LJ",PR7 7LJ,Chorley,53.6760062,-2.6546279,,,,,,5535864907,node,2026-03-06T09:48:34.158472
+cafes,The Big Lamp Chip Shop & Cafe,cafe,,,,,53.64996,-2.63188,,,,,,5545001925,node,2026-03-06T09:48:34.158476
+cafes,Woodchats,cafe,,"Clifford Street, Chorley, PR7 1AQ",PR7 1AQ,Chorley,53.6525711,-2.6282926,,,,,,5558947563,node,2026-03-06T09:48:34.158479
+cafes,The Deli,cafe,,"Bailrigg Lane, Lancaster, LA1 4YW",LA1 4YW,Lancaster,54.0099553,-2.7854623,,https://www.lancaster.ac.uk/eat/thedeli.php,Mo-Fr 08:30-16:30,,yes,5597383485,node,2026-03-06T09:48:34.158482
+cafes,Pendle Brew,cafe,,"Bailrigg Lane, Lancaster, LA1 4YW",LA1 4YW,Lancaster,54.0062828,-2.7852643,,,Mo-Fr 10:00-17:00,,,5608696962,node,2026-03-06T09:48:34.158491
+cafes,TreeFace Cafe,cafe,,"Burgh Hall Road, Chorley, PR7 3RN",PR7 3RN,Chorley,53.6318206,-2.6509935,,,,,,5635236976,node,2026-03-06T09:48:34.158500
+cafes,Chorley Town Cafe,cafe,,"36, Chapel Street, Chorley, PR7 1BW",PR7 1BW,Chorley,53.6525262,-2.6306194,,,,,yes,5661035746,node,2026-03-06T09:48:34.158504
+cafes,Lucy's Kitchen,cafe,,"40, Chapel Street, Chorley, PR7 1BW",PR7 1BW,Chorley,53.6525111,-2.6302392,,,,,,5661035758,node,2026-03-06T09:48:34.158507
+cafes,Mr Beans,cafe,coffee;cake;dessert,"72, Burnley Road, Todmorden, OL14 5HX",OL14 5HX,Todmorden,53.7181439,-2.100406,+44 1706 839995,https://www.facebook.com/parkendtodmorden/,,,,5702105115,node,2026-03-06T09:48:34.158509
+cafes,The Old Gun Shop,cafe,,"5-7, Great John Street, Lancaster, LA1 1NQ",LA1 1NQ,Lancaster,54.0487015,-2.7978323,,https://www.theoldgunshop.com/,"Mo,Tu 09:30-16:00; We,Th 09:30-22:00; Fr,Sa 09:30-23:00; Su 10:00-16:00",,no,5835265009,node,2026-03-06T09:48:34.158517
+cafes,Happy Bunnies,cafe,,"65, Liverpool Road, Longton, PR4 5HA",PR4 5HA,Longton,53.7272056,-2.7808392,,,,,,5857249396,node,2026-03-06T09:48:34.158526
+cafes,The Marketplace,cafe,,,,,54.0123263,-2.7845042,,,"Mo-Fr 07:30-19:00; Sa,Su 08:00-14:00",,yes,5905933030,node,2026-03-06T09:48:34.158532
+cafes,Costa,cafe,coffee_shop,,,,53.7418849,-2.4820994,,,,,,5908464011,node,2026-03-06T09:48:34.158535
+cafes,Starbucks,cafe,coffee_shop,"Platform 3-4, Fishergate, Preston, PR1 8AP",PR1 8AP,Preston,53.7560586,-2.7070963,,https://www.starbucks.com/store-locator/store/1018469/preston-station-fishergate-preston-eng-pr-1-8-ap-gb,,,,6053036960,node,2026-03-06T09:48:34.158539
+cafes,Cafe Republic,cafe,coffee_shop,"South Spine, Bailrigg, Lancaster, LA1 4YU",LA1 4YU,"Bailrigg, Lancaster",54.0091932,-2.7852819,+44 1524 593324,https://coffeerepublic.co.uk/,"Mo-Fr 08:00-17:45; Sa,Su 10:00-17:00",,yes,6100599922,node,2026-03-06T09:48:34.158542
+cafes,18a,cafe,coffee_shop,"18a, Brock Street, Lancaster, LA1 1UU",LA1 1UU,Lancaster,54.0473932,-2.7985602,,,Su 10:00-16:00; Mo-Fr 08:30-16:00; Sa 09:00-16:00,,yes,6143053285,node,2026-03-06T09:48:34.158545
+cafes,Cafe Manna,cafe,,"1, Carrington Centre, Chorley, PR7 5SZ",PR7 5SZ,Chorley,53.6460867,-2.7246998,,,,,,6193082986,node,2026-03-06T09:48:34.158550
+cafes,Boulder UK Cafe,cafe,coffee_shop,"Carnfield Place, Preston, PR5 8AN",PR5 8AN,Preston,53.7254223,-2.6431787,,,,,,6215787354,node,2026-03-06T09:48:34.158559
+cafes,Sweet Dreams Cafe,cafe,,"4, Hope Terrace, Preston, PR5 5RU",PR5 5RU,Preston,53.725816,-2.692738,,,,,,6219557996,node,2026-03-06T09:48:34.158563
+cafes,Kath's Kitchen & Ice Cream Parlour,cafe,,"68, Pall Mall, Chorley, PR7 2LE",PR7 2LE,Chorley,53.6485848,-2.6332098,,,,,,6229206315,node,2026-03-06T09:48:34.158573
+cafes,Lily's,cafe,,"80, Pall Mall, Chorley, PR7 2LE",PR7 2LE,Chorley,53.648235,-2.6335578,,,,,,6229622204,node,2026-03-06T09:48:34.158576
+cafes,Mags Japanese Cafe,cafe,,"90, Pall Mall, Chorley, PR7 2LB",PR7 2LB,Chorley,53.6477883,-2.6339521,,,,,,6230230724,node,2026-03-06T09:48:34.158584
+cafes,Atkinson's Sandwich Bar,cafe,sandwich;coffee,"2, Primrose Street, Lancaster, LA1 3BN",LA1 3BN,Lancaster,54.0447685,-2.7931424,,,Mo-Fr 08:00-14:00; Sa-Su off,,,6266272291,node,2026-03-06T09:48:34.158590
+cafes,The Old Post Office,cafe,sandwich;coffee,"3, Hornby Road, Caton, LA2 9QW",LA2 9QW,Caton,54.0762459,-2.717955,,,Fr-Su 10:00-15:00,,,6291431974,node,2026-03-06T09:48:34.158593
+cafes,The Folly Coffee House & Deli,cafe,,"Leyland, PR25 1DJ",PR25 1DJ,Leyland,53.6823935,-2.7018641,,,,,,6314648985,node,2026-03-06T09:48:34.158596
+cafes,Kaspa's,cafe,dessert;ice_cream;pancake;crepe;waffle,"112, Penny Street, Lancaster, LA1 1XT",LA1 1XT,Lancaster,54.0452804,-2.7998937,,https://kaspas.co.uk/location/lancaster/,,,,6322640261,node,2026-03-06T09:48:34.158599
+cafes,Pendle Marine,cafe,ice_cream,"Preston, PR4 0HE",PR4 0HE,Preston,53.8068203,-2.7842095,,,,,,6353264592,node,2026-03-06T09:48:34.158602
+cafes,Leanne's Little Coffee Shop,cafe,,"122, Pall Mall, Chorley, PR7 2LB",PR7 2LB,Chorley,53.6470696,-2.6346099,,,,,,6388884830,node,2026-03-06T09:48:34.158604
+cafes,Cafe Maria's,cafe,,"293, Plungington Road, Preston, PR2 3PR",PR2 3PR,Preston,53.775301,-2.7148971,,,,,,6397239245,node,2026-03-06T09:48:34.158609
+cafes,Prestons,cafe,,"Sharoe Green Lane, Preston, PR2 9HT",PR2 9HT,Preston,53.7914313,-2.7064604,,,,,,6433609613,node,2026-03-06T09:48:34.158623
+cafes,The Food Hamper,cafe,,"190, Inkerman Street, Preston, PR2 2BN",PR2 2BN,Preston,53.7719572,-2.7208176,,,,,,6434321091,node,2026-03-06T09:48:34.158626
+cafes,Cafe Emmanuel,cafe,,"Brook Street, Preston, PR1 7NB",PR1 7NB,Preston,53.7690419,-2.7120763,,,,,,6434321104,node,2026-03-06T09:48:34.158629
+cafes,The Krazy Kitchen,cafe,,"30, Plungington Road, Preston, PR1 7RB",PR1 7RB,Preston,53.7685251,-2.7101934,+44 1772 888600,,,,,6434321109,node,2026-03-06T09:48:34.158631
+cafes,The Chicken Shop,cafe,,"52, Plungington Road, Preston, PR1 7RB",PR1 7RB,Preston,53.769137,-2.7105823,,,,,,6434321128,node,2026-03-06T09:48:34.158634
+cafes,I Smile Cafe,cafe,,"113, Plungington Road, Preston, PR1 7UE",PR1 7UE,Preston,53.7708841,-2.711962,+44 1772 556656,,,,,6434321169,node,2026-03-06T09:48:34.158638
+cafes,Asda Café,cafe,coffee_shop,"Ovangle Road, Lancaster, LA1 5JR",LA1 5JR,Lancaster,54.0565295,-2.8274564,+44 1524 580780,https://storelocator.asda.com/north-west/lancaster/ovangle-road/cafe,Mo-Sa 08:30-18:00; Su 10:00-16:00,,,6464041092,node,2026-03-06T09:48:34.158648
+cafes,Caffè Nero,cafe,coffee_shop,,,,53.8721159,-2.3918844,,https://www.caffenero.com/uk/stores/clitheroe,Mo-Fr 07:00-18:00; Sa 08:00-18:00; Su 09:00-17:00,,,6491541978,node,2026-03-06T09:48:34.158652
+cafes,Maxwell’s Cafe Wine Bar,cafe,,"54-55, King Street, Clitheroe, BB7 2EU",BB7 2EU,Clitheroe,53.8735429,-2.3939038,+44 1200 443906,http://www.maxwellscafebar.co.uk,,,yes,6528457837,node,2026-03-06T09:48:34.158655
+cafes,Tuck,cafe,cake;tea;coffee_shop;sandwich,"11-15, Meeting House Lane, Lancaster, LA1 1TJ",LA1 1TJ,Lancaster,54.04818,-2.8054966,,,,,,6528610853,node,2026-03-06T09:48:34.158658
+cafes,Leisuretime,cafe,,"55, Yorkshire Street, OL16 1BT",OL16 1BT,,53.6184785,-2.157289,,,,,,6540413649,node,2026-03-06T09:48:34.158667
+cafes,Oasis Cafe,cafe,,"Brookhouse Road, Brookhouse, LA2 9NY",LA2 9NY,Brookhouse,54.0739656,-2.7048825,,,,,,6569635483,node,2026-03-06T09:48:34.158677
+cafes,Starbucks,cafe,coffee_shop,,,,53.7958992,-2.8905189,,,,,,6587368621,node,2026-03-06T09:48:34.158681
+cafes,Diggles,cafe,,"5-7, Ffrances Passage, Lancaster, LA1 1UG",LA1 1UG,Lancaster,54.0483906,-2.7993097,,https://diggles.co.uk/,,,,6592154385,node,2026-03-06T09:48:34.158684
+cafes,The Courtyard Cafe,cafe,,"Slyne Road, Lancaster, LA2 6ST",LA2 6ST,Lancaster,54.0669787,-2.802983,+44 1524 382538,https://www.sjhospice.org.uk/the-courtyard-cafe-at-st-johns-hospice/,Mo-Su 09:00-16:00,,,6665553256,node,2026-03-06T09:48:34.158687
+cafes,Gisburn Forest Hub,cafe,,"Hole House Lane, Clitheroe, BB7 4TS",BB7 4TS,Clitheroe,53.9993065,-2.3894781,,,,,,6688104414,node,2026-03-06T09:48:34.158690
+cafes,Regent Park Bowls & Social Club,cafe,,"Regent Road, Morecambe, LA4 4QY",LA4 4QY,Morecambe,54.063352,-2.8740607,,,,,,6708219683,node,2026-03-06T09:48:34.158692
+cafes,Lean & Green Healthy Cafe,cafe,,"81, Water Street, Chorley, PR7 1EX",PR7 1EX,Chorley,53.6593625,-2.6290356,,,,,,6754221207,node,2026-03-06T09:48:34.158695
+cafes,Crown Cafe,cafe,,"88, Market Street, Chorley, PR7 2SF",PR7 2SF,Chorley,53.6515315,-2.6320155,,,,,,6755846347,node,2026-03-06T09:48:34.158708
+cafes,Coffee Shack,cafe,,"92, Market Street, Chorley, PR7 2SF",PR7 2SF,Chorley,53.6514329,-2.6319948,,,,,,6755846349,node,2026-03-06T09:48:34.158714
+cafes,Teas To Please,cafe,tea;cake;panini;sandwich;salad,"27, Skipton Road, Colne, BB8 0NU",BB8 0NU,Colne,53.8592588,-2.162938,+447535924003,http://www.teastoplease.co.uk/,"We-Fr 10:00-17:00, Sa 10:00-15:00",,,6763793444,node,2026-03-06T09:48:34.158721
+cafes,Euxton Deli and Bakery,cafe,,"4, Talbot Row, Chorley, PR7 6HS",PR7 6HS,Chorley,53.6603583,-2.6686464,,,,,,6789155300,node,2026-03-06T09:48:34.158725
+cafes,Beach Bird,cafe,coffee,"240-241, Marine Road Central, Morecambe, LA4 4BJ",LA4 4BJ,Morecambe,54.0725544,-2.8683415,,https://www.beachbird.co.uk/,,,,6792835840,node,2026-03-06T09:48:34.158734
+cafes,The Food Shack,cafe,,"Morecambe, LA4 5DH",LA4 5DH,Morecambe,54.0716861,-2.8658086,,,,,,6818300149,node,2026-03-06T09:48:34.158739
+cafes,Diggles,cafe,,"51, Market Street, Lancaster, LA1 1JG",LA1 1JG,Lancaster,54.048661,-2.8021382,+44 1524 841841,https://www.diggles.co.uk/,,,limited,6825244201,node,2026-03-06T09:48:34.158742
+cafes,Starbucks,cafe,,,,,53.7788986,-2.8959844,,,,,,6906507482,node,2026-03-06T09:48:34.158746
+cafes,The Tea Room,cafe,,,,,53.7800005,-2.8970459,,,,,yes,6906531112,node,2026-03-06T09:48:34.158748
+cafes,one sixty,cafe,,"160, St James's Street, Burnley",,Burnley,53.7896132,-2.2476093,,,,,,6919016720,node,2026-03-06T09:48:34.158751
+cafes,M&S Cafe,cafe,,"30-38, Penny Street, Lancaster, LA1 1UA",LA1 1UA,Lancaster,54.0477342,-2.8001911,,,,,,6980199681,node,2026-03-06T09:48:34.158754
+cafes,Tiny Teacups,cafe,,"Cotton Mill Road, Preston, PR5 6LF",PR5 6LF,Preston,53.72966,-2.6592875,,,,,,7001605797,node,2026-03-06T09:48:34.158762
+cafes,Replenish Kitchen,cafe,,"Mannin Way, Lancaster, LA1 3SW",LA1 3SW,Lancaster,54.0679587,-2.7784459,,https://replenishkitchen.co.uk/,,,,7011124549,node,2026-03-06T09:48:34.158774
+cafes,Keegans,cafe,coffee_shop;sandwich;salad,"14a, Poulton Square, Morecambe, LA4 5PZ",LA4 5PZ,Morecambe,54.0738483,-2.8584342,+44 1524 411473,,,,,7216185404,node,2026-03-06T09:48:34.158786
+cafes,Costa Drive Thru,cafe,coffee_shop,PR2 9BQ,PR2 9BQ,,53.7974968,-2.6932343,,https://www.costa.co.uk/locations?latitude=53.79742&longitude=-2.693278,Mo-Fr 06:00-20:00; Sa 07:00-19:00; Su 08:00-19:00,,yes,7296540001,node,2026-03-06T09:48:34.158793
+cafes,noggarth cafe,cafe,coffee_shop,,,,53.8500691,-2.2459838,,,,,,7489704589,node,2026-03-06T09:48:34.158797
+cafes,Asda Café,cafe,coffee_shop,,,,53.7564755,-2.3722476,+44 1254 301111,https://storelocator.asda.com/north-west/accrington/hyndburn-road/cafe,Mo-Sa 08:30-18:00; Su 10:00-16:00,,,7497107209,node,2026-03-06T09:48:34.158801
+cafes,Asda Café,cafe,coffee_shop,"Bolton Street, Chorley, PR7 3DL",PR7 3DL,Chorley,53.6481198,-2.6309413,+44 1257 429594,https://storelocator.asda.com/north-west/chorley/bolton-street/cafe,Mo-Sa 08:30-18:00; Su 10:00-16:00,,,7497210369,node,2026-03-06T09:48:34.158807
+cafes,Asda Café,cafe,coffee_shop,"Princess Way, Burnley, BB12 0EQ",BB12 0EQ,Burnley,53.7951096,-2.2447034,+44 1282 450033,https://storelocator.asda.com/north-west/burnley/princess-way/cafe,Mo-Sa 08:30-18:00; Su 10:00-16:00,,,7497223030,node,2026-03-06T09:48:34.158820
+cafes,Asda Café,cafe,,,,,53.8494118,-2.1975741,+44 1282 870156,https://storelocator.asda.com/north-west/colne/unit-1-swinden-retail-park/cafe,Mo-Sa 08:30-18:00; Su 10:00-16:00,,,7497235421,node,2026-03-06T09:48:34.158823
+cafes,Asda Café,cafe,coffee_shop,"Dane Street, OL12 6XT",OL12 6XT,,53.6158555,-2.1642182,+44 1706 354462,https://storelocator.asda.com/north-west/rochdale/the-old-cricket-ground-dane-street/cafe,Mo-Sa 08:30-18:00; Su 10:00-16:00,,,7499348873,node,2026-03-06T09:48:34.158827
+cafes,Asda Café,cafe,coffee_shop,"Holly Mount Way, Rossendale, BB4 8EE",BB4 8EE,Rossendale,53.7034074,-2.2865293,+44 1706 242400,https://storelocator.asda.com/north-west/rossendale/hollymount-way/cafe,Mo-Sa 08:30-18:00; Su 10:00-16:00,,,7499458650,node,2026-03-06T09:48:34.158830
+cafes,Boiler House Cafe,cafe,,,,,53.8678462,-2.3944793,,,,,,7526556659,node,2026-03-06T09:48:34.158839
+cafes,Wild Bean Cafe,cafe,coffee_shop,,,,53.8820258,-2.781522,,,,,,7537076086,node,2026-03-06T09:48:34.158848
+cafes,Stone Jetty Cafe,cafe,,"Marine Road Central, Morecambe, LA4 4NJ",LA4 4NJ,Morecambe,54.0744177,-2.8783603,,https://thestonejettycafe.co.uk/,,,,7574922871,node,2026-03-06T09:48:34.158852
+cafes,Buccelli's,cafe,italian,"29, Church Street, Lancaster, LA1 1LP",LA1 1LP,Lancaster,54.0494695,-2.8002819,,,"Tu,We 10:00-16:00; Th-Sa 10:00-22:00; Su,Mo off",,,7580988351,node,2026-03-06T09:48:34.158856
+cafes,Lewis's @ No 23 Café,cafe,,"23, New Street, Lancaster, LA1 1EG",LA1 1EG,Lancaster,54.0491579,-2.8019154,,,,,,7580988376,node,2026-03-06T09:48:34.158858
+cafes,Cheyette's Coffee Bar,cafe,coffee_shop;afternoon_tea;cake,"Hest Bank, LA2 6EQ",LA2 6EQ,Hest Bank,54.0872573,-2.8209917,,,Mo-Fr 09:00-15:00; Sa-Su 09:00-16:00,,,7600614451,node,2026-03-06T09:48:34.158861
+cafes,Whins,cafe,,"Whins Lane, Chorley, PR6 8HN",PR6 8HN,Chorley,53.691873,-2.6032957,,,,,yes,7606369125,node,2026-03-06T09:48:34.158871
+cafes,Baileys Tea Shop,cafe,,"49, Bridge Street, Bury, BL0 9AD",BL0 9AD,Bury,53.6487042,-2.3179439,,,,,,7609767601,node,2026-03-06T09:48:34.158876
+cafes,Chocolate Works,cafe,,,,,53.872374,-2.3912875,,,,,,7617576814,node,2026-03-06T09:48:34.158880
+cafes,Jungle,cafe,,,,,53.8709502,-2.3919293,,,,,,7726653068,node,2026-03-06T09:48:34.158882
+cafes,Ice And Spice,cafe,,,,,53.8730825,-2.3925686,+44 1200 425888,,,,,7746888044,node,2026-03-06T09:48:34.158890
+cafes,Owd Barn,cafe,,,,,53.6190273,-2.7882697,,,,,,7766245783,node,2026-03-06T09:48:34.158895
+cafes,Bridge 64 Cafe Bar,cafe,regional;burger;coffee_shop;ice_cream;fish_and_chips,"Nateby Crossing Lane, Preston, PR3 0JJ",PR3 0JJ,Preston,53.9035474,-2.7894474,+44 1995 606 704,https://bridge64cafebar.co.uk/,,,yes,7844167966,node,2026-03-06T09:48:34.158909
+cafes,The Cow Shed,cafe,"coffee_shop, ice_cream",,,,53.7490141,-2.7339153,,,,,,7856525788,node,2026-03-06T09:48:34.158912
+cafes,Bread & Butter,cafe,,"10, Liverpool Road, Penwortham",,Penwortham,53.7501695,-2.7289652,+441772745457,https://www.sugarvine.com/restaurant/bread-butter-preston/,,,,7856525800,node,2026-03-06T09:48:34.158916
+cafes,Costa,cafe,coffee_shop,"62, Liverpool Road, Preston, PR1 0DQ",PR1 0DQ,Preston,53.749291,-2.7342869,,,,,,7856525812,node,2026-03-06T09:48:34.158919
+cafes,Bon Bons Coffee Bar,cafe,,,,,53.7496268,-2.7329921,,https://www.bonbonscoffeebar.co.uk/,,,,7856525819,node,2026-03-06T09:48:34.158923
+cafes,No. 15 Café House,cafe,coffee_shop,"15, Priory Lane, Preston, PR1 0AR",PR1 0AR,Preston,53.7509495,-2.729669,,https://macmillansgifts.co.uk/no15-cafe-house/,,,,7860564141,node,2026-03-06T09:48:34.158933
+cafes,Massa's Dessert Cafe Bar,cafe,ice_cream,"3, Cunliffe Street, Chorley, PR7 2BA",PR7 2BA,Chorley,53.6508336,-2.6311753,,,,,,7950820750,node,2026-03-06T09:48:34.158937
+cafes,The Creative Cactus,cafe,,"4 & 5, The Victorian Arcade, Accrington, BB5 2EL",BB5 2EL,Accrington,53.7522119,-2.3640322,,https://www.thecreativecafe.co.uk,,,,8002900478,node,2026-03-06T09:48:34.158940
+cafes,The Butty Hut,cafe,,,,,53.9482422,-2.7765206,,,,,,8058601578,node,2026-03-06T09:48:34.158947
+cafes,The Blue House,cafe,,"129, Market Street, Chorley, PR7 2SG",PR7 2SG,Chorley,53.6506631,-2.6313738,,,,,,8146804101,node,2026-03-06T09:48:34.158950
+cafes,Tiam Tea,cafe,bubble_tea,"56, Penny Street, Lancaster, LA1 1XF",LA1 1XF,Lancaster,54.0471058,-2.7999651,+44 1524 380441,,We-Mo 12:30-21:00; Tu off,,,8335637404,node,2026-03-06T09:48:34.158959
+cafes,Valley Coffee,cafe,coffee_shop,"Fourfields, Preston, PR5 6GS",PR5 6GS,Preston,53.7337227,-2.6621688,+44 1772 696717,https://valleycoffee.eu/,Mo-Fr 09:00-17:00; Sa 10:00-16:00; Su 10:00-14:00; PH 10:00-16:00,,,8341533302,node,2026-03-06T09:48:34.158965
+cafes,Jo-N-Lees Cafe,cafe,,"18, Glentworth Road West, Morecambe, LA4 4SZ",LA4 4SZ,Morecambe,54.0616049,-2.8527601,,,,,,8512097503,node,2026-03-06T09:48:34.158968
+cafes,Tracy's Pies and Cakes,cafe,,"44, Main Street, Heysham, LA3 2RW",LA3 2RW,Heysham,54.0458389,-2.899774,,,,,,8514827540,node,2026-03-06T09:48:34.158971
+cafes,Starbucks,cafe,coffee_shop,,,,53.7623307,-2.7341373,,https://www.starbucks.com/store-locator/store/1029354/preston-mariners-way-dt-mariners-way-preston-eng-pr-2-2-yn-gb,,,,8582689848,node,2026-03-06T09:48:34.158974
+cafes,Costa,cafe,coffee_shop,"ExtraMSA Blackburn with Darwen Services, Darwen, BB3 0AT",BB3 0AT,Darwen,53.7127284,-2.4774583,,,24/7,,,8618218321,node,2026-03-06T09:48:34.158977
+cafes,Spout House Farm Tearoom,cafe,,"Blackburn Road, Chorley, PR6 8HS",PR6 8HS,Chorley,53.6942076,-2.5962665,+44 7769684494,,Fr 10:00-17:00; Sa 10:00-16:00; Su 11:00-16:00,,,8786406563,node,2026-03-06T09:48:34.158980
+cafes,Shisha,cafe,,,,,53.7589868,-2.6938806,,,,,,8806654412,node,2026-03-06T09:48:34.158989
+cafes,Healey Dell Heritage Centre & Tea Rooms,cafe,,,,,53.6354544,-2.1839011,,,,,,8809286317,node,2026-03-06T09:48:34.158999
+cafes,Clementine,cafe,,,,,53.6527217,-2.6312472,,,,,,8818252401,node,2026-03-06T09:48:34.159002
+cafes,Grow Kitchen,cafe,,"Queen Street, Morecambe, LA4 5EG",LA4 5EG,Morecambe,54.073348,-2.864901,,,,,,8901785450,node,2026-03-06T09:48:34.159005
+cafes,Catherine's On The Crescent,cafe,,"35a, Princes Crescent, Morecambe, LA4 6BY",LA4 6BY,Morecambe,54.0781781,-2.8394693,,,,,,8927254302,node,2026-03-06T09:48:34.159008
+cafes,Cafe Latte,cafe,coffee_shop,"61, Union Street, Chorley, PR7 1AB",PR7 1AB,Chorley,53.6546698,-2.6299121,+44 1257 806442,https://www.caffelatte-chorley.co.uk/,Mo-Fr 09:00-16:00; Sa 09:00-17:00; Su 10:00-16:00,,,8941042195,node,2026-03-06T09:48:34.159012
+cafes,Snig Hole Snacks,cafe,,,,,53.6839174,-2.3289583,,,,,,8969244664,node,2026-03-06T09:48:34.159021
+cafes,Journey Social Kitchen,cafe,coffee_shop;brunch,"28, New Street, Lancaster, LA1 1EG",LA1 1EG,Lancaster,54.0490744,-2.8021532,,https://www.journeysocial.co.uk/,,,,9006177348,node,2026-03-06T09:48:34.159025
+cafes,Little Barista,cafe,coffee_shop,"7, Burnley, BB11 1QB",BB11 1QB,Burnley,53.7895137,-2.2434068,,,,,,9026508717,node,2026-03-06T09:48:34.159029
+cafes,U Bercika,cafe,,"69, Ribbleton Avenue, Preston, PR1 5RX",PR1 5RX,Preston,53.7699064,-2.6727113,,,,,,9104838779,node,2026-03-06T09:48:34.159032
+cafes,Miller Road Cafe,cafe,,"154, Miller Road, Preston, PR1 5QS",PR1 5QS,Preston,53.7684067,-2.6690072,,,,,,9104838780,node,2026-03-06T09:48:34.159035
+cafes,Nanny Nancy's,cafe,,"Pope Lane, Preston, PR2 6JN",PR2 6JN,Preston,53.7737085,-2.6517788,,,,,,9104838788,node,2026-03-06T09:48:34.159043
+cafes,New Hall Lane Cafe,cafe,,"238, New Hall Lane, Preston, PR1 4ST",PR1 4ST,Preston,53.7636814,-2.6742724,,,,,,9105116667,node,2026-03-06T09:48:34.159053
+cafes,Raffles Cafe Bar,cafe,,"29,31, Friargate Walk, Preston, PR1 2NQ",PR1 2NQ,Preston,53.7589048,-2.7018254,,,,,,9108728296,node,2026-03-06T09:48:34.159057
+cafes,Taco & Tequila Co,cafe,,"22, Lancaster Road, Preston, PR1 1DA",PR1 1DA,Preston,53.7591085,-2.697566,,,,,,9108728300,node,2026-03-06T09:48:34.159059
+cafes,Valley View Tea Pod,cafe,,,,,53.6179883,-2.2590758,,,Sa-Su 11:00-15:00,,,9161331170,node,2026-03-06T09:48:34.159066
+cafes,Buckhurst Lodgeside,cafe,,,,,53.6337585,-2.2720523,,https://www.facebook.com/buckhurst.lodgeside,"Mo-Tu 11:30-14:30, Th-Fr 11:30-14:30; Sa-Su 10:30-15:00",,,9168202487,node,2026-03-06T09:48:34.159069
+cafes,Gallico Lounge,cafe,,"9, Market Street, Lancaster, LA1 1HZ",LA1 1HZ,Lancaster,54.0486673,-2.8003064,,https://thelounges.co.uk/gallico/,"Su-Th 09:00-22:00; Fr,Sa 09:00-23:00",,yes,9222504864,node,2026-03-06T09:48:34.159079
+cafes,The Chequered Flag,cafe,,,,,53.6980041,-2.6997339,,,,,,9303664890,node,2026-03-06T09:48:34.159084
+cafes,The Pavilion Cafe,cafe,,"Alkincoats Road, Colne, BB8 9QQ",BB8 9QQ,Colne,53.8598351,-2.181513,+441282863520,,Mo-Su 09:30-15:00,,,9421273055,node,2026-03-06T09:48:34.159088
+cafes,The Artisan Deli,cafe,,"58, Liverpool Road, Preston, PR1 0DQ",PR1 0DQ,Preston,53.7493057,-2.7341951,,,,,,9438878342,node,2026-03-06T09:48:34.159091
+cafes,Milk Kit Cafe,cafe,coffee;cake,,,,54.0324909,-2.7894157,,https://bartonroadcentre.co.uk/,"Tu,We,Th 10:00-16:00",,yes,9506024823,node,2026-03-06T09:48:34.159099
+cafes,Café Martineau,cafe,,"Bowerham Road, Lancaster, LA1 3JD",LA1 3JD,Lancaster,54.041349,-2.7863903,,,,,,9543301223,node,2026-03-06T09:48:34.159108
+cafes,Tesco Cafe,cafe,,"Foxhole Road, Chorley, PR7 1NW",PR7 1NW,Chorley,53.6564186,-2.6588399,,https://www.tesco.com/store-locator/chorley/ackhurst-park-industrial-estate/cafe,Mo-Sa 08:00-17:00; Su 10:00-16:00,,,9583774324,node,2026-03-06T09:48:34.159113
+cafes,Attermire Café/Bar,cafe,breakfast,"Market Place, Settle, BD24 9EF",BD24 9EF,Settle,54.0691804,-2.2771373,,,Mo off; Tu-Th 09:00-17:00; Fr-Sa 09:00-21:30; Su 10:00-16:30,,,9635395613,node,2026-03-06T09:48:34.159116
+cafes,the canteen,cafe,,,,,54.0648048,-2.2762193,,,,,,9709809718,node,2026-03-06T09:48:34.159119
+cafes,The Red Door Cafe,cafe,,"Church Brow, Halton, LA2 6LS",LA2 6LS,Halton,54.0760161,-2.7663113,,,,,,9782220833,node,2026-03-06T09:48:34.159122
+cafes,Starbucks,cafe,coffee_shop,"Preston Road, Chorley, PR7 1PW",PR7 1PW,Chorley,53.6619977,-2.6313852,,https://www.starbucks.com/store-locator/store/1033492/chorley-preston-road-dt-preston-road-chorley-eng-pr-7-1-pw-gb,Mo-Fr 06:30-21:00; Sa 07:00-21:00; Su 08:00-20:00,,,9823100491,node,2026-03-06T09:48:34.159132
+cafes,Riverside Café,cafe,,,,,53.8598159,-2.7466152,,,,,,9846901345,node,2026-03-06T09:48:34.159141
+cafes,Morrisons Cafe,cafe,,"Hilmore Way, Morecambe, LA4 4DD",LA4 4DD,Morecambe,54.0696708,-2.8738824,,,,,,9876991959,node,2026-03-06T09:48:34.159144
+cafes,Cuerdon View Cafe,cafe,,,,,53.7083007,-2.6596785,,,,,yes,9995398360,node,2026-03-06T09:48:34.159147
+cafes,Scof,cafe,,"98, Friargate, Preston, PR1 2ED",PR1 2ED,Preston,53.7620893,-2.7057872,,https://scof.business.site,,,,10012404430,node,2026-03-06T09:48:34.159155
+cafes,The Village Tearoom,cafe,,"202, Blackburn Road, Chorley, PR6 8EY",PR6 8EY,Chorley,53.6856047,-2.60656,,,"We-Fr 09:00-16:30, Su 10:00-16:30, Fr 09:00-16:30",,,10039697410,node,2026-03-06T09:48:34.159158
+cafes,Positive Futures Cafe,cafe,,"South Road, Lancaster, LA1 4XQ",LA1 4XQ,Lancaster,54.0452576,-2.7970656,,http://www.mypositivefuture.net/cafe.html,,,,10049526008,node,2026-03-06T09:48:34.159185
+cafes,Bygone Times Cafe,cafe,,"Chorley, PR7 5TZ",PR7 5TZ,Chorley,53.6413662,-2.7209956,,,,,,10132593137,node,2026-03-06T09:48:34.159192
+cafes,Pausa,cafe,coffee_shop,"Mellishaw Lane, Morecambe, LA3 3FE",LA3 3FE,Morecambe,54.0541303,-2.84564,,,,,,10141224280,node,2026-03-06T09:48:34.159202
+cafes,Kimji,cafe,korean,"Winckley Street, Preston, PR1 2AA",PR1 2AA,Preston,53.7571883,-2.7020453,,,,,,10182521444,node,2026-03-06T09:48:34.159207
+cafes,Noah's Ark Kitchen & Deli,cafe,,"104, Chorley Road, Chorley, PR6 9LG",PR6 9LG,Chorley,53.6191394,-2.6004285,,,,,,10188731459,node,2026-03-06T09:48:34.159210
+cafes,The Stables Cafe,cafe,,,,,53.6920145,-2.2015047,,,,,,10222482190,node,2026-03-06T09:48:34.159213
+cafes,Rhode Island Coffee,cafe,,,,,53.6534518,-2.63061,,,Mo-Sa 08:00-17:00; Su 10:00-16:00,,,10595247003,node,2026-03-06T09:48:34.159220
+cafes,Little Town Dairy,cafe,coffee_shop;ice_cream,,,,53.8477529,-2.5974973,+44 1772 782429,https://littletowndairy.co.uk/,,,,10610583457,node,2026-03-06T09:48:34.159223
+cafes,Bowland Bikes CIC,cafe,coffee_shop;regional,"Taylor Street, Clitheroe, BB7 1LY",BB7 1LY,Clitheroe,53.8718641,-2.386984,+44 1200 871271,https://bowlandbikescic.co.uk/,,,,10612018883,node,2026-03-06T09:48:34.159238
+cafes,Pudding & Pie Cafe,cafe,,"16, Poulton Street, Preston, PR4 2AB",PR4 2AB,Preston,53.7825921,-2.8720719,,,,,,10688517790,node,2026-03-06T09:48:34.159243
+cafes,Le Feast,cafe,coffee_shop,,,,53.6102736,-2.1534927,,https://www.lefeast.co.uk,,,,10700248644,node,2026-03-06T09:48:34.159246
+cafes,Costa Coffee,cafe,,"39-41, Poulton Street, Preston, PR4 2AA",PR4 2AA,Preston,53.7822078,-2.8732413,,,,,,10704237613,node,2026-03-06T09:48:34.159249
+cafes,Lizzie's,cafe,,"Kirkgate, Preston, PR4 2UJ",PR4 2UJ,Preston,53.782024,-2.873193,,,,,,10704237614,node,2026-03-06T09:48:34.159252
+cafes,3 Peaks Cycles,cafe,,"Market Place, Settle, BD24 9EJ",BD24 9EJ,Settle,54.0686582,-2.2763405,,https://www.3peakscycles.com/pages/cafe/,,,,10828142396,node,2026-03-06T09:48:34.159260
+cafes,The Wonky Cake Cafe,cafe,,"Settle, BD24 9EB",BD24 9EB,Settle,54.0687007,-2.2781178,,,,,,10828142399,node,2026-03-06T09:48:34.159270
+cafes,Costa,cafe,coffee_shop,"Kingsway, OL16 5AF",OL16 5AF,,53.6153844,-2.1297158,,https://www.costa.co.uk,Mo-Fr 07:30-18:30; Sa 08:00-18:00; Su 08:30-16:30,,,10904953149,node,2026-03-06T09:48:34.159273
+cafes,River Beal Cafe,cafe,,"14, Ladybarn Lane, OL16 4GQ",OL16 4GQ,,53.608344,-2.1133711,,,,,,10909146301,node,2026-03-06T09:48:34.159276
+cafes,Lathams The Bakers,cafe,,"Mark Square, Preston, PR4 6TU",PR4 6TU,Preston,53.6798597,-2.8312339,,,,,,10951460921,node,2026-03-06T09:48:34.159279
+cafes,Boskins,cafe,,,,,53.6800051,-2.8294194,,,,,,10951609544,node,2026-03-06T09:48:34.159289
+cafes,1847,cafe,,,,,53.6983659,-2.8377664,,,,,,10963625678,node,2026-03-06T09:48:34.159299
+cafes,Poppins,cafe,ice_cream,"19, Station Road, Hesketh Bank, PR4 6SN",PR4 6SN,Hesketh Bank,53.6983548,-2.8387052,,,,,,10963625694,node,2026-03-06T09:48:34.159303
+cafes,Miss Victoria’s Refreshment Gardens,cafe,,Settle,,Settle,54.069131,-2.2789738,,,,,,10968066812,node,2026-03-06T09:48:34.159306
+cafes,The Old Vicarage Tearoom,cafe,,"Skipton, BD23 4SQ",BD23 4SQ,Skipton,54.0002292,-2.352625,,,,,,10990451458,node,2026-03-06T09:48:34.159309
+cafes,Brew Me Sunshine,cafe,,"Victoria Street, Morecambe, LA4 4AH",LA4 4AH,Morecambe,54.0719397,-2.8671667,,,,,,11030920883,node,2026-03-06T09:48:34.159312
+cafes,Starbucks,cafe,coffee_shop,,,,53.6316301,-2.6903384,,https://www.starbucks.com/store-locator/store/19075/charnock-south-welcome-break-m-6-motorway-northbound-junction-27-28-mill-lane-c,,,,11091091240,node,2026-03-06T09:48:34.159320
+cafes,Orchid,cafe,,,,,53.8247649,-2.2343905,,https://www.instagram.com/orchidcafebrierfield/,Mo-Fr 09:00-23:00,,,11200328619,node,2026-03-06T09:48:34.159327
+cafes,Settle Swimming Pool Cafe,cafe,,,,,54.0734014,-2.2840748,,,,,,11254882165,node,2026-03-06T09:48:34.159329
+cafes,Wild fox Distillery,cafe,,,,,53.8631478,-2.681537,,,,,,11274511769,node,2026-03-06T09:48:34.159332
+cafes,Heavenly Desserts,cafe,,,,,53.7503841,-2.4863675,,,"Mo-Th 16:00-11:30, Fr-Su 12:00-11:30",,,11279643507,node,2026-03-06T09:48:34.159340
+cafes,The Chippery,cafe,,,,,53.7477163,-2.4848226,,,,,,11282353378,node,2026-03-06T09:48:34.159342
+cafes,Bubbles & Boba,cafe,,,,,53.748668,-2.4841279,,,,,,11282353394,node,2026-03-06T09:48:34.159349
+cafes,Rhode Island Coffee,cafe,,,,,53.7482897,-2.4836035,,,,,,11282353401,node,2026-03-06T09:48:34.159356
+cafes,Kings Castle,cafe,,,,,53.7458641,-2.4821511,,,,,,11283914021,node,2026-03-06T09:48:34.159359
+cafes,Knead & Grind,cafe,,"7, Castle Gate, Clitheroe, BB7 1AZ",BB7 1AZ,Clitheroe,53.8713498,-2.3919791,,,,,,11510447893,node,2026-03-06T09:48:34.159362
+cafes,Brioche,cafe,,,,,53.872633,-2.3901947,,,,,,11510447917,node,2026-03-06T09:48:34.159365
+cafes,Starbucks,cafe,coffee_shop,,,,53.7081066,-2.643957,,https://www.starbucks.co.uk/store-locator/77814-306984,,,,11569419140,node,2026-03-06T09:48:34.159368
+cafes,Bees Kitchen & Deli,cafe,,"Fleet Street, Chorley, PR7 2EE",PR7 2EE,Chorley,53.650107,-2.6325761,,,,,,11577380234,node,2026-03-06T09:48:34.159371
+cafes,Exchange Coffee Company,cafe,,,,,53.8204118,-2.4092889,,,,,,11649406606,node,2026-03-06T09:48:34.159373
+cafes,Roberts & Co,cafe,coffee_shop,,,,53.6202149,-2.7660597,,https://www.e-coffee.co.uk/,,,,11687884809,node,2026-03-06T09:48:34.159388
+cafes,The Kitchen Garden,cafe,,"West Marton Lodge, Skipton, BD23 3UA",BD23 3UA,Skipton,53.9498983,-2.1640848,,https://www.thekitchengarden.uk/,Th-Mo 09:30-15:30,,,11930619366,node,2026-03-06T09:48:34.159393
+cafes,Chun Cha,cafe,tea_shop,,,,53.7575056,-2.7058267,,,,,,11948940562,node,2026-03-06T09:48:34.159396
+cafes,Cafuné,cafe,,"35, Market Place, Preston, PR1 2AR",PR1 2AR,Preston,53.7591327,-2.6996601,,https://cafune.co.uk,Mo-Fr 08:30-16:30; Sa 09:00-16:30; Su 10:00-15:00,,,11948944270,node,2026-03-06T09:48:34.159399
+cafes,The Caff,cafe,,,,,53.7291477,-2.4979014,,,,,,12004882005,node,2026-03-06T09:48:34.159401
+cafes,Bold,cafe,coffee_shop,"2B, Station Road, Hest Bank, LA2 6HP",LA2 6HP,Hest Bank,54.0911294,-2.813859,,,,,,12076642374,node,2026-03-06T09:48:34.159406
+cafes,Booths Cafe,cafe,,,,,53.9013711,-2.7761696,,https://booths.co.uk,,,,12120741775,node,2026-03-06T09:48:34.159415
+cafes,Hugo's Bistro,cafe,,,,,53.8986621,-2.7733298,+44 1995 262199,,Mo-We off; Th-Sa 12:00-21:00; Su 12:00-19:00,,,12149982856,node,2026-03-06T09:48:34.159419
+cafes,Queen's Park Café,cafe,,"158, Queens Park Road",,,53.6002955,-2.2158662,,,,,,12241759176,node,2026-03-06T09:48:34.159422
+cafes,The Green Community Café,cafe,,,,,53.6046209,-2.2896239,,https://www.thegreencommunitycafe.co.uk/,Mo-Th 10:30-14:30; Fr 11:00- 13:00; Sa 08:30 - 13:00,,,12289811518,node,2026-03-06T09:48:34.159425
+cafes,The Village Store,cafe,,"414, Holcombe Road, Helmshore, BB4 4LX",BB4 4LX,Helmshore,53.6851974,-2.3333048,+441706215758,,,,,12291989274,node,2026-03-06T09:48:34.159432
+cafes,Costa Drive Thru,cafe,,,,,53.7559981,-2.3790711,,,,,,12396896026,node,2026-03-06T09:48:34.159441
+cafes,RVS Café,cafe,tea;coffee_shop;sandwich,"Ashton Road, Lancaster, LA1 4RP",LA1 4RP,Lancaster,54.0429137,-2.7987694,,,,,,12405615167,node,2026-03-06T09:48:34.159447
+cafes,Queen Victoria Tea Bar,cafe,tea;coffee_shop,"Thornton Road, Morecambe, LA4 5NN",LA4 5NN,Morecambe,54.0729507,-2.8586276,,,,,,12405775006,node,2026-03-06T09:48:34.159450
+cafes,Coffee in the Cave,cafe,coffee_shop,"Market Place, Settle, BD24 9EJ",BD24 9EJ,Settle,54.0686008,-2.2769604,,,,,,12457221752,node,2026-03-06T09:48:34.159457
+cafes,Lower Point Marina,cafe,,"Barnoldswick, BB18 5TB",BB18 5TB,Barnoldswick,53.9127331,-2.1747592,,,,,,12469771379,node,2026-03-06T09:48:34.159462
+cafes,GG's Cafe,cafe,,"Kelbrook Road, Barnoldswick, BB18 5TB",BB18 5TB,Barnoldswick,53.9133685,-2.1816995,,https://brand.page/ggscafewestcravensportscentre,,,,12469771380,node,2026-03-06T09:48:34.159473
+cafes,Cotton Weavers Cafe,cafe,,,,,53.6889989,-2.101784,,https://www.gordonrigg.com/our-stores/todmorden-cotton-weavers-cafe/,,,,12554892302,node,2026-03-06T09:48:34.159477
+cafes,Great House Barn Tea Room,cafe,,,,,53.6201806,-2.562777,,https://www.rivingtonhallbarn.co.uk/great-house-barn/,24/7; Mo-Sa 10:00-16:30,,yes,12573691889,node,2026-03-06T09:48:34.159480
+cafes,The Rainbow Centre Cafe,cafe,sandwich;soup;tea;cake;coffee,"Clarence Street, Morecambe, LA4 5EX",LA4 5EX,Morecambe,54.0733495,-2.8637157,,,Mo-Th,,,12607365060,node,2026-03-06T09:48:34.159483
+cafes,Salt & Pepper,cafe,,"222, Spendmore Lane, Chorley, PR7 5BZ",PR7 5BZ,Chorley,53.6216387,-2.6639526,,,,,,12654197052,node,2026-03-06T09:48:34.159490
+cafes,Morrisons,cafe,coffee_shop,,,,53.699825,-2.694833,,,Mo-Sa 08:00-16:00; Su 09:30-16:00,,yes,12696909276,node,2026-03-06T09:48:34.159496
+cafes,Oliver's Cafe,cafe,,"Central Drive, Morecambe, LA4 4DW",LA4 4DW,Morecambe,54.0712927,-2.873315,,,,,,12697546048,node,2026-03-06T09:48:34.159505
+cafes,Star Cafe,cafe,,"Central Drive, Morecambe, LA4 4DW",LA4 4DW,Morecambe,54.0711866,-2.8732391,,,,,,12697546049,node,2026-03-06T09:48:34.159508
+cafes,Cobblers Bar & Bistro,cafe,,"6, High Street, PR3 1ZA",PR3 1ZA,,53.9003395,-2.774216,+44 1995 604436,https://www.cobblersbarandbistro.co.uk/,Mo-We 09:30-17:00; Th 09:30-22:00; Fr-Sa 09:30-23:00; Su off,,,12745210493,node,2026-03-06T09:48:34.159511
+cafes,Cafe Mila,cafe,,"65, Church Street, PR3 1YA",PR3 1YA,,53.8999892,-2.7750503,+44 1995 676721,https://www.cafe-mila.co.uk/,"Mo off; Tu-Th 10:00-15:00; Fr 10:00-15:00,17:00-20:00; Sa 09:30-15:00; Su 09:30-13:30",,,12745268809,node,2026-03-06T09:48:34.159514
+cafes,Garstang Deli Cafe,cafe,,PR3 1ZA,PR3 1ZA,,53.9001075,-2.7742997,+44 1995 603330,,Mo 10:00-15:00; Tu off; We 10:00-14:00; Th-Sa 09:30-15:00,,,12750439178,node,2026-03-06T09:48:34.159517
+cafes,Toll Bar Cottage Cafe & Meeting Rooms,cafe,,"Garstang Road, PR3 5JB",PR3 5JB,,53.8091795,-2.7229572,+44 1772 356399,https://www.broughtonparishcc.org.uk/,Mo off; Tu-Fr 10:00-14:00; Sa 09:00-13:00,,,12769216250,node,2026-03-06T09:48:34.159520
+cafes,The Pike Snack Shack @ Dudley's,cafe,,"George's Lane, BL6 6RU",BL6 6RU,,53.6137875,-2.5323029,,,,,,12806201050,node,2026-03-06T09:48:34.159527
+cafes,Costa Coffee,cafe,coffee_shop,,,,53.6720481,-2.6207316,,,Mo-Sa 05:30-21:00; Su 07:00-20:00,,yes,12817393558,node,2026-03-06T09:48:34.159535
+cafes,The Village Teapot,cafe,,"63, Liverpool Old Road, Preston, PR4 5QA",PR4 5QA,Preston,53.7126183,-2.7894645,,,,,,12967557361,node,2026-03-06T09:48:34.159544
+cafes,Booth's Cafe,cafe,,"256-270, Sharoe Green Lane, PR2 9HD",PR2 9HD,,53.792358,-2.7061423,,,Mo-Sa 07:00-17:00; Su 09:30-16:00,,,12972060260,node,2026-03-06T09:48:34.159547
+cafes,Cafe 65,cafe,,"65, Berry Lane",,,53.8324986,-2.6055014,+44 1772 237661,https://www.65scafelongridge.co.uk/,"Mo-Th,Sa 07:30-15:00; Fr 07:30-16:00; Su off",,,13017756776,node,2026-03-06T09:48:34.159550
+cafes,Old Station Cafe,cafe,,"Berry Lane, PR3 3JP",PR3 3JP,,53.8314985,-2.6038457,+44 1772 780544,https://www.theoldstationcafe.com/,Mo-Sa 09:00-16:00; Su off,,,13017756800,node,2026-03-06T09:48:34.159556
+cafes,Starbucks,cafe,coffee_shop,,,,53.6312944,-2.6913913,,,,,,13055113342,node,2026-03-06T09:48:34.159565
+cafes,Knights Table Cafe,cafe,,"Hillam Lane, Cockerham, LA2 0DY",LA2 0DY,Cockerham,53.963543,-2.8354713,,,,,,13143244025,node,2026-03-06T09:48:34.159568
+cafes,Pendle Kitchen at the arcade,cafe,,"Market Street, Colne, BB8 0HX",BB8 0HX,Colne,53.8570764,-2.1679572,,,,,,13159919753,node,2026-03-06T09:48:34.159571
+cafes,Avo Coffee,cafe,,"83, Deardengate, Haslingden",,Haslingden,53.7043032,-2.3261314,,https://avocoffee.co.uk/,,,,13160200092,node,2026-03-06T09:48:34.159573
+cafes,The Velvet Carrot,cafe,,"5, Thomas Weind",,,53.9005749,-2.7748139,+44 7860 651577,https://thevelvetcarrot.com,"Mo off; Tu,Th-Fr 09:00-16:30; We 09:00-13:00; Sa 09:00-16:00; Su 10:00-13:00",,,13231766115,node,2026-03-06T09:48:34.159576
+cafes,Starbucks,cafe,coffee_shop,,,,53.7521781,-2.8811443,,,,,,13245262597,node,2026-03-06T09:48:34.159579
+cafes,Honey Pot,cafe,,"116, Whalley Road, Read, BB12 7PN",BB12 7PN,Read,53.8063075,-2.3554957,+44 1282 943085,,,,,13261846903,node,2026-03-06T09:48:34.159589
+cafes,Parkside Cafe Bar,cafe,,"497, Blackpool Road, PR2 2LE",PR2 2LE,,53.7701015,-2.7314531,+44 1772 384940,https://www.parkside-preston.co.uk/,"Mo,We,Su 09:00-15:00; Tu off; Th 09:00-20:30; Fr-Sa 09:00-21:00",,,13375024690,node,2026-03-06T09:48:34.159598
+cafes,Morrisons Barista Bar,cafe,,,,,53.7620412,-2.7369038,,,,,,56017795,way,2026-03-06T09:48:34.159602
+cafes,Race Cafe,cafe,,"63, Bow Lane, Preston, PR1 8ND",PR1 8ND,Preston,53.7581816,-2.7119647,+44 7810 071019,race-cafe.com,07:00-14:00,,,80859055,way,2026-03-06T09:48:34.159606
+cafes,Final Whistle Cafe,cafe,,"Preston Sports Arena, Preston, PR2 1SG",PR2 1SG,Preston,53.7775393,-2.7558951,,,,,,81327876,way,2026-03-06T09:48:34.159609
+cafes,Trinity Preston,cafe,,"23, Winckley Square, Preston, PR1 3JJ",PR1 3JJ,Preston,53.7563482,-2.7030788,+44 7745 990262,https://www.trinitypreston.co.uk,Mo-Sa 08:00-20:00,,,81404517,way,2026-03-06T09:48:34.159615
+cafes,Costa,cafe,coffee_shop,"Queen Street, Preston, PR1 4HZ",PR1 4HZ,Preston,53.7604898,-2.6885026,,,,,,81404696,way,2026-03-06T09:48:34.159623
+cafes,Avenham Pavillion Cafe,cafe,coffee_shop;sandwich,"Avenham Park, Preston, PR1 8JT",PR1 8JT,Preston,53.7522795,-2.701447,,,,,yes,81405380,way,2026-03-06T09:48:34.159627
+cafes,Abbots Harbour,cafe,,,,,53.9556956,-2.1395735,,,,,,87501996,way,2026-03-06T09:48:34.159635
+cafes,The Old Barn Cafe,cafe,,"Chapel Gate, Skipton, BD23 4DA",BD23 4DA,Skipton,54.0603204,-2.1532221,+441729 830486,https://www.oldbarnmalham.co.uk/,,,,118303565,way,2026-03-06T09:48:34.159638
+cafes,White Cottage Tea Room,cafe,,"5, West Street, Skipton, BD23 3RD",BD23 3RD,Skipton,53.9836748,-2.106135,+44 1756 748229,,,,,153866689,way,2026-03-06T09:48:34.159647
+cafes,The Quayside at Glasson Dock,cafe,breakfast;sandwich;jacket_potato;soup;fish_and_chips;burger;ice_cream;tea;coffee,"2A, Tithebarn Hill, Glasson Dock, LA2 0BY",LA2 0BY,Glasson Dock,53.9977966,-2.8487647,,https://www.thequaysideglasson.co.uk/,,,,181595362,way,2026-03-06T09:48:34.159656
+cafes,Peckish,cafe,,,,,53.7713763,-2.6272882,,,,,,189307888,way,2026-03-06T09:48:34.159661
+cafes,Fika Rivington,cafe,coffee_shop;cake,,,,53.6209368,-2.5450381,,https://www.facebook.com/fikarivington/,We-Su 10:00-16:00,,,191150879,way,2026-03-06T09:48:34.159664
+cafes,Pavilion Cafe,cafe,,"Preston Old Road, Blackburn, BB2 2TP",BB2 2TP,Blackburn,53.7404183,-2.516558,,,,,yes,225695887,way,2026-03-06T09:48:34.159667
+cafes,Caffè Nero,cafe,coffee_shop,"168-170, Friargate, Preston, PR1 2EJ",PR1 2EJ,Preston,53.7597722,-2.7011002,,https://www.caffenero.com/uk/stores/preston-friargate,Mo-Fr 07:00-18:30; Sa 08:00-18:30; Su 08:30-17:30,,limited,234321421,way,2026-03-06T09:48:34.159670
+cafes,Wok 2 Eat,cafe,,"17-19, Market Street, Preston, PR1 2EL",PR1 2EL,Preston,53.7599579,-2.7003775,,,,,,236255021,way,2026-03-06T09:48:34.159679
+cafes,Morrisons Cafe,cafe,coffee_shop,,,,53.7478233,-2.4795732,,,,,,272159061,way,2026-03-06T09:48:34.159685
+cafes,Muffins,cafe,,"5B, Town Hall Street, Blackburn, BB2 1AG",BB2 1AG,Blackburn,53.7497499,-2.4852788,,,,,,275817456,way,2026-03-06T09:48:34.159688
+cafes,The Fig And The Olive,cafe,ice_cream,"254, Shear Brow, Blackburn, BB1 8DS",BB1 8DS,Blackburn,53.7616154,-2.4877562,,,,,,294172406,way,2026-03-06T09:48:34.159691
+cafes,The Clove Cafe Bistro,cafe,,"184, Shear Brow, Blackburn, BB1 8DU",BB1 8DU,Blackburn,53.7591443,-2.4870333,,,,,,294423744,way,2026-03-06T09:48:34.159698
+cafes,Lamppost Cafe,cafe,,"Woodhill Road, Bury, BL8 1DA",BL8 1DA,Bury,53.6099931,-2.3050694,,,,,,312095809,way,2026-03-06T09:48:34.159703
+cafes,Stables @ Towneley,cafe,,,,,53.7746959,-2.2224564,,https://historicengland.org.uk/listing/the-list/list-entry/1247302,,,,330265162,way,2026-03-06T09:48:34.159712
+cafes,The Pavilion,cafe,coffee_shop,"Park Road, Chorley, PR7 1NP",PR7 1NP,Chorley,53.6572927,-2.6381378,,,,,,339724391,way,2026-03-06T09:48:34.159716
+cafes,All Aboard,cafe,,"Railway View Road, Clitheroe, BB7 2JT",BB7 2JT,Clitheroe,53.8737225,-2.3941287,,,,,,340430880,way,2026-03-06T09:48:34.159719
+cafes,The Green Jersey Cycling Club,cafe,,,,,53.8718055,-2.3870037,,,,,,341503925,way,2026-03-06T09:48:34.159722
+cafes,Clarion House,cafe,coffee_shop,"Jinny Lane, Burnley, BB12 9LL",BB12 9LL,Burnley,53.852278,-2.2579301,,,Su 10:30-16:00,,,366292090,way,2026-03-06T09:48:34.159724
+cafes,Animal Care Tearoom & Charity Shop,cafe,,"Blea Tarn Road, Lancaster, LA2 0RD",LA2 0RD,Lancaster,54.0250291,-2.7811629,,https://www.animalcare-lancaster.co.uk/content/cafe-and-shop,10:00-15:00,,,370195050,way,2026-03-06T09:48:34.159727
+cafes,Priory,cafe,,The Square,,,53.9329757,-2.7593181,,,Mo-Su 10:00-16:00,,,387157446,way,2026-03-06T09:48:34.159732
+cafes,The Shore Cafe,cafe,,"The Shore, Lancaster, LA2 6HW",LA2 6HW,Lancaster,54.0924328,-2.8140505,,,,,no,389046351,way,2026-03-06T09:48:34.159741
+cafes,Cafe in the Park,cafe,,"Marine Road East, Morecambe, LA4 6AQ",LA4 6AQ,Morecambe,54.0802422,-2.8349792,,,"Mo-Su,PH 10:00-16:00",,,391381783,way,2026-03-06T09:48:34.159750
+cafes,Wallings,cafe,ice_cream;cake;coffee,"Garstang Road, Cockerham, LA2 0HA",LA2 0HA,Cockerham,53.9509166,-2.8085924,+44 1524 793781,https://www.wallings.co.uk/,Mo-Th 10:00-17:00; Fr-Su 10:00-19:00,,,437045006,way,2026-03-06T09:48:34.159753
+cafes,Starbucks,cafe,coffee_shop,,,,53.604128,-2.1701272,,https://www.starbucks.com/store-locator/store/90092/rochdale-manchester-road-dt-manchester-road-rochdale-eng-ol-11-3-pt-gb,,,,446218226,way,2026-03-06T09:48:34.159759
+cafes,Clough Head Visitor Centre,cafe,,,,,53.7042498,-2.3790408,,https://www.visitlancashire.com/things-to-do/clough-head-visitor-centre-p82240,,,,450763771,way,2026-03-06T09:48:34.159769
+cafes,Brambles Café,cafe,,"Ormerod Street, Burnley, BB11 1EP",BB11 1EP,Burnley,53.7882436,-2.2441676,,,,,,488939441,way,2026-03-06T09:48:34.159774
+cafes,Rhode Island Coffee,cafe,,"62, St James's Lane, Burnley, BB11 1NH",BB11 1NH,Burnley,53.7890716,-2.2432247,,https://www.rhodeislandcoffee.co.uk/,,,,504797795,way,2026-03-06T09:48:34.159777
+cafes,Simply Classic,cafe,,,,,53.7959474,-2.3249638,+44 1282 771222,https://simply-classic.com/,,,,558442840,way,2026-03-06T09:48:34.159780
+cafes,Tofos,cafe,brunch;dessert,"9, Common Garden Street, Lancaster, LA1 1XD",LA1 1XD,Lancaster,54.0474342,-2.8002148,,,,,,567856055,way,2026-03-06T09:48:34.159783
+cafes,Pure Vegan,cafe,,"22, Thurnham Street, Lancaster, LA1 1XU",LA1 1XU,Lancaster,54.0460492,-2.7984873,,,,,,567941580,way,2026-03-06T09:48:34.159786
+cafes,My Home Cafe,cafe,hong_kong;taiwanese,"10, Gage Street, Lancaster, LA1 1UH",LA1 1UH,Lancaster,54.0481926,-2.7985958,,,"Tu-Fr 11:00-17:30; Su,Mo off; Sa 11:00-18:00",,,568790521,way,2026-03-06T09:48:34.159795
+cafes,Fresh 'N' Tasty,cafe,,,,,53.6023199,-2.4324031,,,,,,569082399,way,2026-03-06T09:48:34.159809
+cafes,Pumpkin,cafe,coffee_shop,,,,53.7558344,-2.7076752,,,,,,593117782,way,2026-03-06T09:48:34.159813
+cafes,The Old Stables Vintage Tea Rooms,cafe,,"West Street, Chorley, PR7 2SJ",PR7 2SJ,Chorley,53.6522359,-2.6331058,,,,,,595894743,way,2026-03-06T09:48:34.159816
+cafes,Woodies Snack Bar,cafe,,"Low Road, Halton, LA2 6LZ",LA2 6LZ,Halton,54.0768456,-2.7331459,,,Mo-Su 09:00-15:00,,,621433849,way,2026-03-06T09:48:34.159822
+cafes,Healey Dell Heritage Centre & Tea Rooms,cafe,,,,,53.6354613,-2.1838989,,,,,,630362091,way,2026-03-06T09:48:34.159831
+cafes,Eden Café,cafe,,,,,53.6213739,-2.1623176,,,,,,632735802,way,2026-03-06T09:48:34.159834
+cafes,Starbucks,cafe,coffee_shop,,,,53.8398904,-2.3967889,,https://www.starbucks.com/store-locator/store/1017486/clitheroe-barrow-brook-park-barrow-brook-clitheroe-clitheroe-eng-bb-7-9-wf-gb,,,,635726003,way,2026-03-06T09:48:34.159836
+cafes,Starbucks,cafe,coffee_shop,"Matrix Way, Chorley, PR7 7ND",PR7 7ND,Chorley,53.6864603,-2.6680455,,https://www.starbucks.com/store-locator/store/1012110/chorley-matrix-park-dt-matrix-park-buckshaw-village-chorley-eng-pr-7-7-na,,,,662900843,way,2026-03-06T09:48:34.159839
+cafes,Bakers,cafe,,"247, Blackburn Road, Bolton, BL7 9SN",BL7 9SN,Bolton,53.6298769,-2.4414428,,,,,,664603646,way,2026-03-06T09:48:34.159843
+cafes,CIBO,cafe,,"160A, Blackburn Road, Bolton, BL7 9SB",BL7 9SB,Bolton,53.6264155,-2.4388336,,,,,,665080608,way,2026-03-06T09:48:34.159846
+cafes,Corner Cafe,cafe,,"43, Lee Lane, Bolton, BL6 7AX",BL6 7AX,Bolton,53.5999626,-2.5459539,,,,,,665272583,way,2026-03-06T09:48:34.159855
+cafes,Brewed Coffee,cafe,,"49, Lee Lane, Bolton, BL6 7AX",BL6 7AX,Bolton,53.6001016,-2.5461259,,,,,,665272589,way,2026-03-06T09:48:34.159865
+cafes,Victoria Sandwich,cafe,,"67, Lee Lane, Bolton, BL6 7AU",BL6 7AU,Bolton,53.6004469,-2.5464925,,,,,,665289368,way,2026-03-06T09:48:34.159868
+cafes,Poppins Tearooms,cafe,,"142-142A, Lee Lane, Bolton, BL6 7AF",BL6 7AF,Bolton,53.6011654,-2.5497298,,,,,,665374644,way,2026-03-06T09:48:34.159871
+cafes,Spring Cottage,cafe,,"Rivington Lane, Bolton, BL6 7SB",BL6 7SB,Bolton,53.624721,-2.5617393,+447444567257,https://www.springcottage.org/cafe,Th-Su 10:00-15:00,,,673646526,way,2026-03-06T09:48:34.159874
+cafes,Brandreth Barn Farm House Tea Room,cafe,tea;breakfast;coffee_shop,,,,53.6198625,-2.8551328,,,,,,689357183,way,2026-03-06T09:48:34.159877
+cafes,Rushtons,cafe,,"2-4, The Hillock, Bolton, BL2 3HP",BL2 3HP,Bolton,53.6049521,-2.3950221,,,,,,689683530,way,2026-03-06T09:48:34.159885
+cafes,Costa,cafe,coffee_shop,"Lower Audley Street, Blackburn, BB2 3DY",BB2 3DY,Blackburn,53.7419158,-2.4794217,,,,,,690059579,way,2026-03-06T09:48:34.159892
+cafes,Park Farm Tearoom,cafe,,,,,53.6415331,-2.3017325,+441706823584,https://parkfarmshopramsbottom.co.uk/,,,,713942578,way,2026-03-06T09:48:34.159896
+cafes,Millie's Cafe,cafe,sandwich;ice_cream;coffee_shop,BB7 9QJ,BB7 9QJ,,53.836519,-2.4794124,,,,,,725184943,way,2026-03-06T09:48:34.159899
+cafes,Earthlings,cafe,organic,"221, Darwen Road, Bolton, BL7 9BS",BL7 9BS,Bolton,53.615076,-2.4195427,,,,,,727711542,way,2026-03-06T09:48:34.159906
+cafes,Vincenzo's,cafe,coffee_shop,"1-3, Rendsburg Way, Lancaster, LA1 1NF",LA1 1NF,Lancaster,54.0489573,-2.7989902,,,,,yes,737995025,way,2026-03-06T09:48:34.159911
+cafes,Simply Classic Bistro & Bar,cafe,,,,,53.8122321,-2.2369408,,,,,,746407371,way,2026-03-06T09:48:34.159921
+cafes,Shed 24H,cafe,coffee;breakfast,"Station Road, Skipton, BD23 4HN",BD23 4HN,Skipton,54.01096,-2.227894,,https://www.facebook.com/Shed24H/,,,,767300457,way,2026-03-06T09:48:34.159924
+cafes,Beans and Buns,cafe,,"Manchester Road, Nelson",,Nelson,53.8359009,-2.2142824,,,,,,771024791,way,2026-03-06T09:48:34.159928
+cafes,Samson's,cafe,,"174, Smith Street, Nelson, BB9 9HL",BB9 9HL,Nelson,53.8398665,-2.2041045,,,Mo-Th 09:00-13:00; Fr 08:30-13:00; Sa 09:00-13:00,,,771096087,way,2026-03-06T09:48:34.159931
+cafes,Lakeside Cafe,cafe,,,,,53.8596601,-2.1394361,,,,,,796463154,way,2026-03-06T09:48:34.159933
+cafes,The Castle Cafe,cafe,coffee_shop,"Castle Park, Lancaster, LA1 1YJ",LA1 1YJ,Lancaster,54.0503331,-2.8052111,,https://thecoffeehopper.com/locations/the-castle/,Mo-Su 10:00-16:45,,yes,810847569,way,2026-03-06T09:48:34.159936
+cafes,Tim Hortons,cafe,coffee_shop,"Unit 6, Anchor Retail Park, Burnley, BB11 1BS",BB11 1BS,Burnley,53.7926275,-2.2429938,,,,,,810873735,way,2026-03-06T09:48:34.159943
+cafes,Starbucks,cafe,coffee_shop,,,,53.6518942,-2.3155846,,https://www.starbucks.com/store-locator/store/1025071/ramsbottom-stubbins-lane-dt-stubbins-lane-ramsbottom-eng-bl-0-0-pu-gb,,,,814296805,way,2026-03-06T09:48:34.159951
+cafes,Lakeside Coffee Shop,cafe,,"Bolton Road, Chorley",,Chorley,53.7056511,-2.5530025,,,Mo-Su 09:00-16:00,,,820927667,way,2026-03-06T09:48:34.159959
+cafes,Daisy CLough Nurseries and Tearoom,cafe,coffee_shop;regional,"Station Lane, Preston, PR3 1AN",PR3 1AN,Preston,53.9366902,-2.7708513,,https://www.daisyclough.com/,Mo-Sa 09:00-16:00; Su 10:00-15:30,,,830717766,way,2026-03-06T09:48:34.159962
+cafes,Edgworth Coffee Shop,cafe,,,,,53.6476768,-2.3930044,,,,,,837533452,way,2026-03-06T09:48:34.159968
+cafes,Coastal & Co,cafe,,"Alexandra Square, Lancaster, LA1 4YW",LA1 4YW,Lancaster,54.0104939,-2.7847093,,,Mo-Fr 08:00-18:00; Sa-Su 10:00-17:00,,,848410275,way,2026-03-06T09:48:34.159978
+cafes,Sloppy Joe's,cafe,sandwich;pizza,"Northgate, Morecambe, LA3 3AY",LA3 3AY,Morecambe,54.0614226,-2.8398696,+44 7856 770851,https://sloppyjoesmorecambe.business.site/,,,,861323322,way,2026-03-06T09:48:34.159982
+cafes,Simply Wicked,cafe,coffee_shop;bistro,"43, Albert Road, Barnoldswick, BB18 5AA",BB18 5AA,Barnoldswick,53.9166809,-2.1865575,+44 1282 854542,,Mo-Sa 09:00-17:00 & Su 10:30-15:30,,,895016740,way,2026-03-06T09:48:34.159985
+cafes,Cafe on the Square,cafe,,"21, Albert Road, Barnoldswick, BB18 5AA",BB18 5AA,Barnoldswick,53.916313,-2.18727,,,,,,895020325,way,2026-03-06T09:48:34.159988
+cafes,Victoria's Cafe,cafe,,"29-31, Albert Road, Barnoldswick, BB18 5AA",BB18 5AA,Barnoldswick,53.9164512,-2.1870131,,https://www.victoriasofbarnoldswick.com/,,,,895020329,way,2026-03-06T09:48:34.159991
+cafes,Lock Stop Cafe,cafe,,,,,53.9298465,-2.1728838,,,,,,895691395,way,2026-03-06T09:48:34.159994
+cafes,Glenfield Cafe,cafe,,"27, Glenfield Road, Nelson, BB9 8AP",BB9 8AP,Nelson,53.8412077,-2.1981663,,,,,,924123008,way,2026-03-06T09:48:34.159997
+cafes,The Clifton Deli,cafe,sandwich,,,,53.7501634,-2.8922036,,,,,,936119474,way,2026-03-06T09:48:34.160012
+cafes,The Croft,cafe,,,,,53.8616837,-2.2787461,,,Fr 11:00-16:30; Sa-Su 10:30-16:30; Mo 11:00-16:30,,,948521138,way,2026-03-06T09:48:34.160016
+cafes,23 THE GRILL,cafe,,"23, Church Street, Barnoldswick, BB18 5UR",BB18 5UR,Barnoldswick,53.9159126,-2.1886185,,,,,,948715416,way,2026-03-06T09:48:34.160019
+cafes,Old Mariner Coffee,cafe,,"10, Church Street, Barnoldswick, BB18 5UT",BB18 5UT,Barnoldswick,53.915952,-2.189031,,,,,,949354113,way,2026-03-06T09:48:34.160022
+cafes,ChaChi's Chai,cafe,coffee_shop;tea;milkshake;shisha;cake;ice_cream;chai,"67A, Larch Street, Nelson, BB9 9RH",BB9 9RH,Nelson,53.8352303,-2.2046894,,,Mo-Su 12:00-23:00,,,966430449,way,2026-03-06T09:48:34.160025
+cafes,My Desserts,cafe,,"66, Railway Street, Nelson, BB9 9AH",BB9 9AH,Nelson,53.8340616,-2.2129977,,,Mo-Su 15:00-23:00,,,972302121,way,2026-03-06T09:48:34.160030
+cafes,The Rising Fishery Cafe,cafe,sandwich;burger,"Guide Lane, Burnley, BB12 9BX",BB12 9BX,Burnley,53.831412,-2.2832285,+447725054976,http://www.therisingfishery.co.uk,Tu-Su 09:00-17:00,,,986228397,way,2026-03-06T09:48:34.160039
+cafes,Starbucks,cafe,coffee_shop,"Preston, PR2 5RX",PR2 5RX,Preston,53.7912621,-2.6531646,,https://www.starbucks.com/store-locator/store/113819/preston-blue-bell-way-dt-bluebell-way-fullwood-preston-east-service-area-pr,,,,990942994,way,2026-03-06T09:48:34.160042
+cafes,Starbucks,cafe,coffee_shop,PR4 3HE,PR4 3HE,,53.7950458,-2.8906763,+44 1253 489548,https://www.starbucks.com/store-locator/store/1006152/preston-fleetwood-road-dt-fleetwood-road-unit-a-preston-eng-pr-4-3-he-gb,Mo-Fr 06:00-21:00; Sa 06:30-21:00; Su 07:00-21:00,,,1023473168,way,2026-03-06T09:48:34.160046
+cafes,Sushicat,cafe,sushi,"14, Slip Inn Lane, Lancaster, LA1 1JT",LA1 1JT,Lancaster,54.0483061,-2.8008163,,,"Tu-Sa 12:00-20:00; Su,Mo off",,,1041681750,way,2026-03-06T09:48:34.160049
+cafes,High Street Coffee,cafe,,"6, High Street, Settle, BD24 9EX",BD24 9EX,Settle,54.0678691,-2.2760362,,,,,,1047830249,way,2026-03-06T09:48:34.160057
+cafes,Corner House Cafe,cafe,,"48, Market Street, Chorley, PR7 4HF",PR7 4HF,Chorley,53.6102534,-2.6054017,,,,,,1051564513,way,2026-03-06T09:48:34.160067
+cafes,Cake by Hannah Jones,cafe,,"Market Street, Chorley, PR7 4HE",PR7 4HE,Chorley,53.6108411,-2.6053674,,,,,,1051564520,way,2026-03-06T09:48:34.160071
+cafes,Bistecca,cafe,,"Market Street, Chorley, PR7 4HE",PR7 4HE,Chorley,53.6114683,-2.6051905,,,,,,1051564525,way,2026-03-06T09:48:34.160079
+cafes,Starbucks,cafe,coffee_shop,,,,53.7884026,-2.2610978,,https://www.starbucks.com/store-locator/store/1024987/burnley-euro-garages-barracks-r-barracks-road-lancashire-burnley-eng-bb-11-4-sb-gb,,,,1093982190,way,2026-03-06T09:48:34.160083
+cafes,Starbucks,cafe,coffee_shop,"Fleetwood Road, Preston, PR4 3HE",PR4 3HE,Preston,53.8156695,-2.8953181,+44 1253 746731,https://www.starbucks.com/store-locator/store/1006152/preston-fleetwood-road-dt-fleetwood-road-unit-a-preston-eng-pr-4-3-he-gb,Mo-Fr 06:00-19:30; Sa-Su 06:30-20:30,,,1159976905,way,2026-03-06T09:48:34.160086
+cafes,Costa,cafe,coffee_shop,BB1 3HT,BB1 3HT,,53.758424,-2.4469797,,,,,,1162998355,way,2026-03-06T09:48:34.160089
+cafes,Starbucks,cafe,coffee_shop,,,,53.7868175,-2.7801014,,,,,,1180348002,way,2026-03-06T09:48:34.160092
+cafes,Costa Drive Thru,cafe,coffee_shop,,,,53.7612273,-2.7908048,,,,,,1181415694,way,2026-03-06T09:48:34.160094
+cafes,Starbucks,cafe,coffee_shop,,,,54.0559794,-2.8256884,,https://www.starbucks.com/store-locator/store/1049396/lancaster-asda-ovangle-rd-dt-10-windholme-lancaster-eng-la-1-5-jq-gb,,,,1186295880,way,2026-03-06T09:48:34.160097
+cafes,Humble Pie,cafe,,,,,53.9152786,-2.1454218,+441282345103,https://mapde.design/humble-pie,,,,1202651338,way,2026-03-06T09:48:34.160102
+cafes,Costa Drive Thru,cafe,coffee_shop,,,,53.6724975,-2.8301603,,,,,,1334188856,way,2026-03-06T09:48:34.160104
+cafes,Costa Drive Thru,cafe,coffee_shop,"Eastway, Preston, PR2 3FB",PR2 3FB,Preston,53.7995254,-2.7229943,,,,,,1334361203,way,2026-03-06T09:48:34.160107
+cafes,Gourmet Coffee Bar & Kitchen,cafe,,"Platforms 3/4, Fishergate, Preston, PR1 8AP",PR1 8AP,Preston,53.7560251,-2.7074371,,,,,,1389901922,way,2026-03-06T09:48:34.160110
+cafes,3c’s,cafe,,,,,53.869284,-2.3944609,,,,,,1415885395,way,2026-03-06T09:48:34.160112

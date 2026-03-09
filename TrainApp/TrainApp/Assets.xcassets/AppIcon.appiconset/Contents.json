@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "1024x1024-Wallpapers-020-1.jpg",
+      "filename" : "NexoAppLogo.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "1024x1024-Wallpapers-020-1 1.jpg",
+      "filename" : "NexoAppLogo 1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -25,7 +25,7 @@
           "value" : "tinted"
         }
       ],
-      "filename" : "1024x1024-Wallpapers-020-1 2.jpg",
+      "filename" : "NexoAppLogo 2.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

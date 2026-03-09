@@ -30,10 +30,13 @@ struct ContentView: View {
     @State private var showWelcomeSplash = true
     @State private var splashTrainOffset: CGFloat = -220
     @State private var splashBusOffset: CGFloat = 220
+    @State private var splashTrainTilt: Double = -24
+    @State private var splashBusTilt: Double = 24
     @State private var splashVehiclesOpacity: Double = 0.0
     @State private var splashVehiclesScale: CGFloat = 1.0
     @State private var splashNexoOpacity: Double = 0.0
     @State private var splashNexoScale: CGFloat = 0.88
+    @State private var splashImpactOpacity: Double = 0.0
     @State private var splashOverlayOpacity: Double = 1.0
     @State private var showPassImporter = false
     @State private var walletPresentation: WalletPassPresentation?
@@ -195,6 +198,13 @@ struct ContentView: View {
 
             GeometryReader { geo in
                 ZStack {
+                    Circle()
+                        .fill(Color.white.opacity(0.28))
+                        .frame(width: 120, height: 120)
+                        .blur(radius: 14)
+                        .scaleEffect(splashImpactOpacity > 0 ? 1.15 : 0.72)
+                        .opacity(splashImpactOpacity)
+
                     Capsule()
                         .fill(Color.blue.opacity(0.18))
                         .frame(width: 220, height: 20)
@@ -202,14 +212,10 @@ struct ContentView: View {
                         .opacity(splashVehiclesOpacity)
 
                     HStack(spacing: 52) {
-                        Image(systemName: "tram.fill")
-                            .font(.system(size: 42, weight: .bold))
-                            .foregroundStyle(.cyan)
+                        splashVehicle(symbol: "tram.fill", tint: .cyan, tilt: splashTrainTilt)
                             .offset(x: splashTrainOffset)
 
-                        Image(systemName: "bus.fill")
-                            .font(.system(size: 42, weight: .bold))
-                            .foregroundStyle(.blue)
+                        splashVehicle(symbol: "bus.fill", tint: .blue, tilt: splashBusTilt)
                             .offset(x: splashBusOffset)
                     }
                     .opacity(splashVehiclesOpacity)
@@ -233,10 +239,13 @@ struct ContentView: View {
 
         splashTrainOffset = -220
         splashBusOffset = 220
+        splashTrainTilt = -24
+        splashBusTilt = 24
         splashVehiclesOpacity = 0.0
         splashVehiclesScale = 1.0
         splashNexoOpacity = 0.0
         splashNexoScale = 0.88
+        splashImpactOpacity = 0.0
         splashOverlayOpacity = 1.0
 
         withAnimation(.easeOut(duration: 0.35)) {
@@ -244,11 +253,20 @@ struct ContentView: View {
         }
 
         withAnimation(.interpolatingSpring(stiffness: 90, damping: 12).delay(0.1)) {
-            splashTrainOffset = -14
-            splashBusOffset = 14
+            splashTrainOffset = -10
+            splashBusOffset = 10
+            splashTrainTilt = -6
+            splashBusTilt = 6
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.82) {
+            withAnimation(.easeOut(duration: 0.16)) {
+                splashImpactOpacity = 1.0
+            }
+            withAnimation(.easeIn(duration: 0.20).delay(0.10)) {
+                splashImpactOpacity = 0.0
+            }
+
             withAnimation(.easeInOut(duration: 0.28)) {
                 splashVehiclesScale = 0.72
                 splashVehiclesOpacity = 0.0
@@ -272,12 +290,30 @@ struct ContentView: View {
         }
     }
 
+    private func splashVehicle(symbol: String, tint: Color, tilt: Double) -> some View {
+        ZStack {
+            Image(systemName: symbol)
+                .font(.system(size: 42, weight: .bold))
+                .foregroundStyle(Color.black.opacity(0.40))
+                .offset(x: 8, y: 8)
+                .blur(radius: 2)
+
+            Image(systemName: symbol)
+                .font(.system(size: 42, weight: .bold))
+                .foregroundStyle(tint)
+                .symbolRenderingMode(.palette)
+                .rotation3DEffect(.degrees(tilt), axis: (x: 0, y: 1, z: 0), perspective: 0.6)
+                .shadow(color: tint.opacity(0.35), radius: 12, x: 0, y: 8)
+        }
+    }
+
     private var homeScreen: some View {
         NavigationStack {
             ZStack {
                 screenGradient
                 ScrollView {
                     VStack(spacing: 14) {
+                        homeBrandLogo
                         welcomeCard
                         searchAllTrainsCard
                         transportModeCard
@@ -351,6 +387,18 @@ struct ContentView: View {
         }
         .padding()
         .background(cardBackground)
+    }
+
+    private var homeBrandLogo: some View {
+        Image("nexoLogo")
+            .resizable()
+            .renderingMode(.original)
+            .interpolation(.high)
+            .scaledToFit()
+            .frame(maxWidth: .infinity)
+            .frame(height: 120)
+            .padding(.top, 6)
+            .padding(.bottom, 2)
     }
 
     private var searchAllTrainsCard: some View {

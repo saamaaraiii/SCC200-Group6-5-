@@ -1,15 +1,16 @@
 [versions]
-agp = "9.0.1"
-coreKtx = "1.17.0"
+agp = "8.9.1"
+coreKtx = "1.16.0"
 junit = "4.13.2"
-junitVersion = "1.3.0"
-espressoCore = "3.7.0"
-lifecycleRuntimeKtx = "2.10.0"
-activityCompose = "1.12.4"
-kotlin = "2.0.21"
-composeBom = "2024.09.00"
-material = "1.13.0"
-playServicesMaps = "20.0.0"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.7"
+activityCompose = "1.9.3"
+kotlin = "2.3.0"
+ksp = "2.3.6"
+composeBom = "2024.10.01"
+material = "1.12.0"
+playServicesMaps = "19.0.0"
 playServicesMapsVersion = "18.2.0"
 
 [libraries]
@@ -34,5 +35,6 @@ play-services-maps-v1820 = { module = "com.google.android.gms:play-services-maps
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

@@ -45,6 +45,16 @@ struct ContentView: View {
     @State private var selectedMapStationId: Int?
     @State private var mapDepartureMode: TransportMode = .train
     @State private var mapPanelExpanded = false
+    @State private var showDirectionsSheet = false
+    @State private var directionsStation: Station?
+    @State private var directionsMode: TransportMode = .train
+    @State private var showTrackSheet = false
+    @State private var walkFromQuery = ""
+    @State private var walkToQuery = ""
+    @State private var walkRoute: MKRoute?
+    @State private var walkRouteError: String?
+    @State private var walkMapPosition: MapCameraPosition = .automatic
+    @FocusState private var walkFocusedField: WalkField?
     @State private var ticketReference = "TR-8829"
     @State private var ticketTravelDate = Date()
     @State private var ticketDurationMins = 42
@@ -185,6 +195,21 @@ struct ContentView: View {
         } message: {
             Text(departuresMessage ?? "")
         }
+        .sheet(isPresented: $showDirectionsSheet) {
+            if let station = directionsStation {
+                DirectionsSheet(
+                    station: station,
+                    mode: $directionsMode,
+                    userLocation: locationManager.location?.coordinate
+                )
+            }
+        }
+        .sheet(isPresented: $showTrackSheet) {
+            TrackSheet(
+                stations: appState.stations,
+                mapping: appState.mapping
+            )
+        }
     }
 
     private var splashOverlay: some View {
@@ -321,6 +346,8 @@ struct ContentView: View {
                             taxiCard
                         } else if transportMode == .train || transportMode == .bus {
                             nearbyStopMapCard
+                        } else if transportMode == .walk {
+                            walkPlannerCard
                         }
                         if let err = lastResultError {
                             messageCard(text: err, color: .red)
@@ -403,7 +430,7 @@ struct ContentView: View {
 
     private var searchAllTrainsCard: some View {
         NavigationLink {
-            SearchTrainsScreen(stations: appState.stations, language: appLanguage)
+            SearchTrainsScreen(stations: appState.stations, language: appLanguage, savedTrips: $savedTrips)
         } label: {
             HStack(spacing: 10) {
                 Image(systemName: "magnifyingglass")
@@ -819,7 +846,9 @@ struct ContentView: View {
 
             HStack(spacing: 8) {
                 Button {
-                    openDirections(to: stop.station)
+                    directionsStation = stop.station
+                    directionsMode = transportMode
+                    showDirectionsSheet = true
                 } label: {
                     Label(t(.directions), systemImage: "arrow.triangle.turn.up.right.diamond.fill")
                         .font(.caption.weight(.semibold))
@@ -838,12 +867,12 @@ struct ContentView: View {
                 } label: {
                     Label(t(.departures), systemImage: "clock.fill")
                         .font(.caption.weight(.semibold))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(usesLightPalette ? Color.black : Color.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 8)
                         .background(
                             RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.white.opacity(0.12))
+                                .fill(usesLightPalette ? Color.black.opacity(0.08) : Color.white.opacity(0.12))
                         )
                 }
                 .buttonStyle(.plain)
@@ -878,6 +907,110 @@ struct ContentView: View {
             }
         }
         .clipped()
+    }
+
+    private var walkPlannerCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Walk Route")
+                .font(.headline)
+                .foregroundStyle(primaryTextColor)
+
+            VStack(spacing: 6) {
+                HStack(spacing: 8) {
+                    Image(systemName: "location.fill")
+                        .foregroundStyle(.blue)
+                    TextField("From (current location or stop)", text: $walkFromQuery)
+                        .focused($walkFocusedField, equals: .from)
+                        .textInputAutocapitalization(.words)
+                        .autocorrectionDisabled(true)
+                        .foregroundStyle(primaryTextColor)
+                        .submitLabel(.done)
+                        .onSubmit { walkFocusedField = nil }
+                }
+                .padding(12)
+                .background(innerFillColor)
+
+                if walkFocusedField == .from && !walkFromSuggestions.isEmpty {
+                    walkSuggestionsList(walkFromSuggestions) { station in
+                        walkFromQuery = station.name
+                        walkFocusedField = nil
+                    }
+                }
+            }
+
+            VStack(spacing: 6) {
+                HStack(spacing: 8) {
+                    Image(systemName: "mappin.and.ellipse")
+                        .foregroundStyle(.blue)
+                    TextField("To (destination)", text: $walkToQuery)
+                        .focused($walkFocusedField, equals: .to)
+                        .textInputAutocapitalization(.words)
+                        .autocorrectionDisabled(true)
+                        .foregroundStyle(primaryTextColor)
+                        .submitLabel(.done)
+                        .onSubmit { walkFocusedField = nil }
+                }
+                .padding(12)
+                .background(innerFillColor)
+
+                if walkFocusedField == .to && !walkToSuggestions.isEmpty {
+                    walkSuggestionsList(walkToSuggestions) { station in
+                        walkToQuery = station.name
+                        walkFocusedField = nil
+                    }
+                }
+            }
+
+            Button {
+                Task { await calculateWalkRoute() }
+            } label: {
+                Text("Find Walk Route")
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.blue)
+                    )
+            }
+            .buttonStyle(.plain)
+
+            if let route = walkRoute {
+                ZStack(alignment: .bottomLeading) {
+                    Map(position: $walkMapPosition) {
+                        MapPolyline(route.polyline)
+                            .stroke(Color.blue, lineWidth: 4)
+                    }
+                    .frame(height: 220)
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Estimated time")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Text("\(Int(route.expectedTravelTime / 60)) min")
+                            .font(.headline.weight(.semibold))
+                            .foregroundStyle(.white)
+                    }
+                    .padding(10)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.black.opacity(0.65))
+                    )
+                    .padding(12)
+                }
+            } else if let error = walkRouteError {
+                Text(error)
+                    .font(.caption)
+                    .foregroundStyle(.red)
+            }
+        }
+        .padding()
+        .background(cardBackground)
+        .onTapGesture {
+            walkFocusedField = nil
+        }
     }
 
     private var routeStageCard: some View {
@@ -1158,9 +1291,9 @@ struct ContentView: View {
 
                     VStack(spacing: 10) {
                         Button {
-                            openDirectionsForTicket()
+                            showTrackSheet = true
                         } label: {
-                            Text(t(.getDirections))
+                            Text("Track")
                                 .font(.headline.weight(.semibold))
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: .infinity)
@@ -1276,10 +1409,10 @@ struct ContentView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(station.name)
                         .font(.headline)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(primaryTextColor)
                     Text("\(t(.departures)) • \(displayedArrivals.count)")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(secondaryTextColor)
                 }
                 Spacer()
                 Button {
@@ -1287,9 +1420,9 @@ struct ContentView: View {
                 } label: {
                     Image(systemName: "xmark")
                         .font(.subheadline.weight(.bold))
-                        .foregroundStyle(.white.opacity(0.9))
+                        .foregroundStyle(usesLightPalette ? Color.black.opacity(0.8) : Color.white.opacity(0.9))
                         .frame(width: 28, height: 28)
-                        .background(Circle().fill(Color.white.opacity(0.12)))
+                        .background(Circle().fill(usesLightPalette ? Color.black.opacity(0.08) : Color.white.opacity(0.12)))
                 }
                 .buttonStyle(.plain)
             }
@@ -1303,11 +1436,11 @@ struct ContentView: View {
                 } label: {
                     Image(systemName: isSaved ? "star.fill" : "star")
                         .font(.title3.weight(.semibold))
-                        .foregroundStyle(isSaved ? .yellow : .white)
+                        .foregroundStyle(isSaved ? .yellow : (usesLightPalette ? Color.black.opacity(0.7) : .white))
                         .frame(width: 40, height: 40)
                         .background(
                             RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.white.opacity(0.08))
+                                .fill(usesLightPalette ? Color.black.opacity(0.06) : Color.white.opacity(0.08))
                         )
                 }
                 .buttonStyle(.plain)
@@ -1329,10 +1462,10 @@ struct ContentView: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(item.destination)
                                 .font(.subheadline.weight(.semibold))
-                                .foregroundStyle(.white)
+                                .foregroundStyle(primaryTextColor)
                             Text(item.operatorName)
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(secondaryTextColor)
                         }
 
                         Spacer()
@@ -1346,7 +1479,7 @@ struct ContentView: View {
                     .padding(.vertical, 10)
                     .background(
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.white.opacity(0.06))
+                            .fill(usesLightPalette ? Color.black.opacity(0.04) : Color.white.opacity(0.06))
                     )
                 }
             }
@@ -1374,10 +1507,10 @@ struct ContentView: View {
         .frame(maxHeight: mapPanelExpanded ? UIScreen.main.bounds.height * 0.78 : 320, alignment: .top)
         .background(
             RoundedRectangle(cornerRadius: 18)
-                .fill(Color(red: 0.06, green: 0.11, blue: 0.20))
+                .fill(usesLightPalette ? Color.white : Color(red: 0.06, green: 0.11, blue: 0.20))
                 .overlay(
                     RoundedRectangle(cornerRadius: 18)
-                        .stroke(Color.white.opacity(0.08), lineWidth: 1)
+                        .stroke(usesLightPalette ? Color.black.opacity(0.10) : Color.white.opacity(0.08), lineWidth: 1)
                 )
         )
         .gesture(
@@ -1399,11 +1532,11 @@ struct ContentView: View {
         } label: {
             Image(systemName: mode == .train ? "tram.fill" : "bus.fill")
                 .font(.title3.weight(.semibold))
-                .foregroundStyle(selected ? .white : .secondary)
+                .foregroundStyle(selected ? .white : (usesLightPalette ? Color.black.opacity(0.65) : .secondary))
                 .frame(width: 40, height: 40)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(selected ? Color.blue : Color.white.opacity(0.08))
+                        .fill(selected ? Color.blue : (usesLightPalette ? Color.black.opacity(0.06) : Color.white.opacity(0.08)))
                 )
         }
         .buttonStyle(.plain)
@@ -1540,6 +1673,114 @@ struct ContentView: View {
         return formatter.string(from: date)
     }
 
+    private func calculateWalkRoute() async {
+        walkRouteError = nil
+        walkRoute = nil
+
+        let fromQuery = walkFromQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        let toQuery = walkToQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !toQuery.isEmpty else {
+            walkRouteError = "Enter a destination."
+            return
+        }
+
+        let sourceItem: MKMapItem?
+        if fromQuery.isEmpty || fromQuery.lowercased().contains("current") {
+            if let loc = locationManager.location?.coordinate {
+                sourceItem = MKMapItem(placemark: MKPlacemark(coordinate: loc))
+            } else {
+                sourceItem = nil
+            }
+        } else {
+            sourceItem = await mapItem(for: fromQuery)
+        }
+
+        guard let source = sourceItem else {
+            walkRouteError = "Could not find the starting location."
+            return
+        }
+
+        guard let destination = await mapItem(for: toQuery) else {
+            walkRouteError = "Could not find the destination."
+            return
+        }
+
+        let request = MKDirections.Request()
+        request.source = source
+        request.destination = destination
+        request.transportType = .walking
+
+        do {
+            let response = try await MKDirections(request: request).calculate()
+            if let route = response.routes.first {
+                walkRoute = route
+                walkMapPosition = .rect(route.polyline.boundingMapRect)
+            } else {
+                walkRouteError = "No walking route found."
+            }
+        } catch {
+            walkRouteError = "Route calculation failed."
+        }
+    }
+
+    private func mapItem(for query: String) async -> MKMapItem? {
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = query
+        do {
+            let response = try await MKLocalSearch(request: request).start()
+            return response.mapItems.first
+        } catch {
+            return nil
+        }
+    }
+
+    private var walkFromSuggestions: [Station] {
+        stationMatches(for: walkFromQuery)
+    }
+
+    private var walkToSuggestions: [Station] {
+        stationMatches(for: walkToQuery)
+    }
+
+    private func stationMatches(for query: String) -> [Station] {
+        let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !q.isEmpty else { return [] }
+        return appState.stations.filter {
+            $0.name.localizedCaseInsensitiveContains(q) ||
+            $0.code.localizedCaseInsensitiveContains(q)
+        }
+    }
+
+    private func walkSuggestionsList(_ items: [Station], onSelect: @escaping (Station) -> Void) -> some View {
+        VStack(spacing: 0) {
+            ForEach(items.prefix(6), id: \.id) { station in
+                Button {
+                    onSelect(station)
+                } label: {
+                    HStack {
+                        Text(station.name)
+                            .foregroundStyle(primaryTextColor)
+                        Spacer()
+                        Text(station.code)
+                            .font(.caption)
+                            .foregroundStyle(secondaryTextColor)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 10)
+                }
+                .buttonStyle(.plain)
+
+                if station.id != items.prefix(6).last?.id {
+                    Divider().overlay(usesLightPalette ? Color.black.opacity(0.08) : Color.white.opacity(0.08))
+                }
+            }
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(usesLightPalette ? Color.white : Color.black.opacity(0.28))
+        )
+    }
+
     private var nearestStopInfo: NearbyStopInfo? {
         guard transportMode == .train || transportMode == .bus else { return nil }
         let stationsWithCoords = appState.stations.filter { $0.latitude != nil && $0.longitude != nil }
@@ -1623,8 +1864,18 @@ struct ContentView: View {
     }
 
     private func showDepartures(for station: Station) {
-        let modeText = transportMode == .train ? t(.train).lowercased() : t(.bus).lowercased()
-        departuresMessage = "\(t(.departures)): \(station.name) • 3 \(t(.min)), 11 \(t(.min)), 18 \(t(.min)) (\(modeText))"
+        selectedTab = .map
+        selectedMapStationId = station.id
+        mapDepartureMode = transportMode == .bus ? .bus : .train
+        mapPanelExpanded = true
+        if let lat = station.latitude, let lon = station.longitude {
+            mapPosition = .region(
+                MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(latitude: lat, longitude: lon),
+                    span: MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08)
+                )
+            )
+        }
     }
 
     private func openDirections(to station: Station) {
@@ -1993,8 +2244,10 @@ private struct PlannedRouteScreen: View {
 }
 
 private struct SearchTrainsScreen: View {
+    @Environment(\.colorScheme) private var colorScheme
     let stations: [Station]
     let language: AppLanguage
+    @Binding var savedTrips: [SavedTrip]
     @State private var originId: Int?
     @State private var destinationId: Int?
     @State private var originQuery = ""
@@ -2006,10 +2259,35 @@ private struct SearchTrainsScreen: View {
     @State private var selectedRailcard: String
     @FocusState private var focusedField: SearchField?
 
-    init(stations: [Station], language: AppLanguage) {
+    init(stations: [Station], language: AppLanguage, savedTrips: Binding<[SavedTrip]>) {
         self.stations = stations
         self.language = language
+        self._savedTrips = savedTrips
         _selectedRailcard = State(initialValue: RailcardOption.options(for: language).first ?? "No Railcard")
+    }
+
+    private var usesLightPalette: Bool {
+        colorScheme == .light
+    }
+
+    private var primaryTextColor: Color {
+        usesLightPalette ? .black : .white
+    }
+
+    private var secondaryTextColor: Color {
+        usesLightPalette ? Color.black.opacity(0.60) : .secondary
+    }
+
+    private var cardFillColor: Color {
+        usesLightPalette ? Color.white : Color.white.opacity(0.08)
+    }
+
+    private var cardStrokeColor: Color {
+        usesLightPalette ? Color.black.opacity(0.10) : Color.white.opacity(0.06)
+    }
+
+    private var fieldFillColor: Color {
+        usesLightPalette ? Color.black.opacity(0.06) : Color.white.opacity(0.06)
     }
 
     private var hasValidWhere: Bool {
@@ -2020,7 +2298,9 @@ private struct SearchTrainsScreen: View {
     var body: some View {
         ZStack {
             LinearGradient(
-                colors: [Color(red: 0.02, green: 0.09, blue: 0.20), Color.black],
+                colors: usesLightPalette
+                    ? [Color.white, Color(red: 0.95, green: 0.96, blue: 0.98)]
+                    : [Color(red: 0.02, green: 0.09, blue: 0.20), Color.black],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -2031,10 +2311,10 @@ private struct SearchTrainsScreen: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(L.text(.planJourneyTitle, lang: language))
                             .font(.custom("AvenirNext-Bold", size: 28))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(primaryTextColor)
                         Text(L.text(.planJourneySubtitle, lang: language))
                             .font(.custom("AvenirNext-Regular", size: 14))
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(secondaryTextColor)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -2042,6 +2322,7 @@ private struct SearchTrainsScreen: View {
                     localOperatorsCard
 
                     if hasValidWhere {
+                        savedRouteCard
                         whenCard
                         travelDatesCard
                         passengersCard
@@ -2060,7 +2341,7 @@ private struct SearchTrainsScreen: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(L.text(.where, lang: language))
                 .font(.custom("AvenirNext-DemiBold", size: 20))
-                .foregroundStyle(.white)
+                .foregroundStyle(primaryTextColor)
 
             stationSearchField(
                 title: L.text(.origin, lang: language),
@@ -2106,7 +2387,7 @@ private struct SearchTrainsScreen: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(L.text(.when, lang: language))
                 .font(.custom("AvenirNext-DemiBold", size: 20))
-                .foregroundStyle(.white)
+                .foregroundStyle(primaryTextColor)
 
             HStack(spacing: 8) {
                 ForEach(TripType.allCases, id: \.self) { type in
@@ -2115,12 +2396,12 @@ private struct SearchTrainsScreen: View {
                     } label: {
                         Text(type.shortTitle(in: language))
                             .font(.custom("AvenirNext-DemiBold", size: 13))
-                            .foregroundStyle(tripType == type ? .white : .secondary)
+                            .foregroundStyle(tripType == type ? .white : secondaryTextColor)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 10)
                             .background(
                                 RoundedRectangle(cornerRadius: 10)
-                                    .fill(tripType == type ? Color.blue : Color.white.opacity(0.06))
+                                    .fill(tripType == type ? Color.blue : fieldFillColor)
                             )
                     }
                     .buttonStyle(.plain)
@@ -2131,11 +2412,43 @@ private struct SearchTrainsScreen: View {
         .background(sectionCard)
     }
 
+    private var savedRouteCard: some View {
+        let saved = isRouteSaved
+        return HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(routeTitle)
+                    .font(.custom("AvenirNext-DemiBold", size: 16))
+                    .foregroundStyle(primaryTextColor)
+                Text(routeSubtitle)
+                    .font(.custom("AvenirNext-Medium", size: 12))
+                    .foregroundStyle(secondaryTextColor)
+            }
+
+            Spacer()
+
+            Button {
+                toggleSavedRoute()
+            } label: {
+                Image(systemName: saved ? "star.fill" : "star")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(saved ? .yellow : primaryTextColor)
+                    .frame(width: 34, height: 34)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(fieldFillColor)
+                    )
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(14)
+        .background(sectionCard)
+    }
+
     private var travelDatesCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(L.text(.travelDates, lang: language))
                 .font(.custom("AvenirNext-DemiBold", size: 20))
-                .foregroundStyle(.white)
+                .foregroundStyle(primaryTextColor)
 
             HStack(spacing: 8) {
                 dateSelectionBox(title: L.text(.outbound, lang: language), value: formattedDate(outboundDate))
@@ -2178,10 +2491,10 @@ private struct SearchTrainsScreen: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(L.text(.localOperators, lang: language))
                 .font(.custom("AvenirNext-DemiBold", size: 18))
-                .foregroundStyle(.white)
+                .foregroundStyle(primaryTextColor)
             Text("ARCT, BLAC, KLCO, SCCU, SCMY, NUTT")
                 .font(.custom("AvenirNext-Medium", size: 14))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(secondaryTextColor)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(14)
@@ -2192,12 +2505,12 @@ private struct SearchTrainsScreen: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(L.text(.passengers, lang: language))
                 .font(.custom("AvenirNext-DemiBold", size: 20))
-                .foregroundStyle(.white)
+                .foregroundStyle(primaryTextColor)
 
             HStack {
                 Text(L.passengerCount(passengerCount, lang: language))
                     .font(.custom("AvenirNext-Medium", size: 16))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(primaryTextColor)
                 Spacer()
                 Stepper("", value: $passengerCount, in: 1...12)
                     .labelsHidden()
@@ -2208,7 +2521,7 @@ private struct SearchTrainsScreen: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(L.text(.railcard, lang: language))
                     .font(.custom("AvenirNext-Medium", size: 14))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(secondaryTextColor)
 
                 Picker(L.text(.railcard, lang: language), selection: $selectedRailcard) {
                     ForEach(RailcardOption.options(for: language), id: \.self) { railcard in
@@ -2216,7 +2529,7 @@ private struct SearchTrainsScreen: View {
                     }
                 }
                 .pickerStyle(.menu)
-                .tint(.white)
+                .tint(primaryTextColor)
                 .padding(12)
                 .background(fieldCard)
             }
@@ -2234,7 +2547,7 @@ private struct SearchTrainsScreen: View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title)
                 .font(.custom("AvenirNext-Medium", size: 14))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(secondaryTextColor)
 
             HStack(spacing: 10) {
                 Image(systemName: "magnifyingglass")
@@ -2243,10 +2556,43 @@ private struct SearchTrainsScreen: View {
                     .focused($focusedField, equals: field)
                     .textInputAutocapitalization(.words)
                     .autocorrectionDisabled(true)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(primaryTextColor)
             }
             .padding(12)
             .background(fieldCard)
+        }
+    }
+
+    private var originStation: Station? {
+        stations.first(where: { $0.id == originId })
+    }
+
+    private var destinationStation: Station? {
+        stations.first(where: { $0.id == destinationId })
+    }
+
+    private var routeTitle: String {
+        let origin = originStation?.name ?? L.text(.origin, lang: language)
+        let destination = destinationStation?.name ?? L.text(.destination, lang: language)
+        return "\(origin) → \(destination)"
+    }
+
+    private var routeSubtitle: String {
+        "\(formattedDate(outboundDate)) • \(L.passengerCount(passengerCount, lang: language))"
+    }
+
+    private var isRouteSaved: Bool {
+        savedTrips.contains(where: { $0.title == routeTitle })
+    }
+
+    private func toggleSavedRoute() {
+        if let idx = savedTrips.firstIndex(where: { $0.title == routeTitle }) {
+            savedTrips.remove(at: idx)
+        } else {
+            savedTrips.insert(
+                SavedTrip(title: routeTitle, subtitle: routeSubtitle),
+                at: 0
+            )
         }
     }
 
@@ -2254,10 +2600,10 @@ private struct SearchTrainsScreen: View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
                 .font(.custom("AvenirNext-Medium", size: 13))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(secondaryTextColor)
             Text(value)
                 .font(.custom("AvenirNext-DemiBold", size: 15))
-                .foregroundStyle(.white)
+                .foregroundStyle(primaryTextColor)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(10)
@@ -2278,11 +2624,11 @@ private struct SearchTrainsScreen: View {
                 } label: {
                     HStack {
                         Text(station.name)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(primaryTextColor)
                         Spacer()
                         Text(station.code)
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(secondaryTextColor)
                     }
                     .padding(.horizontal, 12)
                     .padding(.vertical, 10)
@@ -2296,7 +2642,7 @@ private struct SearchTrainsScreen: View {
         }
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(Color.black.opacity(0.28))
+                .fill(usesLightPalette ? Color.white : Color.black.opacity(0.28))
         )
     }
 
@@ -2328,16 +2674,16 @@ private struct SearchTrainsScreen: View {
 
     private var sectionCard: some View {
         RoundedRectangle(cornerRadius: 18)
-            .fill(Color.white.opacity(0.08))
+            .fill(cardFillColor)
             .overlay(
                 RoundedRectangle(cornerRadius: 18)
-                    .stroke(Color.white.opacity(0.06), lineWidth: 1)
+                    .stroke(cardStrokeColor, lineWidth: 1)
             )
     }
 
     private var fieldCard: some View {
         RoundedRectangle(cornerRadius: 12)
-            .fill(Color.white.opacity(0.06))
+            .fill(fieldFillColor)
     }
 }
 
@@ -2529,6 +2875,11 @@ private enum TransportMode: String, CaseIterable {
         case .walk: return L.text(.walkStage, lang: language)
         }
     }
+}
+
+private enum WalkField {
+    case from
+    case to
 }
 
 private struct SavedTrip: Identifiable {
@@ -2850,6 +3201,475 @@ private final class UserLocationManager: NSObject, ObservableObject, CLLocationM
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         location = locations.last
     }
+}
+
+private struct DirectionsSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    let station: Station
+    @Binding var mode: TransportMode
+    let userLocation: CLLocationCoordinate2D?
+    @State private var route: MKRoute?
+    @State private var fallbackLine: MKPolyline?
+    @State private var mapPosition: MapCameraPosition = .automatic
+
+    var body: some View {
+        ZStack(alignment: .top) {
+            Map(position: $mapPosition) {
+                if let route {
+                    MapPolyline(route.polyline)
+                        .stroke(.blue, lineWidth: 5)
+                }
+                if route == nil, let fallbackLine {
+                    MapPolyline(fallbackLine)
+                        .stroke(.blue.opacity(0.7), style: StrokeStyle(lineWidth: 4, lineCap: .round, dash: [8, 6]))
+                }
+                if let lat = station.latitude, let lon = station.longitude {
+                    Marker(station.name, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon))
+                }
+                if userLocation != nil {
+                    UserAnnotation()
+                }
+            }
+            .mapStyle(.standard(elevation: .realistic))
+            .ignoresSafeArea()
+
+            VStack(spacing: 12) {
+                HStack {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                            .frame(width: 36, height: 36)
+                            .background(Circle().fill(Color.black.opacity(0.6)))
+                    }
+                    Spacer()
+                }
+
+                HStack(spacing: 10) {
+                    directionsModeButton(mode: .train)
+                    directionsModeButton(mode: .bus)
+                }
+                .padding(10)
+                .background(
+                    RoundedRectangle(cornerRadius: 14)
+                        .fill(Color.black.opacity(0.55))
+                )
+
+                Spacer()
+            }
+            .padding(.top, 10)
+            .padding(.horizontal, 16)
+        }
+        .safeAreaInset(edge: .bottom) {
+            directionsBottomCard
+                .padding(.horizontal, 14)
+                .padding(.bottom, 10)
+        }
+        .onAppear {
+            Task { await calculateRoute() }
+        }
+        .onChange(of: mode) { _, _ in
+            Task { await calculateRoute() }
+        }
+    }
+
+    private func directionsModeButton(mode: TransportMode) -> some View {
+        let selected = self.mode == mode
+        return Button {
+            self.mode = mode
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: mode == .train ? "tram.fill" : "bus.fill")
+                Text(mode == .train ? "Train" : "Bus")
+                    .font(.subheadline.weight(.semibold))
+            }
+            .foregroundStyle(selected ? .white : .white.opacity(0.7))
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(selected ? Color.blue.opacity(0.9) : Color.white.opacity(0.12))
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func calculateRoute() async {
+        guard let lat = station.latitude, let lon = station.longitude else { return }
+
+        let request = MKDirections.Request()
+        if let userLocation {
+            request.source = MKMapItem(placemark: MKPlacemark(coordinate: userLocation))
+        }
+        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon)))
+        request.transportType = mode == .walk ? .walking : .transit
+
+        do {
+            let response = try await MKDirections(request: request).calculate()
+            route = response.routes.first
+            if let route {
+                mapPosition = .rect(route.polyline.boundingMapRect)
+                fallbackLine = nil
+            }
+        } catch {
+            route = nil
+            fallbackLine = fallbackPolyline(to: CLLocationCoordinate2D(latitude: lat, longitude: lon))
+            if let fallbackLine {
+                mapPosition = .rect(fallbackLine.boundingMapRect)
+            }
+        }
+    }
+
+    private func fallbackPolyline(to destination: CLLocationCoordinate2D) -> MKPolyline? {
+        if let userLocation {
+            return MKPolyline(coordinates: [userLocation, destination], count: 2)
+        }
+        let offset = CLLocationCoordinate2D(latitude: destination.latitude + 0.01, longitude: destination.longitude - 0.01)
+        return MKPolyline(coordinates: [offset, destination], count: 2)
+    }
+
+    private var directionsBottomCard: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(station.name)
+                .font(.headline.weight(.semibold))
+                .foregroundStyle(.white)
+            if let route {
+                HStack {
+                    Text(timeString(route.expectedTravelTime))
+                    Spacer()
+                    Text(distanceString(route.distance))
+                }
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.white.opacity(0.9))
+                Text(mode == .train ? "Transit (Train)" : "Transit (Bus)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            } else {
+                Text("Calculating route…")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.black.opacity(0.75))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color.white.opacity(0.08), lineWidth: 1)
+                )
+        )
+    }
+
+    private func timeString(_ seconds: TimeInterval) -> String {
+        let mins = Int(round(seconds / 60))
+        if mins < 60 { return "\(mins) min" }
+        let hrs = mins / 60
+        let rem = mins % 60
+        return "\(hrs) hr \(rem) min"
+    }
+
+    private func distanceString(_ meters: CLLocationDistance) -> String {
+        if meters < 1000 { return "\(Int(meters)) m" }
+        return String(format: "%.1f km", meters / 1000)
+    }
+}
+
+private struct TrackSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    let stations: [Station]
+    let mapping: StationMapping
+    @State private var mapPosition: MapCameraPosition = .automatic
+    @State private var routePolyline: MKPolyline?
+    @State private var trainCoordinate: CLLocationCoordinate2D?
+    @State private var progress: Double = 0.0
+    @State private var timer: Timer?
+    @State private var pulse = false
+
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            Map(position: $mapPosition) {
+                if let routePolyline {
+                    MapPolyline(routePolyline)
+                        .stroke(Color.blue, lineWidth: 5)
+                }
+                ForEach(trackingStations, id: \.id) { station in
+                    if let lat = station.latitude, let lon = station.longitude {
+                        Annotation("", coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon)) {
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: 8, height: 8)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.blue.opacity(0.85), lineWidth: 2)
+                                )
+                        }
+                    }
+                }
+                if let trainCoordinate {
+                    Annotation("", coordinate: trainCoordinate) {
+                        ZStack {
+                            Circle()
+                                .fill(Color.blue.opacity(0.25))
+                                .frame(width: 44, height: 44)
+                            Circle()
+                                .fill(Color.blue)
+                                .frame(width: 18, height: 18)
+                                .overlay(
+                                    Image(systemName: "tram.fill")
+                                        .font(.caption2)
+                                        .foregroundStyle(.white)
+                                )
+                        }
+                    }
+                }
+            }
+            .mapStyle(.standard(elevation: .realistic))
+            .ignoresSafeArea()
+
+            HStack(spacing: 12) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                        .frame(width: 36, height: 36)
+                        .background(Circle().fill(Color.black.opacity(0.6)))
+                }
+                Spacer()
+            }
+            .padding(.top, 10)
+            .padding(.horizontal, 16)
+
+            trackSidebar
+        }
+        .onAppear {
+            buildRoute()
+            startTimer()
+            withAnimation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true)) {
+                pulse = true
+            }
+        }
+        .onDisappear {
+            timer?.invalidate()
+        }
+    }
+
+    private var trackingStops: [TrackStop] {
+        let stops = trackingStations
+        guard !stops.isEmpty else { return [] }
+        let times = ["Now", "6 min", "14 min", "22 min", "35 min", "48 min"]
+        let startIndex = max(min(currentStopIndex, stops.count - 1), 0)
+        return Array(stops[startIndex...]).enumerated().map { idx, station in
+            TrackStop(id: station.id, name: station.name, eta: times[min(idx, times.count - 1)])
+        }
+    }
+
+    private var trackingStations: [Station] {
+        let preferred = ["PRE", "LAN", "BLK", "PNR"]
+        let byCode = preferred.compactMap { code in
+            stations.first(where: { $0.code == code && $0.latitude != nil && $0.longitude != nil })
+        }
+        if byCode.count >= 2 { return byCode }
+        return stations.filter { $0.latitude != nil && $0.longitude != nil }.prefix(4).map { $0 }
+    }
+
+    private var currentStopIndex: Int {
+        let count = trackingStations.count
+        guard count > 1 else { return 0 }
+        let idx = Int(floor(progress * Double(count - 1)))
+        return min(max(idx, 0), count - 2)
+    }
+
+    private var currentStation: Station? {
+        let stations = trackingStations
+        guard currentStopIndex < stations.count else { return nil }
+        return stations[currentStopIndex]
+    }
+
+    private var nextStation: Station? {
+        let stations = trackingStations
+        let idx = currentStopIndex + 1
+        guard idx < stations.count else { return nil }
+        return stations[idx]
+    }
+
+    private var destinationStation: Station? {
+        trackingStations.last
+    }
+
+    private func buildRoute() {
+        let coords = trackingStations.compactMap { station -> CLLocationCoordinate2D? in
+            guard let lat = station.latitude, let lon = station.longitude else { return nil }
+            return CLLocationCoordinate2D(latitude: lat, longitude: lon)
+        }
+        guard coords.count >= 2 else { return }
+        routePolyline = MKPolyline(coordinates: coords, count: coords.count)
+        trainCoordinate = coords.first
+        mapPosition = .rect(routePolyline?.boundingMapRect ?? MKMapRect.world)
+    }
+
+    private func startTimer() {
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.06, repeats: true) { _ in
+            progress += 0.0018
+            if progress > 1.0 { progress = 0.0 }
+            if let routePolyline {
+                trainCoordinate = coordinate(on: routePolyline, fraction: progress)
+            }
+        }
+    }
+
+    private func coordinate(on polyline: MKPolyline, fraction: Double) -> CLLocationCoordinate2D {
+        let points = polyline.points()
+        let count = polyline.pointCount
+        guard count > 1 else { return polyline.coordinate }
+
+        var distances: [CLLocationDistance] = []
+        distances.reserveCapacity(count)
+        distances.append(0)
+        for i in 1..<count {
+            let p0 = points[i - 1]
+            let p1 = points[i]
+            let d = p0.distance(to: p1)
+            distances.append(distances[i - 1] + d)
+        }
+        let total = distances.last ?? 1
+        let target = total * fraction
+        for i in 1..<count {
+            if distances[i] >= target {
+                let prev = distances[i - 1]
+                let seg = max(distances[i] - prev, 0.001)
+                let t = (target - prev) / seg
+                let p0 = points[i - 1]
+                let p1 = points[i]
+                let x = p0.x + (p1.x - p0.x) * t
+                let y = p0.y + (p1.y - p0.y) * t
+                return MKMapPoint(x: x, y: y).coordinate
+            }
+        }
+        return points[count - 1].coordinate
+    }
+
+    private var trackSidebar: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            HStack(spacing: 8) {
+                Circle()
+                    .fill(Color.green)
+                    .frame(width: 8, height: 8)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.green.opacity(0.6), lineWidth: 6)
+                            .scaleEffect(pulse ? 1.2 : 0.6)
+                            .opacity(pulse ? 0.0 : 0.8)
+                    )
+                Text("LIVE")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.green)
+            }
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Train 38")
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(.white)
+                Text("Avanti West Coast")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            VStack(alignment: .leading, spacing: 10) {
+                if let currentStation {
+                    HStack(spacing: 8) {
+                        Image(systemName: "location.fill")
+                            .font(.caption)
+                            .foregroundStyle(.blue)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Current")
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                            Text(currentStation.name)
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(.white)
+                        }
+                    }
+                }
+                if let nextStation {
+                    HStack(spacing: 8) {
+                        Image(systemName: "arrowtriangle.right.fill")
+                            .font(.caption)
+                            .foregroundStyle(.cyan)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Next")
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                            Text(nextStation.name)
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(.white)
+                        }
+                    }
+                }
+                if let destinationStation {
+                    HStack(spacing: 8) {
+                        Image(systemName: "flag.checkered")
+                            .font(.caption)
+                            .foregroundStyle(.orange)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Destination")
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                            Text(destinationStation.name)
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(.white)
+                        }
+                    }
+                }
+            }
+
+            Divider()
+                .background(Color.white.opacity(0.12))
+
+            Text("Upcoming stops")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+
+            ForEach(trackingStops, id: \.id) { stop in
+                HStack {
+                    Text(stop.name)
+                        .foregroundStyle(.white)
+                        .font(.subheadline)
+                    Spacer()
+                    Text(stop.eta)
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.cyan)
+                }
+            }
+
+            Spacer(minLength: 8)
+        }
+        .padding(.vertical, 20)
+        .padding(.horizontal, 14)
+        .frame(width: 230, alignment: .topLeading)
+        .frame(maxHeight: .infinity, alignment: .topLeading)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.black.opacity(0.78))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white.opacity(0.08), lineWidth: 1)
+                )
+        )
+        .padding(.top, 70)
+        .padding(.trailing, 12)
+    }
+}
+
+private struct TrackStop: Identifiable {
+    let id: Int
+    let name: String
+    let eta: String
 }
 
 #Preview {

@@ -1,0 +1,7 @@
+﻿# Third-party packages used by backend/main.py.
+# Note: hashlib/json/math/re/etc. imports are part of Python's standard library
+# and are not listed in requirements.
+flask==3.1.0
+
+# Optional production WSGI server (not required for local `python backend/main.py`).
+gunicorn==21.2.0; platform_system != "Windows"

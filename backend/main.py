@@ -17,7 +17,7 @@ from flask import Flask, jsonify, request
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "API+SERVER_Draft"
 SCRAPER_DIR = PROJECT_ROOT / "web scraping tools" / "Scraper"
-TRAIN_SEED_PATH = PROJECT_ROOT / "TrainApp" / "TrainApp" / "Resources" / "seed.sql"
+TRAIN_SEED_PATH = Path(__file__).resolve().parent / "seed.sql"
 DEFAULT_STORE_PATH = Path(__file__).resolve().parent / "data" / "runtime_store.json"
 
 LANCASTER_STATION_COORDS = {"lat": 54.0466, "lon": -2.8007}

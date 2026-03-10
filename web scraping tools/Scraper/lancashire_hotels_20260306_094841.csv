@@ -1,0 +1,177 @@
+category,name,type,cuisine,address,postcode,town,latitude,longitude,phone,website,opening_hours,stars,wheelchair,osm_id,osm_type,scraped_at
+hotels,The Alexander,hotel,,,,,53.7835296,-2.2304307,,,,,,29878508,node,2026-03-06T09:49:27.817260
+hotels,Millstone Hotel,hotel,,,,,53.7735867,-2.5309161,,,,,,309632169,node,2026-03-06T09:49:27.817279
+hotels,Last Drop Village,hotel,,"Bolton, BL7 9PZ",BL7 9PZ,Bolton,53.62219,-2.4210425,+44 1204 591131,,,,,361426756,node,2026-03-06T09:49:27.817284
+hotels,Barton Grange Hotel,hotel,,"746-768, Garstang Road, Preston, PR3 5AA",PR3 5AA,Preston,53.8304868,-2.7367936,,,,,,390544212,node,2026-03-06T09:49:27.817287
+hotels,Whitburn House Hotel,hotel,,"111, Garstang Road, Preston, PR2 3EB",PR2 3EB,Preston,53.7752384,-2.7083483,,,,,,390544216,node,2026-03-06T09:49:27.817289
+hotels,Royal Oak Hotel,pub,,,,,53.8999658,-2.7745392,+44 1995 603318,https://www.royaloakgarstang.co.uk/,11:00-23:00,,yes,448573853,node,2026-03-06T09:49:27.817292
+hotels,Eagle and Child,pub,,"3, High Street, PR3 1EA",PR3 1EA,,53.9007836,-2.7743212,+44 1995 601524,,"Su-Th 12:00-23:00, Fr,Sa 12:00-24:00",,,448647493,node,2026-03-06T09:49:27.817295
+hotels,The Villa Express,hotel,,,,,53.8055734,-2.890174,,,,,,559767085,node,2026-03-06T09:49:27.817297
+hotels,Travelodge Preston Chorley,hotel,,,,,53.7015753,-2.6385239,,https://www.travelodge.co.uk/hotels/170/Preston-Chorley-hotel,,,,583219304,node,2026-03-06T09:49:27.817303
+hotels,Shaw Hill,hotel,,"Shaw Hill, Chorley, PR6 7PP",PR6 7PP,Chorley,53.6827034,-2.6417714,,,,,,592077909,node,2026-03-06T09:49:27.817305
+hotels,Mytton Fold Hotel,hotel,,,,,53.8083678,-2.43982,,,,,,654023153,node,2026-03-06T09:49:27.817307
+hotels,The Fox Field,hotel,,,,,53.8108384,-2.4322026,,,,,,654023434,node,2026-03-06T09:49:27.817309
+hotels,Sparth House,hotel,,"Whalley Road, Accrington, BB5 5RP",BB5 5RP,Accrington,53.7793075,-2.3849344,,,,,,660292481,node,2026-03-06T09:49:27.817311
+hotels,Mitton Hall,hotel,,,,,53.8420321,-2.4318248,,,,,,661056375,node,2026-03-06T09:49:27.817312
+hotels,Holiday Inn,hotel,,"Ring Way, Preston, PR1 3AU",PR1 3AU,Preston,53.7623981,-2.6969748,,,,,,663170041,node,2026-03-06T09:49:27.817314
+hotels,Travelodge,hotel,,"ExtraMSA Blackburn with Darwen Services, Darwen, BB3 0DB",BB3 0DB,Darwen,53.7127451,-2.477142,,https://www.travelodge.co.uk/hotels/114/Blackburn-M65-hotel,,,,766573379,node,2026-03-06T09:49:27.817316
+hotels,Holiday Inn Express Burnley,hotel,,,,,53.7938815,-2.2563814,+44 1282 855 955,https://www.hiexburnley.com/,,,,773641254,node,2026-03-06T09:49:27.817493
+hotels,Strathmore Hotel,hotel,,"Marine Road East, Morecambe, LA4 5AP",LA4 5AP,Morecambe,54.0767054,-2.8496227,,https://www.thestrathmore.co.uk/,,,,1108903757,node,2026-03-06T09:49:27.817500
+hotels,Bay Roomz,hotel,,"400, Marine Road East, Morecambe, LA4 5AW",LA4 5AW,Morecambe,54.0768246,-2.8522402,,,,,,1116465209,node,2026-03-06T09:49:27.817508
+hotels,The Shakespeare Bed and Breakfast,guest_house,,"96, St Leonard's Gate, Lancaster, LA1 1NN",LA1 1NN,Lancaster,54.0501169,-2.7973904,,,,,,1326945854,node,2026-03-06T09:49:27.817510
+hotels,Ormerod,guest_house,,,,,53.794089,-2.2332877,,,,,,1371242127,node,2026-03-06T09:49:27.817512
+hotels,Bolholt Hotel,hotel,,"Walshaw Road, Bury, BL8 1PU",BL8 1PU,Bury,53.6020104,-2.3262072,,,,,,1834280711,node,2026-03-06T09:49:27.817514
+hotels,Stanley Lodge Farmhouse,guest_house,,"Cockerham Road, LA2 0HE",LA2 0HE,,53.9612114,-2.7890138,+44 1524 793296,https://www.stanleylodgefarmhouse.co.uk/,,,,1960598591,node,2026-03-06T09:49:27.817516
+hotels,Patty's Barn Farm,guest_house,,,,,53.962971,-2.8368793,,https://www.pattysbarn.co.uk/,,,,2008162522,node,2026-03-06T09:49:27.817518
+hotels,Broadfield Park Hotel,hotel,,"Sparrow Hill, Rochdale, OL16 1AF",OL16 1AF,Rochdale,53.614367,-2.1612573,+44 1706 639 000,https://www.broadfieldparkhotel.co.uk/,,4,,2012929896,node,2026-03-06T09:49:27.817521
+hotels,Height Top Farm,guest_house,,,,,53.832386,-2.2879754,,,,,,2080130458,node,2026-03-06T09:49:27.817523
+hotels,The Old Mill,hotel,,"Springwood Street, Bury, BL0 9DS",BL0 9DS,Bury,53.6503296,-2.3229537,,,,,,2328411530,node,2026-03-06T09:49:27.817525
+hotels,Earby Friends of Nature House,hostel,,"9-11, Birch Hall Lane, Barnoldswick, BB18 6JX",BB18 6JX,Barnoldswick,53.9180928,-2.1306495,+44 1282 842349,https://independenthostels.co.uk/members/earbyfriendsofnaturehouse/,,,,3316549000,node,2026-03-06T09:49:27.817527
+hotels,Village Square B&B,guest_house,,,,,54.0186714,-2.2543405,,,,,,3840799326,node,2026-03-06T09:49:27.817531
+hotels,Lancaster Town House,guest_house,,"Caton Road, Lancaster, LA1 3PB",LA1 3PB,Lancaster,54.0627641,-2.7879615,,,,,,3893434485,node,2026-03-06T09:49:27.817533
+hotels,Unnamed,guest_house,,"450, Marine Road East, Morecambe",,Morecambe,54.0781034,-2.8429192,,,,,,3956712868,node,2026-03-06T09:49:27.817535
+hotels,The Channings,hotel,,"455, Marine Road East, Morecambe, LA4 6AD",LA4 6AD,Morecambe,54.0782872,-2.8421447,+44 1524 417925,,,,,3957924862,node,2026-03-06T09:49:27.817538
+hotels,The Craggs,hotel,,"Marine Road East, Morecambe",,Morecambe,54.0783349,-2.8419618,,,,,,3957924863,node,2026-03-06T09:49:27.817539
+hotels,St. Winifred's Hotel,hotel,,"Marine Road East, Morecambe, LA4 5AR",LA4 5AR,Morecambe,54.0767026,-2.8500383,,,,,,3957983357,node,2026-03-06T09:49:27.817543
+hotels,The Beach Mount,guest_house,,"395, Marine Road East, Morecambe, LA4 5AN",LA4 5AN,Morecambe,54.0769719,-2.8532337,,,,,,3958047112,node,2026-03-06T09:49:27.817545
+hotels,Craigwell Guest House,guest_house,,"Marine Road East, Morecambe",,Morecambe,54.0771657,-2.8566367,,,,,,3958221735,node,2026-03-06T09:49:27.817547
+hotels,The Ashley,guest_house,,"Marine Road East, Morecambe",,Morecambe,54.0771423,-2.8567841,,,,,,3958221741,node,2026-03-06T09:49:27.817549
+hotels,The Shipping Lanes Hotel,hotel,,"363, Marine Road East, Morecambe, LA4 5AQ",LA4 5AQ,Morecambe,54.0769158,-2.8576049,,,,,,3958234520,node,2026-03-06T09:49:27.817551
+hotels,Yacht Bay View,guest_house,,"359, Marine Road East, Morecambe, LA4 5AQ",LA4 5AQ,Morecambe,54.0768261,-2.8579429,,,,,,3958234523,node,2026-03-06T09:49:27.817553
+hotels,Broadwater,guest_house,,"356, Marine Road East, Morecambe, LA4 5AQ",LA4 5AQ,Morecambe,54.0767257,-2.8583524,,,,,,3958234524,node,2026-03-06T09:49:27.817554
+hotels,The Morecambe Bay Hotel,hotel,,"317-318, Marine Road Central, Morecambe, LA4 5AA",LA4 5AA,Morecambe,54.0747485,-2.862921,,,,,,3958308136,node,2026-03-06T09:49:27.817556
+hotels,The Auckland,hotel,,"313-315, Marine Road Central, Morecambe, LA4 5AA",LA4 5AA,Morecambe,54.0746473,-2.863149,,,,,,3958308138,node,2026-03-06T09:49:27.817558
+hotels,Travelodge,hotel,,"57, Euston Road, Morecambe, LA4 5DG",LA4 5DG,Morecambe,54.0718804,-2.864361,+44 871 984 6479,https://www.travelodge.co.uk/hotels/516/Morecambe-hotel,,,,3959675667,node,2026-03-06T09:49:27.817560
+hotels,The Crown Hotel,hotel,,"Marine Road Central, Morecambe",,Morecambe,54.072496,-2.8684018,,,,,,3959769336,node,2026-03-06T09:49:27.817561
+hotels,Devonia B&B,guest_house,,"Skipton Street, Morecambe",,Morecambe,54.072185,-2.8686195,,,,,,3966200412,node,2026-03-06T09:49:27.817563
+hotels,Shaftsbury Hotel,hotel,,"Skipton Street, Morecambe",,Morecambe,54.0721159,-2.8686236,,,,,,3966200414,node,2026-03-06T09:49:27.817564
+hotels,Clifton Hotel,hotel,,"43-46, Marine Road West, Morecambe, LA3 1BZ",LA3 1BZ,Morecambe,54.0658914,-2.8809607,,,,,no,3984126177,node,2026-03-06T09:49:27.817566
+hotels,The Berkeley,guest_house,,"39, Marine Road West, Morecambe, LA3 1BZ",LA3 1BZ,Morecambe,54.0656615,-2.8813191,+44 1524 418 201,,,,,3984126178,node,2026-03-06T09:49:27.817568
+hotels,The Kerswell,guest_house,,"36, Marine Road West, Morecambe, LA3 1BZ",LA3 1BZ,Morecambe,54.065533,-2.8815174,+44 1524 418 427,,,,no,3984126179,node,2026-03-06T09:49:27.817573
+hotels,The Balmoral,guest_house,,"34, Marine Road West, Morecambe, LA3 1BZ",LA3 1BZ,Morecambe,54.0654479,-2.8816575,+44 1524 418 526,,,,no,3984126181,node,2026-03-06T09:49:27.817575
+hotels,Westleigh,guest_house,,"9, Marine Road West, Morecambe, LA3 1BS",LA3 1BS,Morecambe,54.0646901,-2.8844067,+44 1524 418352,,,,,3985987545,node,2026-03-06T09:49:27.817576
+hotels,Chesham Hill Farm,guest_house,,"Preston, PR4 0UA",PR4 0UA,Preston,53.8437891,-2.8191384,,,,,,4607529058,node,2026-03-06T09:49:27.817578
+hotels,Red Hall Hotel,hotel,,"Manchester Road, Bury, BL9 5NA",BL9 5NA,Bury,53.6359656,-2.3017473,,,,3,,4716530984,node,2026-03-06T09:49:27.817580
+hotels,Our House,guest_house,,"11, Perry Close",,,53.6058254,-2.1689698,,,,,,4874412221,node,2026-03-06T09:49:27.817583
+hotels,Premier Inn Preston Central,hotel,,"Fox Street, Preston, PR1 2AB",PR1 2AB,Preston,53.7588161,-2.704407,,https://www.premierinn.com/gb/en/hotels/england/lancashire/preston/preston-central.html,,,,5169371351,node,2026-03-06T09:49:27.817585
+hotels,Moon NJF Residential,hotel,,,,,54.0641665,-2.1557175,,,,,,5213931266,node,2026-03-06T09:49:27.817587
+hotels,Lister Barn,guest_house,,,,,54.0621267,-2.153549,,,,,,5213931271,node,2026-03-06T09:49:27.817588
+hotels,Lothersdale Hotel,hotel,,"320-323, Marine Road Central, Morecambe, LA4 5AA",LA4 5AA,Morecambe,54.0748558,-2.8625214,,,,,,5358967122,node,2026-03-06T09:49:27.817590
+hotels,Commercial Hotel,pub,,,,,53.7047863,-2.3257804,,,,,,5908438080,node,2026-03-06T09:49:27.817594
+hotels,King William the Fourth Guest House,guest_house,,"High Street, Settle, BD24 9EX",BD24 9EX,Settle,54.0679,-2.2757429,,https://www.kingwilliamthefourthguesthouse.co.uk/,,,,6192605385,node,2026-03-06T09:49:27.817595
+hotels,Theatre Hotel,hotel,,"10, Dole Lane, Chorley, PR7 2RL",PR7 2RL,Chorley,53.6532834,-2.6339329,,,,,,6220864454,node,2026-03-06T09:49:27.817597
+hotels,Bartle Hall,hotel,,"Lea Lane, Preston, PR4 0HA",PR4 0HA,Preston,53.7929583,-2.7815104,,,,,,6353264594,node,2026-03-06T09:49:27.817599
+hotels,The Ridges,guest_house,,"Weavers Brow, Chorley, PR6 9EB",PR6 9EB,Chorley,53.6438126,-2.6089539,,,,,,6635620667,node,2026-03-06T09:49:27.817600
+hotels,Earby Holiday Hostel,hostel,,"13, Birch Hall Lane, Barnoldswick, BB18 6JX",BB18 6JX,Barnoldswick,53.9180143,-2.1305984,+44 7791903454,https://www.earbyhostel.co.uk/,,,,6749189185,node,2026-03-06T09:49:27.817602
+hotels,Six Acres B&B,guest_house,,"Trailholme Road, Overton, LA3 3HG",LA3 3HG,Overton,54.0145131,-2.8667775,,,,,,6848123916,node,2026-03-06T09:49:27.817604
+hotels,Spa Hotel,hotel,,,,,53.7752072,-2.897062,,,,,,6906507470,node,2026-03-06T09:49:27.817606
+hotels,Miresfield Bed & Breakfast,guest_house,,"Skipton, BD23 4DA",BD23 4DA,Skipton,54.0608608,-2.1520902,+441729 830414,http://miresfieldfarm.co.uk/,,,,7028398819,node,2026-03-06T09:49:27.817607
+hotels,Lindon Guest House,guest_house,,"Skipton, BD23 4BE",BD23 4BE,Skipton,54.031229,-2.1522199,,www.lindonguesthouse.co.uk,,,,7187193615,node,2026-03-06T09:49:27.817609
+hotels,Clerk Laithe Lodge,guest_house,,"Clitheroe, BB7 3EB",BB7 3EB,Clitheroe,53.9533841,-2.4607655,,https://www.clerklaithe.co.uk/,,,,7457266494,node,2026-03-06T09:49:27.817612
+hotels,Spinning Block,hotel,,,,,53.867802,-2.3949165,,,,,,7526556661,node,2026-03-06T09:49:27.817614
+hotels,Domain,hotel,,"14, New Street, Lancaster, LA1 1EG",LA1 1EG,Lancaster,54.0494537,-2.802074,,https://domainboutiquestays.com/,,,,7580988370,node,2026-03-06T09:49:27.817618
+hotels,Waddow Hall,guest_house,,,,,53.8796684,-2.4047646,,,,,,7797016672,node,2026-03-06T09:49:27.817619
+hotels,Parr Hall Farm,guest_house,,"Parr Lane, Chorley, PR7 5SL",PR7 5SL,Chorley,53.6504345,-2.7292255,,,,4,,8453946201,node,2026-03-06T09:49:27.817621
+hotels,The Kings Arms Hotel,hotel,,PR3 1EA,PR3 1EA,,53.9009078,-2.7743294,,https://www.craftunionpubs.com/kings-arms-garstang,Mo-Sa 10:00-23:00; Su 11:00-22:00,,,9025065956,node,2026-03-06T09:49:27.817624
+hotels,Dale House Barn,guest_house,,"Clitheroe, BB7 4TS",BB7 4TS,Clitheroe,54.0245879,-2.4065487,,https://dalehousebarn.co.uk/,,,,9931681829,node,2026-03-06T09:49:27.817626
+hotels,Three Peak View Cottage,guest_house,,,,,53.9907578,-2.3019082,,,,,,10031020295,node,2026-03-06T09:49:27.817628
+hotels,Hotel 99,hotel,,,,,53.7465251,-2.4837282,,,,,,11282324955,node,2026-03-06T09:49:27.817629
+hotels,No.10 Preston,hotel,,"10, Theatre Street, Preston, PR1 8BQ",PR1 8BQ,Preston,53.7570558,-2.7043487,,https://no10preston.co.uk,,,,11948940529,node,2026-03-06T09:49:27.817631
+hotels,Winsley Hotel,hotel,,"12, Skipton Street, Morecambe, LA4 4AR",LA4 4AR,Morecambe,54.072043,-2.8683754,,,,,,12232691872,node,2026-03-06T09:49:27.817637
+hotels,Dunkenhalgh Hotel,hotel,,"Blackburn Road, Accrington, BB5 5JP",BB5 5JP,Accrington,53.766398,-2.3956391,,,,4,,12396435333,node,2026-03-06T09:49:27.817639
+hotels,Lancaster Barn B&B,guest_house,,LA2 0HW,LA2 0HW,,53.9678476,-2.7795083,+44 1524 941449,https://www.lancasterbarn.co.uk/,,,,12826922888,node,2026-03-06T09:49:27.817641
+hotels,The Golden Lion,hotel,,"5, Duke Street, Settle, BD24 9DU",BD24 9DU,Settle,54.0680914,-2.2770956,,,,,,13107931866,node,2026-03-06T09:49:27.817642
+hotels,Regent Guest House,guest_house,,"5, Albert Street, Burnley, BB11 3BD",BB11 3BD,Burnley,53.789392,-2.2347785,+44 2081 459283,https://regenthotelgroup.com/,,,,13240052477,node,2026-03-06T09:49:27.817644
+hotels,Lowfield,guest_house,,"Bay Horse Road, Bay Horse, LA2 0HR",LA2 0HR,Bay Horse,53.9682985,-2.7762027,+44 1524 792912,https://lowfield.org,,,,13341483330,node,2026-03-06T09:49:27.817646
+hotels,Olde Duncombe House,guest_house,,"Garstang Road, PR3 0RE",PR3 0RE,,53.8513825,-2.7465202,+44 1995 640336,https://www.oldeduncombehouse.co.uk/,,,,13427697892,node,2026-03-06T09:49:27.817648
+hotels,Farington Lodge Hotel,hotel,,"Stanifield Lane, Leyland, PR25 4QR",PR25 4QR,Leyland,53.7065175,-2.6845888,,,,,,23239591,way,2026-03-06T09:49:27.817650
+hotels,YMCA,hostel,,,,,53.7625583,-2.6730769,,,,,,31762773,way,2026-03-06T09:49:27.817652
+hotels,Travelodge Preston Central,hotel,,"New Hall Lane, Preston, PR1 5NQ",PR1 5NQ,Preston,53.7611934,-2.6848946,,https://www.travelodge.co.uk/hotels/305/Preston-Central-hotel,,,,31783549,way,2026-03-06T09:49:27.817654
+hotels,Rivington Lodge,hotel,,"Bolton, BL6 5UZ",BL6 5UZ,Bolton,53.6009635,-2.5728117,,,,,,32952271,way,2026-03-06T09:49:27.817658
+hotels,Premier Inn,hotel,,"Queen Victoria Road, Burnley, BB10 3EF",BB10 3EF,Burnley,53.7965741,-2.2329245,,https://www.premierinn.com/gb/en/hotels/england/lancashire/burnley/burnley.html,,,,36931375,way,2026-03-06T09:49:27.817660
+hotels,The Avenue Hotel,hotel,,"Blackburn, BB6 8AY",BB6 8AY,Blackburn,53.8231186,-2.4526127,,https://www.facebook.com/avenuehotelbrockhallvillage/,,,,51984812,way,2026-03-06T09:49:27.817661
+hotels,Lea Gate Hotel,hotel,,"Blackpool Road, Preston, PR4 0XB",PR4 0XB,Preston,53.7619785,-2.7924052,,https://www.greenekinginns.co.uk/hotels/lea-gate/,,,,57673584,way,2026-03-06T09:49:27.817663
+hotels,Stirk House Hotel,hotel,,,,,53.9293072,-2.2885365,,,,,,61672568,way,2026-03-06T09:49:27.817666
+hotels,Premier Inn,hotel,,,,,53.7899737,-2.6584134,,https://www.premierinn.com/gb/en/hotels/england/lancashire/preston/preston-east.html,,,,62235430,way,2026-03-06T09:49:27.817668
+hotels,Ibis,hotel,,"Garstang Road, Preston, PR3 5JE",PR3 5JE,Preston,53.8005124,-2.7149845,+44 1772 957120,https://all.accor.com/hotel/3162/index.en.shtml,,,yes,66922596,way,2026-03-06T09:49:27.817670
+hotels,The Midland Hotel,hotel,,"Marine Road Central, Morecambe, LA4 4DB",LA4 4DB,Morecambe,54.0722478,-2.8752723,+44 1524 804 749,https://www.inncollectiongroup.com/the-midland-hotel/,,,yes,69284303,way,2026-03-06T09:49:27.817672
+hotels,Legacy International Hotel,hotel,,"Preston, PR1 8RQ",PR1 8RQ,Preston,53.7601183,-2.7084722,,,,,,73843207,way,2026-03-06T09:49:27.817673
+hotels,Delta Hotel Marriott,hotel,,"418, Garstang Road, Preston, PR3 5JB",PR3 5JB,Preston,53.8057825,-2.7175002,,,,,,81337725,way,2026-03-06T09:49:27.817675
+hotels,Lancaster House Hotel,hotel,,"Green Lane, Lancaster, LA1 4GJ",LA1 4GJ,Lancaster,54.0063445,-2.7884144,+44 1524 844 822,https://englishlakes.co.uk/hotels/lancaster-house-hotel/,,,,90424773,way,2026-03-06T09:49:27.817679
+hotels,Clarendon Hotel,hotel,,"74-76, Marine Road West, Morecambe, LA4 4EP",LA4 4EP,Morecambe,54.0670262,-2.879091,,,,,,100533006,way,2026-03-06T09:49:27.817681
+hotels,Garstang Country Hotel and Golf Centre,hotel,,,,,53.8872061,-2.7706817,,,,,,111221193,way,2026-03-06T09:49:27.817682
+hotels,The Lister Arms Hotel,pub,,"Finkle Street, Skipton, BD23 4DB",BD23 4DB,Skipton,54.062027,-2.1524209,,https://www.listerarms.co.uk/,"Su-Th 12:00-21:30; Fr,Sa 12:00-22:00",,yes,118301791,way,2026-03-06T09:49:27.817684
+hotels,River House Hotel,guest_house,,"Chapel Gate, Skipton, BD23 4DA",BD23 4DA,Skipton,54.0607112,-2.1532393,+44 1729 830315,https://www.riverhousemalham.co.uk/,,,,118303563,way,2026-03-06T09:49:27.817688
+hotels,Hill Top Farm Bunk Barn,hostel,,,,,54.0632863,-2.1551094,+44 1729 830320,https://hilltopmalham.co.uk/,,,,118318323,way,2026-03-06T09:49:27.817689
+hotels,Beck Hall,guest_house,,"Cove Road, Skipton, BD23 4DJ",BD23 4DJ,Skipton,54.0633302,-2.1537304,,,,,,118318397,way,2026-03-06T09:49:27.817691
+hotels,Bluebird Inn,hotel,,"Myerscough Road, Blackburn, BB2 7LE",BB2 7LE,Blackburn,53.7760854,-2.5803366,+44 1254 813900,https://www.bluebirdinn.co.uk/,,,yes,137650321,way,2026-03-06T09:49:27.817693
+hotels,The Craven Arms,hotel,,"Brackenber Lane, Settle, BD24 0EA",BD24 0EA,Settle,54.061986,-2.3013902,+44 1729 825627,https://craven-arms.co.uk/,,,yes,143425463,way,2026-03-06T09:49:27.817695
+hotels,Youth Hostel Association Malham,hostel,,,,,54.0625804,-2.1520074,,https://www.yha.org.uk/hostel/yha-malham,,,,143978777,way,2026-03-06T09:49:27.817696
+hotels,Premier Inn,hotel,,"Hellifield Road, Skipton, BD23 3NB",BD23 3NB,Skipton,53.9837306,-2.1170269,,https://www.premierinn.com/gb/en/hotels/england/north-yorkshire/skipton/skipton-north-gargrave.html,,,,150821914,way,2026-03-06T09:49:27.817700
+hotels,Old Station House Bed & Breakfast,guest_house,,"25, Meeting House Lane, Lancaster, LA1 1TX",LA1 1TX,Lancaster,54.0479813,-2.8067518,+44 1524 381060,,,,limited,154979937,way,2026-03-06T09:49:27.817702
+hotels,Crows Hotel,hotel,,"10, King Street, Lancaster, LA1 1JN",LA1 1JN,Lancaster,54.0482102,-2.8029359,+44 1524 382888,https://www.crowshotel.co.uk/,,,,159032220,way,2026-03-06T09:49:27.817704
+hotels,Premier Inn Preston North,hotel,,"Garstang Road, Preston, PR3 0RN",PR3 0RN,Preston,53.8511109,-2.7449801,,https://www.premierinn.com/gb/en/hotels/england/lancashire/preston/preston-north.html,,,,161369290,way,2026-03-06T09:49:27.817706
+hotels,The Whitehall Hotel,hotel,,"Darwen, BB3 2JU",BB3 2JU,Darwen,53.6813865,-2.4654739,+44 1254 701595,http://northwestweddingvenues.com/,,,,162656982,way,2026-03-06T09:49:27.817707
+hotels,Travelodge,hotel,,,,,53.9612965,-2.7624126,,https://www.travelodge.co.uk/hotels/142/Lancaster-M6-hotel,,,,177983366,way,2026-03-06T09:49:27.817709
+hotels,Pyes Mill,hotel,,"Thurnham Mill Lane, Conder Green, LA2 0BD",LA2 0BD,Conder Green,53.9920917,-2.8234969,,https://pyesmillhotellancaster.co.uk/,,,,179888925,way,2026-03-06T09:49:27.817711
+hotels,Fence Gate Lodge,hotel,,,,,53.8297964,-2.2684149,,,,,,198310646,way,2026-03-06T09:49:27.817713
+hotels,Hallmark Hotel Preston Leyland,hotel,,"Leyland Way, Leyland, PR25 4JX",PR25 4JX,Leyland,53.6948897,-2.6801801,+44 330 028 3420,,,,,198827407,way,2026-03-06T09:49:27.817714
+hotels,Ramada Chorley South Hotel,hotel,,"Mill Lane, Chorley, PR7 5LR",PR7 5LR,Chorley,53.629916,-2.6926526,,,,,,204382808,way,2026-03-06T09:49:27.817716
+hotels,Tickled Trout,hotel,,"Preston New Road, Preston, PR5 0UJ",PR5 0UJ,Preston,53.7653366,-2.6414337,,,,,,221644447,way,2026-03-06T09:49:27.817719
+hotels,Astley Bank Hotel,hotel,,"Bolton Road, Darwen, BB3 2QB",BB3 2QB,Darwen,53.6860682,-2.4670346,,https://www.astleybank.co.uk/,,,,231252928,way,2026-03-06T09:49:27.817722
+hotels,Rufford Arms Hotel,restaurant,,"380, Liverpool Road, Ormskirk, L40 1SQ",L40 1SQ,Ormskirk,53.6455826,-2.8198144,,,Mo-Fr 07:00-21:00; Sa 08:00-21:30; Su 08:00-20:30,,,241958943,way,2026-03-06T09:49:27.817724
+hotels,Blakewater Hotel,guest_house,,"1, Bridge Street, Blackburn, BB2 2BX",BB2 2BX,Blackburn,53.7452273,-2.4811479,,,,,,272159096,way,2026-03-06T09:49:27.817725
+hotels,Scarthwaite Country House Hotel,hotel,,,,,54.073177,-2.7350265,,,,,,274117934,way,2026-03-06T09:49:27.817727
+hotels,Hill View Hotel,hotel,,"90, Preston New Road, Blackburn, BB2 6BH",BB2 6BH,Blackburn,53.7511654,-2.4964199,,,,,,293579508,way,2026-03-06T09:49:27.817729
+hotels,Premier Inn Blackburn South (M65 J4),hotel,,"Riversway Drive, Darwen, BB3 0SN",BB3 0SN,Darwen,53.7175989,-2.4745393,,https://www.premierinn.com/gb/en/hotels/england/lancashire/blackburn/blackburn-south-m65-j4.html,,,,297184685,way,2026-03-06T09:49:27.817730
+hotels,Northcote,hotel,,"Northcote Road, Blackburn, BB6 8BE",BB6 8BE,Blackburn,53.8092396,-2.4474461,+44 1254 240555,https://www.northcote.com/,,,,336309826,way,2026-03-06T09:49:27.817732
+hotels,Plaza Hotel,hotel,,"Bolton Road, Chorley, PR7 4AB",PR7 4AB,Chorley,53.6399978,-2.6171004,,,,,,339700065,way,2026-03-06T09:49:27.817734
+hotels,Holiday Inn Express Preston - South,hotel,,"Walton Summit Road, Preston, PR5 8AA",PR5 8AA,Preston,53.7187322,-2.654682,,,,,,344803049,way,2026-03-06T09:49:27.817735
+hotels,The Samlesbury Hotel,hotel,,"Preston New Road, Preston, PR5 0UL",PR5 0UL,Preston,53.7671253,-2.6028757,,,,,,346643618,way,2026-03-06T09:49:27.817738
+hotels,The Ashton,guest_house,,"Wyresdale Road, Lancaster, LA1 3JJ",LA1 3JJ,Lancaster,54.0406786,-2.7766637,,,,,,359519729,way,2026-03-06T09:49:27.817740
+hotels,Maypole Inn,pub,,"Main Street, Long Preston, BD23 4PH",BD23 4PH,Long Preston,54.0199736,-2.2552766,+44 1729 841066,https://maypole.pub/,,,yes,362734193,way,2026-03-06T09:49:27.817742
+hotels,The Barn Guest House,guest_house,,"Main Street, Skipton, BD23 4ND",BD23 4ND,Skipton,54.0188499,-2.2537687,,,,,,362741059,way,2026-03-06T09:49:27.817744
+hotels,The Black Horse Hotel,guest_house,,"Gisburn Road, Skipton, BD23 4HU",BD23 4HU,Skipton,54.0041527,-2.2219967,+44 1729 851402,,,,,362771898,way,2026-03-06T09:49:27.817747
+hotels,Fogga Croft Cottage,guest_house,,,,,53.992632,-2.1625646,,,,,,362777922,way,2026-03-06T09:49:27.817749
+hotels,The Coniston Hotel Country Estate & Spa,hotel,,"Coniston Cold, BD23 4EB",BD23 4EB,Coniston Cold,53.9941175,-2.1642377,+44 1756 748080,https://www.theconistonhotel.com/,,4,,362777923,way,2026-03-06T09:49:27.817750
+hotels,Premier Inn,hotel,,"Caton Road, Lancaster, LA1 3PE",LA1 3PE,Lancaster,54.0699617,-2.7779947,+44 871 527 8576,https://www.premierinn.com/gb/en/hotels/england/lancashire/lancaster/lancaster.html,,,,368735485,way,2026-03-06T09:49:27.817752
+hotels,The Higher Trapp,hotel,,"Trapp Lane, Burnley, BB12 7QW",BB12 7QW,Burnley,53.8164815,-2.3400475,,https://lavenderhotels.co.uk/hotels/higher-trapp-house/?tab=contact,,,,387905758,way,2026-03-06T09:49:27.817754
+hotels,Clark House Camping Barn,hostel,,,,,53.8866741,-2.58491,,,,,,409313111,way,2026-03-06T09:49:27.817755
+hotels,Thurnham Hall,hotel,,"Thurnham, LA2 0DT",LA2 0DT,Thurnham,53.984225,-2.8194391,,,,,,441978887,way,2026-03-06T09:49:27.817759
+hotels,Travelodge,hotel,,"Barracks Road, Burnley",,Burnley,53.7895033,-2.260505,,https://www.travelodge.co.uk/hotels/118/Burnley-hotel,,3,,444331855,way,2026-03-06T09:49:27.817761
+hotels,The Golden Ball,pub,,LA3 3ER,LA3 3ER,,54.0470665,-2.8432633,,https://www.snatchems.co.uk/,,,,452479156,way,2026-03-06T09:49:27.817763
+hotels,Winmarleigh Hall Accommodation,guest_house,,,,,53.9207997,-2.8095777,,,,,,454337629,way,2026-03-06T09:49:27.817764
+hotels,Purple Roomz,hotel,,"Lostock Lane, Preston, PR5 6BA",PR5 6BA,Preston,53.7216109,-2.6709989,,,,,,462378852,way,2026-03-06T09:49:27.817766
+hotels,Premier Inn Preston South,hotel,,"Craven Drive, Preston, PR5 6BZ",PR5 6BZ,Preston,53.7206621,-2.671482,,https://www.premierinn.com/gb/en/hotels/england/lancashire/preston/preston-south-craven-drive.html,,,,462573627,way,2026-03-06T09:49:27.817768
+hotels,Fence Gate Lodge,hotel,,,,,53.8296856,-2.2685799,,,,,,462818852,way,2026-03-06T09:49:27.817770
+hotels,Old Stone Trough,hotel,,"Colne Road, Barnoldswick, BB18 6XY",BB18 6XY,Barnoldswick,53.8930095,-2.1567123,,,,,,477546646,way,2026-03-06T09:49:27.817771
+hotels,The Craven Heifer Inn,hotel,,"400, Colne Road, Barnoldswick, BB18 6TF",BB18 6TF,Barnoldswick,53.8987887,-2.1511501,,thecravenheiferinn.co.uk,,,,477551743,way,2026-03-06T09:49:27.817773
+hotels,Beck Hall,hotel,,"Cove Road, Skipton, BD23 4DJ",BD23 4DJ,Skipton,54.0636146,-2.1532759,,https://www.beckhallmalham.com/,,,,537942094,way,2026-03-06T09:49:27.817774
+hotels,Newfield Hall,hotel,,"Skipton, BD23 4AA",BD23 4AA,Skipton,54.0190734,-2.1364707,+44 20 3974 8865,https://www.hfholidays.co.uk/country-houses/locations/malham-yorkshire-dales,,,,551692794,way,2026-03-06T09:49:27.817778
+hotels,Toll House Inn Hotel,pub,,"Penny Street, Lancaster, LA1 1XT",LA1 1XT,Lancaster,54.0450124,-2.7997329,+44 1524 599900,https://www.tollhouseinn.co.uk/,,,,566825585,way,2026-03-06T09:49:27.817780
+hotels,The Royal Hotel and Bar,hotel,,"Thurnham Street, Lancaster, LA1 1YD",LA1 1YD,Lancaster,54.0468286,-2.798489,,https://www.theroyalhotelandbar.co.uk/,,,,567798059,way,2026-03-06T09:49:27.817783
+hotels,Premier Inn Chorley North,hotel,,"Moss Lane, Chorley, PR6 8AB",PR6 8AB,Chorley,53.6776494,-2.6199291,,https://www.premierinn.com/gb/en/hotels/england/lancashire/chorley/chorley-north.html,,,,575501623,way,2026-03-06T09:49:27.817785
+hotels,Ashwood Hotel,guest_house,,"11-13, Fishergate Hill, Preston, PR1 8JB",PR1 8JB,Preston,53.7559263,-2.7109325,,,,,,597499439,way,2026-03-06T09:49:27.817787
+hotels,Park Hall Hotel & Leisure Club,hotel,,,,,53.6338022,-2.6949806,,,,,,602897836,way,2026-03-06T09:49:27.817788
+hotels,Brownhill Hotel,hotel,,,,,53.6212401,-2.1613939,,,,,,632736493,way,2026-03-06T09:49:27.817790
+hotels,Hartwood Hall Hotel,hotel,,"Preston Road, Chorley, PR6 7AX",PR6 7AX,Chorley,53.6681198,-2.6325777,,,,3,,640883830,way,2026-03-06T09:49:27.817791
+hotels,"The Old Station, Bell Busk Bed & Breakfast",guest_house,,,,,54.004166,-2.1512335,+44 1729 830301,http://www.malhamdalehotels.co.uk/,,,,653234445,way,2026-03-06T09:49:27.817793
+hotels,Inglewood Boutique B&B,guest_house,,"19, Southport Road, Chorley, PR7 1LB",PR7 1LB,Chorley,53.6533223,-2.6392855,,,,,,664620202,way,2026-03-06T09:49:27.817795
+hotels,Holiday Inn,hotel,,"Caton Road, Lancaster, LA1 3RA",LA1 3RA,Lancaster,54.0711333,-2.7772507,+44 871 942 9047,https://www.holidayinn.com/hotels/gb/en/lancaster/xqlcr/hoteldetail,,,,769615789,way,2026-03-06T09:49:27.817799
+hotels,Premier Inn Blackburn Town Centre,hotel,,"3, Cathedral Square, Blackburn, BB1 1FB",BB1 1FB,Blackburn,53.7466545,-2.4808268,,https://www.premierinn.com/gb/en/hotels/england/lancashire/blackburn/blackburn-town-centre.html,,,,884204938,way,2026-03-06T09:49:27.817801
+hotels,Hampton by Hilton Blackburn,hotel,,"2, Frontier Avenue, Blackburn, BB1 3AL",BB1 3AL,Blackburn,53.7538177,-2.442846,+44 1254 946060,https://www.hilton.com/en/hotels/manubhx-hampton-blackburn/,,3,,898466264,way,2026-03-06T09:49:27.817803
+hotels,The Sanderling,hotel,,"20, West End Road, Morecambe, LA4 4DL",LA4 4DL,Morecambe,54.067433,-2.8773454,,https://thesanderling.co.uk/,,,,938415607,way,2026-03-06T09:49:27.817804
+hotels,Glenthorn Hotel,hotel,,"24-26, West End Road, Morecambe, LA4 4DL",LA4 4DL,Morecambe,54.0673812,-2.8771191,,https://www.glenthornhotel.co.uk/,,,,938415609,way,2026-03-06T09:49:27.817806
+hotels,The Sea Crest,hotel,,"9;11;13, West End Road, Morecambe, LA4 4DJ",LA4 4DJ,Morecambe,54.0671918,-2.8782024,,https://www.seacrest-hotel.co.uk/,,,,938415622,way,2026-03-06T09:49:27.817808
+hotels,The Trevelyan,guest_house,,"27, West End Road, Morecambe, LA4 4DJ",LA4 4DJ,Morecambe,54.067046,-2.8774856,,http://thetrevelyan.co.uk/,,,,938415628,way,2026-03-06T09:49:27.817809
+hotels,The Sea Lynn,guest_house,,"29, West End Road, Morecambe, LA4 4DJ",LA4 4DJ,Morecambe,54.0670361,-2.8774147,,https://www.thesealynn.com/,,,,938415629,way,2026-03-06T09:49:27.817812
+hotels,Pilkingtons Bed & Breakfast,guest_house,,"135, Blackburn Road, Accrington, BB5 0AA",BB5 0AA,Accrington,53.753513,-2.3697424,+44 1254 237032,,,,,1039445590,way,2026-03-06T09:49:27.817814
+hotels,Heskin Farm B&B,guest_house,,"School Lane, L40 4AF",L40 4AF,,53.6012724,-2.8322316,+441704 894437,http://www.heskinfarm.co.uk/,,,,1058334478,way,2026-03-06T09:49:27.817816
+hotels,Travelodge Rochdale,hotel,,"Sandbrook Way, Rochdale, OL11 1RY",OL11 1RY,Rochdale,53.6009899,-2.1645844,,https://www.travelodge.co.uk/hotels/678/Rochdale-hotel,,,,1065906623,way,2026-03-06T09:49:27.817820
+hotels,Premier Inn,hotel,,Newhey Road,,,53.6031239,-2.1047323,,https://www.premierinn.com/gb/en/hotels/england/greater-manchester/rochdale/rochdale.html,,,yes,1126664457,way,2026-03-06T09:49:27.817822
+hotels,Hampton,hotel,,"New Baillie Street, Rochdale, OL16 1EU",OL16 1EU,Rochdale,53.6187359,-2.1542337,+44 1706 801800,https://www.hilton.com/en/hotels/manrdhx-hampton-rochdale/,,,,1211590471,way,2026-03-06T09:49:27.817823
+hotels,Fernhurst Lodge,hotel,,,,,53.7256011,-2.4892752,,,,,,1219283632,way,2026-03-06T09:49:27.817825
+hotels,Green Grove Country House,guest_house,,"Bell Busk, Skipton, BD23 4DU",BD23 4DU,Skipton,53.9990602,-2.1496776,,https://bedandbreakfastmalhamdale.co.uk/,,,,1267999622,way,2026-03-06T09:49:27.817827
+hotels,Slyne Lodge,pub,,"92, Main Road, Slyne, LA2 6AZ",LA2 6AZ,Slyne,54.0857282,-2.8007973,,,,,yes,1346079519,way,2026-03-06T09:49:27.817828
+hotels,Falcon Manor Hotel,hotel,,"Settle, BD24 9BD",BD24 9BD,Settle,54.0629502,-2.2813424,,https://www.jamesplaces.com/falcon-manor/,,,,1346764930,way,2026-03-06T09:49:27.817830
+hotels,The Guest House Worsthorne,guest_house,,"13, Church Square, Burnley, BB10 3NH",BB10 3NH,Burnley,53.7875378,-2.1907212,+447779270398,https://www.theguesthouseworsthorne.com/,,,,1433116372,way,2026-03-06T09:49:27.817832

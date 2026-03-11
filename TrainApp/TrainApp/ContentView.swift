@@ -3,6 +3,7 @@ import MapKit
 import CoreLocation
 import PassKit
 import UniformTypeIdentifiers
+import MessageUI
 
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
@@ -38,6 +39,9 @@ struct ContentView: View {
     @State private var splashNexoScale: CGFloat = 0.88
     @State private var splashImpactOpacity: Double = 0.0
     @State private var splashOverlayOpacity: Double = 1.0
+    @State private var showSMSComposer = false
+    @State private var smsAlertMessage: String?
+    @State private var smsBody = ""
     @State private var showPassImporter = false
     @State private var walletPresentation: WalletPassPresentation?
     @State private var walletMessage: String?
@@ -195,6 +199,14 @@ struct ContentView: View {
         } message: {
             Text(departuresMessage ?? "")
         }
+        .alert("SMS", isPresented: Binding(
+            get: { smsAlertMessage != nil },
+            set: { if !$0 { smsAlertMessage = nil } }
+        )) {
+            Button(t(.ok), role: .cancel) {}
+        } message: {
+            Text(smsAlertMessage ?? "")
+        }
         .sheet(isPresented: $showDirectionsSheet) {
             if let station = directionsStation {
                 DirectionsSheet(
@@ -209,6 +221,12 @@ struct ContentView: View {
                 stations: appState.stations,
                 mapping: appState.mapping
             )
+        }
+        .sheet(isPresented: $showSMSComposer) {
+            MessageComposeView(recipients: nil, body: smsBody) { _ in
+                showSMSComposer = false
+            }
+            .ignoresSafeArea()
         }
     }
 
@@ -334,7 +352,7 @@ struct ContentView: View {
 
     private var homeScreen: some View {
         NavigationStack {
-            ZStack {
+            ZStack(alignment: .bottomLeading) {
                 screenGradient
                 ScrollView {
                     VStack(spacing: 14) {
@@ -361,6 +379,8 @@ struct ContentView: View {
                     .padding(.bottom, 24)
                 }
                 .scrollIndicators(.hidden)
+
+                smsQuickButton
             }
             .toolbar(.hidden, for: .navigationBar)
             .navigationDestination(isPresented: $showPlannedRoute) {
@@ -399,7 +419,8 @@ struct ContentView: View {
                     appLanguageRawValue: $appLanguageRawValue,
                     fullName: $fullName,
                     email: $email,
-                    phone: $phone
+                    phone: $phone,
+                    notifications: $notifications
                 )
             } label: {
                 Image(systemName: "gearshape.fill")
@@ -458,6 +479,30 @@ struct ContentView: View {
         .buttonStyle(.plain)
         .padding()
         .background(cardBackground)
+    }
+
+    private var smsQuickButton: some View {
+        Button {
+            triggerSMSNotification()
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: "bubble.left.and.bubble.right.fill")
+                    .font(.headline)
+                Text("SMS")
+                    .font(.subheadline.weight(.semibold))
+            }
+            .foregroundStyle(.white)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
+            .background(
+                Capsule()
+                    .fill(Color.blue.opacity(0.95))
+                    .shadow(color: Color.blue.opacity(0.35), radius: 10, x: 0, y: 6)
+            )
+        }
+        .buttonStyle(.plain)
+        .padding(.leading, 18)
+        .padding(.bottom, 88)
     }
 
     private var experiencesCard: some View {
@@ -1293,15 +1338,19 @@ struct ContentView: View {
                         Button {
                             showTrackSheet = true
                         } label: {
-                            Text("Track")
-                                .font(.headline.weight(.semibold))
-                                .foregroundStyle(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 14)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 14)
-                                        .fill(Color.blue)
-                                )
+                            HStack(spacing: 8) {
+                                Image(systemName: "location.north.circle.fill")
+                                    .font(.headline)
+                                Text("Track")
+                                    .font(.headline.weight(.semibold))
+                            }
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(
+                                RoundedRectangle(cornerRadius: 14)
+                                    .fill(Color.blue)
+                            )
                         }
 
                         Button {
@@ -1587,7 +1636,8 @@ struct ContentView: View {
                                 appLanguageRawValue: $appLanguageRawValue,
                                 fullName: $fullName,
                                 email: $email,
-                                phone: $phone
+                                phone: $phone,
+                                notifications: $notifications
                             )
                         } label: {
                             accountActionRow(title: t(.settings), icon: "gearshape.fill")
@@ -1892,6 +1942,24 @@ struct ContentView: View {
         items.append(destination)
 
         MKMapItem.openMaps(with: items, launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeTransit])
+    }
+
+    private func triggerSMSNotification() {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        let timeStamp = formatter.string(from: Date())
+        let message = "Nexo alert: Your route update is ready (\(timeStamp))."
+        smsBody = message
+        notifications.insert(
+            AccountNotification(title: "SMS notification", subtitle: message),
+            at: 0
+        )
+        if MFMessageComposeViewController.canSendText() {
+            showSMSComposer = true
+        } else {
+            smsAlertMessage = "SMS is not available on this device."
+        }
     }
 
     private func openDirectionsForTicket() {
@@ -3038,6 +3106,7 @@ private struct SettingsScreen: View {
     @Binding var fullName: String
     @Binding var email: String
     @Binding var phone: String
+    @Binding var notifications: [AccountNotification]
 
     private var language: AppLanguage {
         AppLanguage(rawValue: appLanguageRawValue) ?? .en
@@ -3159,6 +3228,39 @@ private struct AddPassesSheet: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+}
+
+private struct MessageComposeView: UIViewControllerRepresentable {
+    let recipients: [String]?
+    let body: String
+    let onResult: (MessageComposeResult) -> Void
+
+    func makeUIViewController(context: Context) -> MFMessageComposeViewController {
+        let controller = MFMessageComposeViewController()
+        controller.messageComposeDelegate = context.coordinator
+        controller.recipients = recipients
+        controller.body = body
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: MFMessageComposeViewController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(onResult: onResult)
+    }
+
+    final class Coordinator: NSObject, MFMessageComposeViewControllerDelegate {
+        private let onResult: (MessageComposeResult) -> Void
+
+        init(onResult: @escaping (MessageComposeResult) -> Void) {
+            self.onResult = onResult
+        }
+
+        func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+            controller.dismiss(animated: true)
+            onResult(result)
+        }
+    }
 }
 
 private final class UserLocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {

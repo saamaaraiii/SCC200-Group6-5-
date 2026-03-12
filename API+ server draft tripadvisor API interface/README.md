@@ -23,7 +23,3 @@ An AI assistant monitors the group project repo periodically and:
 - Flags anything worth the team's attention
 
 All suggestions are timestamped and labelled by what triggered them.
-
-## Contributors
-- [bensocclawd](https://github.com/bensocclawd) (AI assistant account)
-- [saamaaraiii](https://github.com/saamaaraiii) (team member)

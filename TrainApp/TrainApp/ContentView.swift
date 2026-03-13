@@ -10,6 +10,7 @@ struct ContentView: View {
     @Environment(\.colorScheme) private var systemColorScheme
     @AppStorage("preferredAppearance") private var preferredAppearance = "dark"
     @AppStorage("appLanguage") private var appLanguageRawValue = AppLanguage.en.rawValue
+    @AppStorage("fontScale") private var fontScale: Double = 1.0
     @StateObject private var locationManager = UserLocationManager()
     @State private var selectedTab: AppTab = .home
     @State private var originId: Int?
@@ -126,6 +127,16 @@ struct ContentView: View {
         usesLightPalette ? Color.black.opacity(0.05) : Color.white.opacity(0.05)
     }
 
+    private var contentSizeCategory: ContentSizeCategory {
+        switch fontScale {
+        case ..<0.95: return .medium
+        case ..<1.05: return .large
+        case ..<1.15: return .extraLarge
+        case ..<1.25: return .extraExtraLarge
+        default: return .extraExtraExtraLarge
+        }
+    }
+
     private func t(_ key: L.Key) -> String {
         L.text(key, lang: appLanguage)
     }
@@ -168,6 +179,7 @@ struct ContentView: View {
         .toolbarBackground(.visible, for: .tabBar)
         .toolbarBackground(usesLightPalette ? Color.white : Color(red: 0.02, green: 0.07, blue: 0.14), for: .tabBar)
         .toolbarColorScheme(usesLightPalette ? .light : .dark, for: .tabBar)
+        .environment(\.sizeCategory, contentSizeCategory)
         .toolbarColorScheme(usesLightPalette ? .light : .dark, for: .navigationBar)
         .preferredColorScheme(preferredColorScheme)
         .onAppear {
@@ -420,7 +432,7 @@ struct ContentView: View {
                     fullName: $fullName,
                     email: $email,
                     phone: $phone,
-                    notifications: $notifications
+                    fontScale: $fontScale
                 )
             } label: {
                 Image(systemName: "gearshape.fill")
@@ -1613,19 +1625,19 @@ struct ContentView: View {
                             .foregroundStyle(primaryTextColor)
 
                         NavigationLink {
-                            SavedTripsScreen(trips: savedTrips, language: appLanguage)
+                            SavedTripsScreen(trips: savedTrips, language: appLanguage, preferredAppearance: preferredAppearance)
                         } label: {
                             accountActionRow(title: t(.savedTrips), icon: "bookmark.fill")
                         }
 
                         NavigationLink {
-                            SavedStopsScreen(stops: savedStops, language: appLanguage)
+                            SavedStopsScreen(stops: savedStops, language: appLanguage, preferredAppearance: preferredAppearance)
                         } label: {
                             accountActionRow(title: t(.savedStops), icon: "star.fill")
                         }
 
                         NavigationLink {
-                            NotificationsScreen(notifications: notifications, language: appLanguage)
+                            NotificationsScreen(notifications: notifications, language: appLanguage, preferredAppearance: preferredAppearance)
                         } label: {
                             accountActionRow(title: t(.notifications), icon: "bell.fill")
                         }
@@ -1637,7 +1649,7 @@ struct ContentView: View {
                                 fullName: $fullName,
                                 email: $email,
                                 phone: $phone,
-                                notifications: $notifications
+                                fontScale: $fontScale
                             )
                         } label: {
                             accountActionRow(title: t(.settings), icon: "gearshape.fill")
@@ -2104,6 +2116,7 @@ private enum L {
         case travelDates, outbound, notRequired, outboundDate, returnDate, returnDateOptional
         case localOperators, passengers, railcard
         case personalData, fullName, email, phone, appearance, theme, dark, light, system, language
+        case accessibility, fontSize, screenReader, voiceOverHelpTitle, voiceOverHelpBody
         case noTrips, noNotifications, noStops
         case locatingNearestStop, appleWallet, ok
         case currentLocation, walletUnavailable, walletInvalidPass, walletNoPass
@@ -2145,6 +2158,9 @@ private enum L {
             "travelDates": "Travel Dates", "outbound": "Outbound", "notRequired": "Not required", "outboundDate": "Outbound Date", "returnDate": "Return Date", "returnDateOptional": "Return Date (optional guidance)",
             "localOperators": "Local Operators (NOC)", "passengers": "Passengers", "railcard": "Railcard",
             "personalData": "Personal Data", "fullName": "Full Name", "email": "Email", "phone": "Phone", "appearance": "Appearance", "theme": "Theme", "dark": "Dark", "light": "Light", "system": "System", "language": "Language",
+            "accessibility": "Accessibility", "fontSize": "Font Size", "screenReader": "Screen Reader",
+            "voiceOverHelpTitle": "How to enable VoiceOver",
+            "voiceOverHelpBody": "Open Settings > Accessibility > VoiceOver and turn it on. You can also add VoiceOver to Control Center, or set the Accessibility Shortcut to toggle it with a triple‑click on the Side button.",
             "noTrips": "No trips to show", "noNotifications": "No notifications to show", "noStops": "No stops to show",
             "locatingNearestStop": "Locating nearest stop...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Current Location", "walletUnavailable": "This device cannot add passes to Apple Wallet.", "walletInvalidPass": "Could not read this pass. Please choose a valid signed .pkpass file.", "walletNoPass": "No pass selected.",
@@ -2165,6 +2181,9 @@ private enum L {
             "travelDates": "Fechas de viaje", "outbound": "Ida", "notRequired": "No requerido", "outboundDate": "Fecha de ida", "returnDate": "Fecha de vuelta", "returnDateOptional": "Fecha de vuelta (opcional)",
             "localOperators": "Operadores locales (NOC)", "passengers": "Pasajeros", "railcard": "Railcard",
             "personalData": "Datos personales", "fullName": "Nombre completo", "email": "Correo", "phone": "Teléfono", "appearance": "Apariencia", "theme": "Tema", "dark": "Oscuro", "light": "Claro", "system": "Sistema", "language": "Idioma",
+            "accessibility": "Accesibilidad", "fontSize": "Tamaño de letra", "screenReader": "Narrador de pantalla",
+            "voiceOverHelpTitle": "Cómo activar VoiceOver",
+            "voiceOverHelpBody": "Abre Ajustes > Accesibilidad > VoiceOver y actívalo. También puedes añadir VoiceOver al Centro de control o configurar el Atajo de accesibilidad para activarlo con triple pulsación del botón lateral.",
             "noTrips": "No hay viajes para mostrar", "noNotifications": "No hay notificaciones para mostrar", "noStops": "No hay paradas para mostrar",
             "locatingNearestStop": "Buscando parada más cercana...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Ubicación actual", "walletUnavailable": "Este dispositivo no puede añadir pases a Apple Wallet.", "walletInvalidPass": "No se pudo leer el pase. Selecciona un .pkpass válido y firmado.", "walletNoPass": "No se ha seleccionado ningún pase.",
@@ -2185,6 +2204,9 @@ private enum L {
             "travelDates": "Dates de voyage", "outbound": "Aller", "notRequired": "Non requis", "outboundDate": "Date aller", "returnDate": "Date retour", "returnDateOptional": "Date retour (optionnelle)",
             "localOperators": "Opérateurs locaux (NOC)", "passengers": "Passagers", "railcard": "Railcard",
             "personalData": "Données personnelles", "fullName": "Nom complet", "email": "E-mail", "phone": "Téléphone", "appearance": "Apparence", "theme": "Thème", "dark": "Sombre", "light": "Clair", "system": "Système", "language": "Langue",
+            "accessibility": "Accessibilité", "fontSize": "Taille du texte", "screenReader": "Lecteur d’écran",
+            "voiceOverHelpTitle": "Activer VoiceOver",
+            "voiceOverHelpBody": "Ouvrez Réglages > Accessibilité > VoiceOver et activez‑le. Vous pouvez aussi l’ajouter au Centre de contrôle ou définir le raccourci d’accessibilité (triple‑clic sur le bouton latéral).",
             "noTrips": "Aucun trajet à afficher", "noNotifications": "Aucune notification à afficher", "noStops": "Aucun arrêt à afficher",
             "locatingNearestStop": "Recherche de l'arrêt le plus proche...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Position actuelle", "walletUnavailable": "Cet appareil ne peut pas ajouter de pass à Apple Wallet.", "walletInvalidPass": "Impossible de lire ce pass. Veuillez choisir un fichier .pkpass signé valide.", "walletNoPass": "Aucun pass sélectionné.",
@@ -2205,6 +2227,9 @@ private enum L {
             "travelDates": "Reisedaten", "outbound": "Hin", "notRequired": "Nicht erforderlich", "outboundDate": "Hinreisedatum", "returnDate": "Rückreisedatum", "returnDateOptional": "Rückreisedatum (optional)",
             "localOperators": "Lokale Betreiber (NOC)", "passengers": "Passagiere", "railcard": "Railcard",
             "personalData": "Persönliche Daten", "fullName": "Vollständiger Name", "email": "E-Mail", "phone": "Telefon", "appearance": "Darstellung", "theme": "Design", "dark": "Dunkel", "light": "Hell", "system": "System", "language": "Sprache",
+            "accessibility": "Barrierefreiheit", "fontSize": "Schriftgröße", "screenReader": "Bildschirmleser",
+            "voiceOverHelpTitle": "VoiceOver aktivieren",
+            "voiceOverHelpBody": "Öffne Einstellungen > Bedienungshilfen > VoiceOver und aktiviere es. Du kannst VoiceOver auch zum Kontrollzentrum hinzufügen oder den Bedienungshilfen‑Kurzbefehl (dreifach die Seitentaste) nutzen.",
             "noTrips": "Keine Reisen vorhanden", "noNotifications": "Keine Benachrichtigungen vorhanden", "noStops": "Keine Haltestellen vorhanden",
             "locatingNearestStop": "Nächste Haltestelle wird gesucht...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Aktueller Standort", "walletUnavailable": "Dieses Gerät kann keine Pässe zu Apple Wallet hinzufügen.", "walletInvalidPass": "Dieser Pass konnte nicht gelesen werden. Bitte eine gültige signierte .pkpass-Datei wählen.", "walletNoPass": "Kein Pass ausgewählt.",
@@ -2225,6 +2250,9 @@ private enum L {
             "travelDates": "出行日期", "outbound": "去程", "notRequired": "不需要", "outboundDate": "去程日期", "returnDate": "返程日期", "returnDateOptional": "返程日期（可选）",
             "localOperators": "本地运营商 (NOC)", "passengers": "乘客", "railcard": "Railcard",
             "personalData": "个人资料", "fullName": "姓名", "email": "邮箱", "phone": "电话", "appearance": "外观", "theme": "主题", "dark": "深色", "light": "浅色", "system": "系统", "language": "语言",
+            "accessibility": "辅助功能", "fontSize": "字体大小", "screenReader": "屏幕朗读",
+            "voiceOverHelpTitle": "如何开启 VoiceOver",
+            "voiceOverHelpBody": "打开“设置”>“辅助功能”>“VoiceOver”，并开启。也可以添加到“控制中心”，或设置辅助功能快捷键（侧边按钮三击）切换。",
             "noTrips": "没有可显示的行程", "noNotifications": "没有可显示的通知", "noStops": "没有可显示的站点",
             "locatingNearestStop": "正在定位最近站点...", "appleWallet": "Apple Wallet", "ok": "确定",
             "currentLocation": "当前位置", "walletUnavailable": "此设备无法将票券添加到 Apple Wallet。", "walletInvalidPass": "无法读取该票券，请选择有效且已签名的 .pkpass 文件。", "walletNoPass": "未选择票券。",
@@ -3021,79 +3049,168 @@ private struct HomeExperience: Identifiable {
 }
 
 private struct SavedTripsScreen: View {
+    @Environment(\.colorScheme) private var systemColorScheme
     let trips: [SavedTrip]
     let language: AppLanguage
+    let preferredAppearance: String
+
+    private var usesLightPalette: Bool {
+        switch preferredAppearance {
+        case "light": return true
+        case "dark": return false
+        default: return systemColorScheme == .light
+        }
+    }
 
     var body: some View {
         List {
             if trips.isEmpty {
                 Text(L.text(.noTrips, lang: language))
                     .foregroundStyle(.secondary)
+                    .listRowBackground(Color.clear)
             } else {
                 ForEach(trips) { trip in
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(trip.title).font(.headline)
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(trip.title)
+                            .font(.headline.weight(.semibold))
+                            .foregroundStyle(.blue)
                         Text(trip.subtitle)
                             .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(usesLightPalette ? Color.black.opacity(0.75) : .white)
                     }
-                    .padding(.vertical, 6)
+                    .padding(.vertical, 10)
+                    .listRowBackground(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(usesLightPalette ? Color.white.opacity(0.9) : Color.white.opacity(0.08))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(usesLightPalette ? Color.black.opacity(0.08) : Color.white.opacity(0.06), lineWidth: 1)
+                            )
+                            .padding(.vertical, 4)
+                    )
+                    .listRowSeparator(.hidden)
                 }
             }
         }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .background(
+            usesLightPalette
+                ? Color(red: 0.95, green: 0.96, blue: 0.98)
+                : Color.black
+        )
         .navigationTitle(L.text(.savedTrips, lang: language))
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 private struct NotificationsScreen: View {
+    @Environment(\.colorScheme) private var systemColorScheme
     let notifications: [AccountNotification]
     let language: AppLanguage
+    let preferredAppearance: String
+
+    private var usesLightPalette: Bool {
+        switch preferredAppearance {
+        case "light": return true
+        case "dark": return false
+        default: return systemColorScheme == .light
+        }
+    }
 
     var body: some View {
         List {
             if notifications.isEmpty {
                 Text(L.text(.noNotifications, lang: language))
                     .foregroundStyle(.secondary)
+                    .listRowBackground(Color.clear)
             } else {
                 ForEach(notifications) { notification in
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(notification.title).font(.headline)
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(notification.title)
+                            .font(.headline.weight(.semibold))
+                            .foregroundStyle(.blue)
                         Text(notification.subtitle)
                             .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(usesLightPalette ? Color.black.opacity(0.75) : .white)
                     }
-                    .padding(.vertical, 6)
+                    .padding(.vertical, 10)
+                    .listRowBackground(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(usesLightPalette ? Color.white.opacity(0.9) : Color.white.opacity(0.08))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(usesLightPalette ? Color.black.opacity(0.08) : Color.white.opacity(0.06), lineWidth: 1)
+                            )
+                            .padding(.vertical, 4)
+                    )
+                    .listRowSeparator(.hidden)
                 }
             }
         }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .background(
+            usesLightPalette
+                ? Color(red: 0.95, green: 0.96, blue: 0.98)
+                : Color.black
+        )
         .navigationTitle(L.text(.notifications, lang: language))
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 private struct SavedStopsScreen: View {
+    @Environment(\.colorScheme) private var systemColorScheme
     let stops: [SavedStop]
     let language: AppLanguage
+    let preferredAppearance: String
+
+    private var usesLightPalette: Bool {
+        switch preferredAppearance {
+        case "light": return true
+        case "dark": return false
+        default: return systemColorScheme == .light
+        }
+    }
 
     var body: some View {
         List {
             if stops.isEmpty {
                 Text(L.text(.noStops, lang: language))
                     .foregroundStyle(.secondary)
+                    .listRowBackground(Color.clear)
             } else {
                 ForEach(stops) { stop in
-                    VStack(alignment: .leading, spacing: 4) {
+                    VStack(alignment: .leading, spacing: 6) {
                         Text(stop.name)
-                            .font(.headline)
+                            .font(.headline.weight(.semibold))
+                            .foregroundStyle(.blue)
                         Text("\(stop.code) • \(stop.mode.title(in: language)) • \(stop.distanceText)")
                             .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(usesLightPalette ? Color.black.opacity(0.75) : .white)
                     }
-                    .padding(.vertical, 6)
+                    .padding(.vertical, 10)
+                    .listRowBackground(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(usesLightPalette ? Color.white.opacity(0.9) : Color.white.opacity(0.08))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(usesLightPalette ? Color.black.opacity(0.08) : Color.white.opacity(0.06), lineWidth: 1)
+                            )
+                            .padding(.vertical, 4)
+                    )
+                    .listRowSeparator(.hidden)
                 }
             }
         }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .background(
+            usesLightPalette
+                ? Color(red: 0.95, green: 0.96, blue: 0.98)
+                : Color.black
+        )
         .navigationTitle(L.text(.savedStops, lang: language))
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -3106,26 +3223,20 @@ private struct SettingsScreen: View {
     @Binding var fullName: String
     @Binding var email: String
     @Binding var phone: String
-    @Binding var notifications: [AccountNotification]
+    @Binding var fontScale: Double
 
-    private var language: AppLanguage {
-        AppLanguage(rawValue: appLanguageRawValue) ?? .en
-    }
+    private var language: AppLanguage { AppLanguage(rawValue: appLanguageRawValue) ?? .en }
 
     private var usesLightPalette: Bool {
         switch preferredAppearance {
-        case "light":
-            return true
-        case "dark":
-            return false
-        default:
-            return systemColorScheme == .light
+        case "light": return true
+        case "dark": return false
+        default: return systemColorScheme == .light
         }
     }
 
-    private var primaryTextColor: Color {
-        usesLightPalette ? .black : .white
-    }
+    private var primaryTextColor: Color { usesLightPalette ? .black : .white }
+    private var secondaryTextColor: Color { usesLightPalette ? Color.black.opacity(0.6) : .secondary }
 
     var body: some View {
         ZStack {
@@ -3140,36 +3251,44 @@ private struct SettingsScreen: View {
 
             ScrollView {
                 VStack(spacing: 14) {
-                    settingsSection(title: L.text(.personalData, lang: language), icon: "person.text.rectangle.fill") {
-                        settingsField(L.text(.fullName, lang: language), text: $fullName)
-                        settingsField(L.text(.email, lang: language), text: $email)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled(true)
-                        settingsField(L.text(.phone, lang: language), text: $phone)
-                    }
-
-                    settingsSection(title: L.text(.language, lang: language), icon: "globe") {
-                        Picker(L.text(.language, lang: language), selection: $appLanguageRawValue) {
-                            ForEach(AppLanguage.allCases, id: \.rawValue) { option in
-                                Text(option.displayName).tag(option.rawValue)
-                            }
-                        }
-                        .tint(primaryTextColor)
-                        .padding(12)
-                        .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(usesLightPalette ? Color.black.opacity(0.06) : Color.white.opacity(0.06))
+                    NavigationLink {
+                        PersonalDataSettingsScreen(
+                            preferredAppearance: $preferredAppearance,
+                            appLanguageRawValue: $appLanguageRawValue,
+                            fullName: $fullName,
+                            email: $email,
+                            phone: $phone
                         )
+                    } label: {
+                        settingsMenuRow(title: L.text(.personalData, lang: language), icon: "person.text.rectangle.fill")
                     }
 
-                    settingsSection(title: L.text(.appearance, lang: language), icon: "paintbrush.pointed.fill") {
-                        Picker(L.text(.theme, lang: language), selection: $preferredAppearance) {
-                            Text(L.text(.dark, lang: language)).tag("dark")
-                            Text(L.text(.light, lang: language)).tag("light")
-                            Text(L.text(.system, lang: language)).tag("system")
-                        }
-                        .pickerStyle(.segmented)
-                        .tint(.blue)
+                    NavigationLink {
+                        LanguageSettingsScreen(
+                            preferredAppearance: $preferredAppearance,
+                            appLanguageRawValue: $appLanguageRawValue
+                        )
+                    } label: {
+                        settingsMenuRow(title: L.text(.language, lang: language), icon: "globe")
+                    }
+
+                    NavigationLink {
+                        AppearanceSettingsScreen(
+                            preferredAppearance: $preferredAppearance,
+                            appLanguageRawValue: $appLanguageRawValue
+                        )
+                    } label: {
+                        settingsMenuRow(title: L.text(.appearance, lang: language), icon: "paintbrush.pointed.fill")
+                    }
+
+                    NavigationLink {
+                        AccessibilitySettingsScreen(
+                            preferredAppearance: $preferredAppearance,
+                            appLanguageRawValue: $appLanguageRawValue,
+                            fontScale: $fontScale
+                        )
+                    } label: {
+                        settingsMenuRow(title: L.text(.accessibility, lang: language), icon: "figure.wave")
                     }
                 }
                 .padding(.horizontal, 14)
@@ -3181,7 +3300,91 @@ private struct SettingsScreen: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 
-    private func settingsSection<Content: View>(title: String, icon: String, @ViewBuilder content: () -> Content) -> some View {
+    private func settingsMenuRow(title: String, icon: String) -> some View {
+        HStack(spacing: 14) {
+            Image(systemName: icon)
+                .font(.title3)
+                .foregroundStyle(.blue)
+                .frame(width: 26)
+            Text(title)
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(primaryTextColor)
+            Spacer()
+            Image(systemName: "chevron.right")
+                .font(.headline)
+                .foregroundStyle(secondaryTextColor)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 16)
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 14)
+                .fill(usesLightPalette ? Color.white.opacity(0.95) : Color.white.opacity(0.08))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14)
+                        .stroke(usesLightPalette ? Color.black.opacity(0.10) : Color.white.opacity(0.06), lineWidth: 1)
+                )
+        )
+    }
+}
+
+private struct PersonalDataSettingsScreen: View {
+    @Environment(\.colorScheme) private var systemColorScheme
+    @Binding var preferredAppearance: String
+    @Binding var appLanguageRawValue: String
+    @Binding var fullName: String
+    @Binding var email: String
+    @Binding var phone: String
+
+    private var language: AppLanguage { AppLanguage(rawValue: appLanguageRawValue) ?? .en }
+
+    private var usesLightPalette: Bool {
+        switch preferredAppearance {
+        case "light": return true
+        case "dark": return false
+        default: return systemColorScheme == .light
+        }
+    }
+
+    private var primaryTextColor: Color { usesLightPalette ? .black : .white }
+
+    var body: some View {
+        settingsBase {
+            settingsCard(title: L.text(.personalData, lang: language), icon: "person.text.rectangle.fill") {
+                settingsField(L.text(.fullName, lang: language), text: $fullName)
+                settingsField(L.text(.email, lang: language), text: $email)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled(true)
+                settingsField(L.text(.phone, lang: language), text: $phone)
+            }
+        }
+        .navigationTitle(L.text(.personalData, lang: language))
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func settingsBase<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        ZStack {
+            LinearGradient(
+                colors: usesLightPalette
+                    ? [Color.white, Color(red: 0.95, green: 0.96, blue: 0.98)]
+                    : [Color(red: 0.03, green: 0.11, blue: 0.28), Color.black],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 14) {
+                    content()
+                }
+                .padding(.horizontal, 14)
+                .padding(.top, 12)
+                .padding(.bottom, 24)
+            }
+        }
+    }
+
+    private func settingsCard<Content: View>(title: String, icon: String, @ViewBuilder content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 10) {
                 Image(systemName: icon)
@@ -3214,6 +3417,271 @@ private struct SettingsScreen: View {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(usesLightPalette ? Color.black.opacity(0.06) : Color.white.opacity(0.06))
             )
+    }
+}
+
+private struct LanguageSettingsScreen: View {
+    @Environment(\.colorScheme) private var systemColorScheme
+    @Binding var preferredAppearance: String
+    @Binding var appLanguageRawValue: String
+
+    private var language: AppLanguage { AppLanguage(rawValue: appLanguageRawValue) ?? .en }
+
+    private var usesLightPalette: Bool {
+        switch preferredAppearance {
+        case "light": return true
+        case "dark": return false
+        default: return systemColorScheme == .light
+        }
+    }
+
+    private var primaryTextColor: Color { usesLightPalette ? .black : .white }
+
+    var body: some View {
+        settingsBase {
+            settingsCard(title: L.text(.language, lang: language), icon: "globe") {
+                Picker(L.text(.language, lang: language), selection: $appLanguageRawValue) {
+                    ForEach(AppLanguage.allCases, id: \.rawValue) { option in
+                        Text(option.displayName).tag(option.rawValue)
+                    }
+                }
+                .tint(primaryTextColor)
+                .padding(12)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(usesLightPalette ? Color.black.opacity(0.06) : Color.white.opacity(0.06))
+                )
+            }
+        }
+        .navigationTitle(L.text(.language, lang: language))
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func settingsBase<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        ZStack {
+            LinearGradient(
+                colors: usesLightPalette
+                    ? [Color.white, Color(red: 0.95, green: 0.96, blue: 0.98)]
+                    : [Color(red: 0.03, green: 0.11, blue: 0.28), Color.black],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 14) {
+                    content()
+                }
+                .padding(.horizontal, 14)
+                .padding(.top, 12)
+                .padding(.bottom, 24)
+            }
+        }
+    }
+
+    private func settingsCard<Content: View>(title: String, icon: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 10) {
+                Image(systemName: icon)
+                    .font(.headline)
+                    .foregroundStyle(.blue)
+                    .frame(width: 26, height: 26)
+                    .background(Circle().fill(Color.white.opacity(0.08)))
+                Text(title)
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(primaryTextColor)
+            }
+            content()
+        }
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(usesLightPalette ? Color.white.opacity(0.95) : Color.white.opacity(0.08))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(usesLightPalette ? Color.black.opacity(0.10) : Color.white.opacity(0.06), lineWidth: 1)
+                )
+        )
+    }
+}
+
+private struct AppearanceSettingsScreen: View {
+    @Environment(\.colorScheme) private var systemColorScheme
+    @Binding var preferredAppearance: String
+    @Binding var appLanguageRawValue: String
+
+    private var language: AppLanguage { AppLanguage(rawValue: appLanguageRawValue) ?? .en }
+
+    private var usesLightPalette: Bool {
+        switch preferredAppearance {
+        case "light": return true
+        case "dark": return false
+        default: return systemColorScheme == .light
+        }
+    }
+
+    private var primaryTextColor: Color { usesLightPalette ? .black : .white }
+
+    var body: some View {
+        settingsBase {
+            settingsCard(title: L.text(.appearance, lang: language), icon: "paintbrush.pointed.fill") {
+                Picker(L.text(.theme, lang: language), selection: $preferredAppearance) {
+                    Text(L.text(.dark, lang: language)).tag("dark")
+                    Text(L.text(.light, lang: language)).tag("light")
+                    Text(L.text(.system, lang: language)).tag("system")
+                }
+                .pickerStyle(.segmented)
+                .tint(.blue)
+            }
+        }
+        .navigationTitle(L.text(.appearance, lang: language))
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func settingsBase<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        ZStack {
+            LinearGradient(
+                colors: usesLightPalette
+                    ? [Color.white, Color(red: 0.95, green: 0.96, blue: 0.98)]
+                    : [Color(red: 0.03, green: 0.11, blue: 0.28), Color.black],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 14) {
+                    content()
+                }
+                .padding(.horizontal, 14)
+                .padding(.top, 12)
+                .padding(.bottom, 24)
+            }
+        }
+    }
+
+    private func settingsCard<Content: View>(title: String, icon: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 10) {
+                Image(systemName: icon)
+                    .font(.headline)
+                    .foregroundStyle(.blue)
+                    .frame(width: 26, height: 26)
+                    .background(Circle().fill(Color.white.opacity(0.08)))
+                Text(title)
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(primaryTextColor)
+            }
+            content()
+        }
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(usesLightPalette ? Color.white.opacity(0.95) : Color.white.opacity(0.08))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(usesLightPalette ? Color.black.opacity(0.10) : Color.white.opacity(0.06), lineWidth: 1)
+                )
+        )
+    }
+}
+
+private struct AccessibilitySettingsScreen: View {
+    @Environment(\.colorScheme) private var systemColorScheme
+    @Binding var preferredAppearance: String
+    @Binding var appLanguageRawValue: String
+    @Binding var fontScale: Double
+
+    private var language: AppLanguage { AppLanguage(rawValue: appLanguageRawValue) ?? .en }
+
+    private var usesLightPalette: Bool {
+        switch preferredAppearance {
+        case "light": return true
+        case "dark": return false
+        default: return systemColorScheme == .light
+        }
+    }
+
+    private var primaryTextColor: Color { usesLightPalette ? .black : .white }
+
+    var body: some View {
+        settingsBase {
+            settingsCard(title: L.text(.accessibility, lang: language), icon: "figure.wave") {
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack {
+                        Text(L.text(.fontSize, lang: language))
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(primaryTextColor)
+                        Spacer()
+                        Text("\(Int(fontScale * 100))%")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Slider(value: $fontScale, in: 0.9...1.3, step: 0.05)
+                        .tint(.blue)
+
+                    DisclosureGroup(L.text(.voiceOverHelpTitle, lang: language)) {
+                        Text(L.text(.voiceOverHelpBody, lang: language))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .padding(.top, 4)
+                    }
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(primaryTextColor)
+                    .padding(.top, 6)
+                }
+            }
+        }
+        .navigationTitle(L.text(.accessibility, lang: language))
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func settingsBase<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        ZStack {
+            LinearGradient(
+                colors: usesLightPalette
+                    ? [Color.white, Color(red: 0.95, green: 0.96, blue: 0.98)]
+                    : [Color(red: 0.03, green: 0.11, blue: 0.28), Color.black],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 14) {
+                    content()
+                }
+                .padding(.horizontal, 14)
+                .padding(.top, 12)
+                .padding(.bottom, 24)
+            }
+        }
+    }
+
+    private func settingsCard<Content: View>(title: String, icon: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 10) {
+                Image(systemName: icon)
+                    .font(.headline)
+                    .foregroundStyle(.blue)
+                    .frame(width: 26, height: 26)
+                    .background(Circle().fill(Color.white.opacity(0.08)))
+                Text(title)
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(primaryTextColor)
+            }
+            content()
+        }
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(usesLightPalette ? Color.white.opacity(0.95) : Color.white.opacity(0.08))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(usesLightPalette ? Color.black.opacity(0.10) : Color.white.opacity(0.06), lineWidth: 1)
+                )
+        )
     }
 }
 

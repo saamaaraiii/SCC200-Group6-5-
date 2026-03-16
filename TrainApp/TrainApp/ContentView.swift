@@ -11,6 +11,10 @@ struct ContentView: View {
     @AppStorage("preferredAppearance") private var preferredAppearance = "dark"
     @AppStorage("appLanguage") private var appLanguageRawValue = AppLanguage.en.rawValue
     @AppStorage("fontScale") private var fontScale: Double = 1.0
+    @AppStorage("isLoggedIn") private var isLoggedIn = false
+    @AppStorage("lastLoginTimestamp") private var lastLoginTimestamp: Double = 0
+    @AppStorage("username") private var username = "alextraveller"
+    @AppStorage("password") private var storedPassword = "Password123"
     @StateObject private var locationManager = UserLocationManager()
     @State private var selectedTab: AppTab = .home
     @State private var originId: Int?
@@ -26,9 +30,9 @@ struct ContentView: View {
     @State private var savedTrips: [SavedTrip] = []
     @State private var savedStops: [SavedStop] = []
     @State private var notifications: [AccountNotification] = []
-    @State private var fullName = "Alex Traveller"
-    @State private var email = "alex.traveller@example.com"
-    @State private var phone = "+44 7700 900000"
+    @AppStorage("fullName") private var fullName = "Alex Traveller"
+    @AppStorage("email") private var email = "alex.traveller@example.com"
+    @AppStorage("phone") private var phone = "+44 7700 900000"
     @State private var showWelcomeSplash = true
     @State private var splashTrainOffset: CGFloat = -220
     @State private var splashBusOffset: CGFloat = 220
@@ -43,6 +47,21 @@ struct ContentView: View {
     @State private var showSMSComposer = false
     @State private var smsAlertMessage: String?
     @State private var smsBody = ""
+    @State private var smsButtonOffset: CGSize = .zero
+    @State private var smsButtonDrag: CGSize = .zero
+    @State private var showRegister = false
+    @State private var loginIdentifier = ""
+    @State private var loginPassword = ""
+    @State private var registerEmail = ""
+    @State private var registerPassword = ""
+    @State private var registerPasswordConfirm = ""
+    @State private var registerUsername = ""
+    @State private var registerPhonePrefix = "+44"
+    @State private var registerPhoneNumber = ""
+    @State private var authErrorMessage: String?
+    @State private var showLoginPassword = false
+    @State private var showRegisterPassword = false
+    @State private var showRegisterPasswordConfirm = false
     @State private var showPassImporter = false
     @State private var walletPresentation: WalletPassPresentation?
     @State private var walletMessage: String?
@@ -64,6 +83,7 @@ struct ContentView: View {
     @State private var ticketTravelDate = Date()
     @State private var ticketDurationMins = 42
     @State private var ticketRailcardUsed = true
+    @State private var selectedTicketIndex = 0
     @State private var mapPosition: MapCameraPosition = .region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 53.90, longitude: -2.95),
@@ -141,32 +161,46 @@ struct ContentView: View {
         L.text(key, lang: appLanguage)
     }
 
+    private var shouldShowLogin: Bool {
+        let gracePeriod: TimeInterval = 60 * 60 * 24 * 7
+        guard isLoggedIn else { return true }
+        guard lastLoginTimestamp > 0 else { return true }
+        let elapsed = Date().timeIntervalSince1970 - lastLoginTimestamp
+        return elapsed > gracePeriod
+    }
+
     var body: some View {
         ZStack {
-        TabView(selection: $selectedTab) {
-            homeScreen
-                .tabItem {
-                    Label(t(.home), systemImage: "house.fill")
-                }
-                .tag(AppTab.home)
+            if !showWelcomeSplash {
+                if shouldShowLogin {
+                    loginScreen
+                } else {
+                    TabView(selection: $selectedTab) {
+                        homeScreen
+                            .tabItem {
+                                Label(t(.home), systemImage: "house.fill")
+                            }
+                            .tag(AppTab.home)
 
-            mapScreen
-                .tabItem {
-                    Label(t(.map), systemImage: "map.fill")
-                }
-                .tag(AppTab.map)
+                        mapScreen
+                            .tabItem {
+                                Label(t(.map), systemImage: "map.fill")
+                            }
+                            .tag(AppTab.map)
 
-            ticketsScreen
-                .tabItem {
-                    Label(t(.tickets), systemImage: "ticket.fill")
-                }
-                .tag(AppTab.tickets)
+                        ticketsScreen
+                            .tabItem {
+                                Label(t(.tickets), systemImage: "ticket.fill")
+                            }
+                            .tag(AppTab.tickets)
 
-                accountScreen
-                    .tabItem {
-                        Label(t(.account), systemImage: "person.fill")
+                        accountScreen
+                            .tabItem {
+                                Label(t(.account), systemImage: "person.fill")
+                            }
+                            .tag(AppTab.account)
                     }
-                    .tag(AppTab.account)
+                }
             }
 
             if showWelcomeSplash {
@@ -231,7 +265,8 @@ struct ContentView: View {
         .sheet(isPresented: $showTrackSheet) {
             TrackSheet(
                 stations: appState.stations,
-                mapping: appState.mapping
+                mapping: appState.mapping,
+                ticket: selectedTicket
             )
         }
         .sheet(isPresented: $showSMSComposer) {
@@ -405,6 +440,104 @@ struct ContentView: View {
         }
     }
 
+    private var loginScreen: some View {
+        ZStack {
+            screenGradient
+            ScrollView {
+                VStack(spacing: 18) {
+                    homeBrandLogo
+
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Nexo")
+                            .font(.largeTitle.weight(.bold))
+                            .foregroundStyle(primaryTextColor)
+                        Text(showRegister ? t(.registerSubtitle) : t(.loginSubtitle))
+                            .font(.subheadline)
+                            .foregroundStyle(secondaryTextColor)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                    VStack(spacing: 16) {
+                        if showRegister {
+                            authField(title: t(.username), text: $registerUsername, icon: "person.fill")
+                            authField(title: t(.email), text: $registerEmail, icon: "envelope.fill", keyboard: .emailAddress)
+                                .textInputAutocapitalization(.never)
+                                .autocorrectionDisabled(true)
+                            HStack(spacing: 12) {
+                                Picker("", selection: $registerPhonePrefix) {
+                                    ForEach(phonePrefixes, id: \.code) { item in
+                                        Text("\(item.flag) \(item.code) \(item.label)")
+                                            .tag(item.code)
+                                    }
+                                }
+                                .pickerStyle(.menu)
+                                .frame(width: 140)
+                                .padding(.vertical, 12)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(innerFillColor)
+                                )
+
+                                authField(title: t(.phoneNumber), text: $registerPhoneNumber, icon: "phone.fill", keyboard: .phonePad)
+                            }
+                            authPasswordField(title: t(.password), text: $registerPassword, icon: "lock.fill", isVisible: $showRegisterPassword)
+                                .padding(.top, 4)
+                            authPasswordField(title: t(.repeatPassword), text: $registerPasswordConfirm, icon: "lock.fill", isVisible: $showRegisterPasswordConfirm)
+                        } else {
+                            authField(title: t(.usernameOrEmail), text: $loginIdentifier, icon: "person.crop.circle")
+                                .textInputAutocapitalization(.never)
+                                .autocorrectionDisabled(true)
+                            authPasswordField(title: t(.password), text: $loginPassword, icon: "lock.fill", isVisible: $showLoginPassword)
+                        }
+
+                        if let authErrorMessage {
+                            Text(authErrorMessage)
+                                .font(.caption)
+                                .foregroundStyle(.red)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                    }
+                    .padding(16)
+                    .background(cardBackground)
+
+                    Button {
+                        if showRegister {
+                            performRegister()
+                        } else {
+                            performLogin()
+                        }
+                    } label: {
+                        Text(showRegister ? t(.createAccount) : t(.logIn))
+                            .font(.headline.weight(.semibold))
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(
+                                RoundedRectangle(cornerRadius: 14)
+                                    .fill(Color.blue)
+                            )
+                    }
+                    .padding(.horizontal, 14)
+
+                    Button {
+                        withAnimation(.easeInOut) {
+                            showRegister.toggle()
+                            authErrorMessage = nil
+                        }
+                    } label: {
+                        Text(showRegister ? t(.alreadyHaveAccount) : t(.newHereRegister))
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(.blue)
+                    }
+                    .padding(.bottom, 24)
+                }
+                .padding(.horizontal, 18)
+                .padding(.top, 8)
+            }
+        }
+        .toolbar(.hidden, for: .navigationBar)
+    }
+
     private var welcomeCard: some View {
         HStack {
             Circle()
@@ -430,6 +563,7 @@ struct ContentView: View {
                     preferredAppearance: $preferredAppearance,
                     appLanguageRawValue: $appLanguageRawValue,
                     fullName: $fullName,
+                    username: $username,
                     email: $email,
                     phone: $phone,
                     fontScale: $fontScale
@@ -513,8 +647,171 @@ struct ContentView: View {
             )
         }
         .buttonStyle(.plain)
-        .padding(.leading, 18)
-        .padding(.bottom, 88)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+        .padding(.top, 16)
+        .padding(.trailing, 18)
+        .offset(x: smsButtonOffset.width + smsButtonDrag.width, y: smsButtonOffset.height + smsButtonDrag.height)
+        .gesture(
+            DragGesture()
+                .onChanged { value in
+                    smsButtonDrag = value.translation
+                }
+                .onEnded { value in
+                    smsButtonOffset.width += value.translation.width
+                    smsButtonOffset.height += value.translation.height
+                    smsButtonDrag = .zero
+                }
+        )
+    }
+
+    private func authField(title: String, text: Binding<String>, icon: String, keyboard: UIKeyboardType = .default) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: icon)
+                .foregroundStyle(.blue)
+                .frame(width: 24)
+            TextField(title, text: text)
+                .keyboardType(keyboard)
+                .foregroundStyle(primaryTextColor)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(innerFillColor)
+        )
+    }
+
+    private func authSecureField(title: String, text: Binding<String>, icon: String) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: icon)
+                .foregroundStyle(.blue)
+                .frame(width: 24)
+            SecureField(title, text: text)
+                .foregroundStyle(primaryTextColor)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(innerFillColor)
+        )
+    }
+
+    private func authPasswordField(title: String, text: Binding<String>, icon: String, isVisible: Binding<Bool>) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: icon)
+                .foregroundStyle(.blue)
+                .frame(width: 24)
+            if isVisible.wrappedValue {
+                TextField(title, text: text)
+                    .foregroundStyle(primaryTextColor)
+            } else {
+                SecureField(title, text: text)
+                    .foregroundStyle(primaryTextColor)
+            }
+            Button {
+                isVisible.wrappedValue.toggle()
+            } label: {
+                Image(systemName: isVisible.wrappedValue ? "eye.slash.fill" : "eye.fill")
+                    .foregroundStyle(.blue)
+            }
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(innerFillColor)
+        )
+    }
+
+    private func performLogin() {
+        let identifier = loginIdentifier.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let emailMatch = identifier == email.lowercased()
+        let userMatch = identifier == username.lowercased()
+
+        guard emailMatch || userMatch else {
+            authErrorMessage = t(.userNotFound)
+            return
+        }
+        guard loginPassword == storedPassword else {
+            authErrorMessage = t(.incorrectPassword)
+            return
+        }
+
+        authErrorMessage = nil
+        isLoggedIn = true
+        lastLoginTimestamp = Date().timeIntervalSince1970
+        loginPassword = ""
+    }
+
+    private func performRegister() {
+        let trimmedEmail = registerEmail.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedUser = registerUsername.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedPhone = registerPhoneNumber.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !trimmedEmail.isEmpty, !trimmedUser.isEmpty, !trimmedPhone.isEmpty else {
+            authErrorMessage = t(.completeAllFields)
+            return
+        }
+        guard trimmedEmail.contains("@") else {
+            authErrorMessage = t(.invalidEmail)
+            return
+        }
+        guard isValidPhoneNumber(trimmedPhone, prefix: registerPhonePrefix) else {
+            authErrorMessage = t(.invalidPhone)
+            return
+        }
+        guard registerPassword == registerPasswordConfirm, !registerPassword.isEmpty else {
+            authErrorMessage = t(.passwordsNoMatch)
+            return
+        }
+
+        email = trimmedEmail
+        username = trimmedUser
+        if fullName.isEmpty || fullName == "Alex Traveller" {
+            fullName = trimmedUser
+        }
+        phone = "\(registerPhonePrefix) \(trimmedPhone)"
+        storedPassword = registerPassword
+
+        authErrorMessage = nil
+        isLoggedIn = false
+        lastLoginTimestamp = 0
+        showRegister = false
+        loginIdentifier = trimmedEmail
+        loginPassword = ""
+        registerPassword = ""
+        registerPasswordConfirm = ""
+    }
+
+    private struct PhonePrefix: Identifiable {
+        let id = UUID()
+        let code: String
+        let flag: String
+        let label: String
+        let minDigits: Int
+        let maxDigits: Int
+    }
+
+    private var phonePrefixes: [PhonePrefix] {
+        [
+            PhonePrefix(code: "+1", flag: "🇺🇸", label: "US", minDigits: 10, maxDigits: 10),
+            PhonePrefix(code: "+34", flag: "🇪🇸", label: "ES", minDigits: 9, maxDigits: 9),
+            PhonePrefix(code: "+39", flag: "🇮🇹", label: "IT", minDigits: 9, maxDigits: 10),
+            PhonePrefix(code: "+351", flag: "🇵🇹", label: "PT", minDigits: 9, maxDigits: 9),
+            PhonePrefix(code: "+44", flag: "🇬🇧", label: "UK", minDigits: 9, maxDigits: 10),
+            PhonePrefix(code: "+33", flag: "🇫🇷", label: "FR", minDigits: 9, maxDigits: 9),
+            PhonePrefix(code: "+49", flag: "🇩🇪", label: "DE", minDigits: 10, maxDigits: 11),
+            PhonePrefix(code: "+54", flag: "🇦🇷", label: "AR", minDigits: 10, maxDigits: 11),
+            PhonePrefix(code: "+57", flag: "🇨🇴", label: "CO", minDigits: 10, maxDigits: 10),
+            PhonePrefix(code: "+86", flag: "🇨🇳", label: "CN", minDigits: 11, maxDigits: 11)
+        ]
+    }
+
+    private func isValidPhoneNumber(_ input: String, prefix: String) -> Bool {
+        let digits = input.filter { $0.isNumber }
+        guard let rule = phonePrefixes.first(where: { $0.code == prefix }) else { return false }
+        return digits.count >= rule.minDigits && digits.count <= rule.maxDigits
     }
 
     private var experiencesCard: some View {
@@ -1264,6 +1561,108 @@ struct ContentView: View {
             .background(cardBackground)
     }
 
+    private func ticketCard(_ ticket: TicketItem) -> some View {
+        VStack(spacing: 0) {
+            RoundedRectangle(cornerRadius: 18)
+                .fill(Color(red: 0.86, green: 0.65, blue: 0.49))
+                .frame(height: 170)
+                .overlay {
+                    VStack(spacing: 8) {
+                        Image(systemName: "qrcode")
+                            .font(.system(size: 48))
+                            .foregroundStyle(.black.opacity(0.85))
+                        Text(t(.readyToScan))
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.black.opacity(0.75))
+                    }
+                }
+                .padding(.horizontal, 28)
+                .padding(.top, 24)
+
+            Divider()
+                .overlay(Color.white.opacity(0.08))
+                .padding(.horizontal, 18)
+                .padding(.vertical, 18)
+
+            VStack(alignment: .leading, spacing: 16) {
+                Text(ticket.routeTitle)
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(.white)
+
+                HStack(spacing: 16) {
+                    ticketInfoCell(
+                        label: "REFERENCE",
+                        value: ticket.reference
+                    )
+                    ticketInfoCell(
+                        label: "DATE",
+                        value: ticketDateText(ticket.travelDate)
+                    )
+                }
+
+                HStack(spacing: 16) {
+                    ticketInfoCell(
+                        label: "DURATION",
+                        value: "\(ticket.durationMins) \(t(.min))"
+                    )
+                    ticketInfoCell(
+                        label: "RAILCARD",
+                        value: ticket.railcardUsed ? "Used" : "Not used"
+                    )
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 22)
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 24)
+                .fill(Color.black.opacity(0.65))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 24)
+                        .stroke(Color.white.opacity(0.08), lineWidth: 1)
+                )
+        )
+        .padding(.horizontal, 4)
+    }
+
+    private var ticketItems: [TicketItem] {
+        [
+            TicketItem(
+                routeTitle: "Preston → Lancaster",
+                originCode: "PRE",
+                destinationCode: "LAN",
+                reference: ticketReference,
+                travelDate: ticketTravelDate,
+                durationMins: ticketDurationMins,
+                railcardUsed: ticketRailcardUsed
+            ),
+            TicketItem(
+                routeTitle: "Lancaster → Blackpool North",
+                originCode: "LAN",
+                destinationCode: "BLK",
+                reference: "TR-9012",
+                travelDate: Calendar.current.date(byAdding: .day, value: 1, to: ticketTravelDate) ?? ticketTravelDate,
+                durationMins: 58,
+                railcardUsed: false
+            ),
+            TicketItem(
+                routeTitle: "Preston → Penrith",
+                originCode: "PRE",
+                destinationCode: "PNR",
+                reference: "TR-7744",
+                travelDate: Calendar.current.date(byAdding: .day, value: 3, to: ticketTravelDate) ?? ticketTravelDate,
+                durationMins: 86,
+                railcardUsed: true
+            )
+        ]
+    }
+
+    private var selectedTicket: TicketItem? {
+        guard !ticketItems.isEmpty else { return nil }
+        let idx = min(max(selectedTicketIndex, 0), ticketItems.count - 1)
+        return ticketItems[idx]
+    }
+
     private var ticketsScreen: some View {
         NavigationStack {
             ZStack {
@@ -1276,66 +1675,14 @@ struct ContentView: View {
                                     .font(.title3.weight(.semibold))
                                     .foregroundStyle(primaryTextColor)
 
-                                VStack(spacing: 0) {
-                                    RoundedRectangle(cornerRadius: 18)
-                                        .fill(Color(red: 0.86, green: 0.65, blue: 0.49))
-                                        .frame(height: 170)
-                                        .overlay {
-                                            VStack(spacing: 8) {
-                                                Image(systemName: "qrcode")
-                                                    .font(.system(size: 48))
-                                                    .foregroundStyle(.black.opacity(0.85))
-                                                Text(t(.readyToScan))
-                                                    .font(.caption.weight(.semibold))
-                                                    .foregroundStyle(.black.opacity(0.75))
-                                            }
-                                        }
-                                        .padding(.horizontal, 28)
-                                        .padding(.top, 24)
-
-                                    Divider()
-                                        .overlay(Color.white.opacity(0.08))
-                                        .padding(.horizontal, 18)
-                                        .padding(.vertical, 18)
-
-                                    VStack(alignment: .leading, spacing: 16) {
-                                        Text("Preston → Lancaster")
-                                            .font(.title3.weight(.semibold))
-                                            .foregroundStyle(.white)
-
-                                        HStack(spacing: 16) {
-                                            ticketInfoCell(
-                                                label: "REFERENCE",
-                                                value: ticketReference
-                                            )
-                                            ticketInfoCell(
-                                                label: "DATE",
-                                                value: ticketDateText(ticketTravelDate)
-                                            )
-                                        }
-
-                                        HStack(spacing: 16) {
-                                            ticketInfoCell(
-                                                label: "DURATION",
-                                                value: "\(ticketDurationMins) \(t(.min))"
-                                            )
-                                            ticketInfoCell(
-                                                label: "RAILCARD",
-                                                value: ticketRailcardUsed ? "Used" : "Not used"
-                                            )
-                                        }
+                                TabView(selection: $selectedTicketIndex) {
+                                    ForEach(Array(ticketItems.enumerated()), id: \.offset) { index, ticket in
+                                        ticketCard(ticket)
+                                            .tag(index)
                                     }
-                                    .padding(.horizontal, 20)
-                                    .padding(.bottom, 22)
                                 }
-                                .background(
-                                    RoundedRectangle(cornerRadius: 24)
-                                        .fill(Color.black.opacity(0.65))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 24)
-                                                .stroke(Color.white.opacity(0.08), lineWidth: 1)
-                                        )
-                                )
+                                .tabViewStyle(.page(indexDisplayMode: .automatic))
+                                .frame(height: 430)
                             }
                             .padding()
                             .background(cardBackground)
@@ -1647,6 +1994,7 @@ struct ContentView: View {
                                 preferredAppearance: $preferredAppearance,
                                 appLanguageRawValue: $appLanguageRawValue,
                                 fullName: $fullName,
+                                username: $username,
                                 email: $email,
                                 phone: $phone,
                                 fontScale: $fontScale
@@ -2117,6 +2465,10 @@ private enum L {
         case localOperators, passengers, railcard
         case personalData, fullName, email, phone, appearance, theme, dark, light, system, language
         case accessibility, fontSize, screenReader, voiceOverHelpTitle, voiceOverHelpBody
+        case loginSubtitle, registerSubtitle, username, phoneNumber, password, repeatPassword
+        case usernameOrEmail, createAccount, logIn, alreadyHaveAccount, newHereRegister
+        case userNotFound, incorrectPassword, completeAllFields, passwordsNoMatch, logOut
+        case invalidEmail, invalidPhone
         case noTrips, noNotifications, noStops
         case locatingNearestStop, appleWallet, ok
         case currentLocation, walletUnavailable, walletInvalidPass, walletNoPass
@@ -2161,6 +2513,24 @@ private enum L {
             "accessibility": "Accessibility", "fontSize": "Font Size", "screenReader": "Screen Reader",
             "voiceOverHelpTitle": "How to enable VoiceOver",
             "voiceOverHelpBody": "Open Settings > Accessibility > VoiceOver and turn it on. You can also add VoiceOver to Control Center, or set the Accessibility Shortcut to toggle it with a triple‑click on the Side button.",
+            "loginSubtitle": "Sign in to continue",
+            "registerSubtitle": "Create your account to continue",
+            "username": "Username",
+            "phoneNumber": "Phone number",
+            "password": "Password",
+            "repeatPassword": "Repeat password",
+            "usernameOrEmail": "Username or email",
+            "createAccount": "Create account",
+            "logIn": "Log In",
+            "alreadyHaveAccount": "Already have an account? Log in",
+            "newHereRegister": "New here? Register",
+            "userNotFound": "User not found.",
+            "incorrectPassword": "Incorrect password.",
+            "completeAllFields": "Please complete all fields.",
+            "passwordsNoMatch": "Passwords do not match.",
+            "logOut": "Log Out",
+            "invalidEmail": "Please enter a valid email.",
+            "invalidPhone": "Please enter a valid phone number.",
             "noTrips": "No trips to show", "noNotifications": "No notifications to show", "noStops": "No stops to show",
             "locatingNearestStop": "Locating nearest stop...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Current Location", "walletUnavailable": "This device cannot add passes to Apple Wallet.", "walletInvalidPass": "Could not read this pass. Please choose a valid signed .pkpass file.", "walletNoPass": "No pass selected.",
@@ -2184,6 +2554,24 @@ private enum L {
             "accessibility": "Accesibilidad", "fontSize": "Tamaño de letra", "screenReader": "Narrador de pantalla",
             "voiceOverHelpTitle": "Cómo activar VoiceOver",
             "voiceOverHelpBody": "Abre Ajustes > Accesibilidad > VoiceOver y actívalo. También puedes añadir VoiceOver al Centro de control o configurar el Atajo de accesibilidad para activarlo con triple pulsación del botón lateral.",
+            "loginSubtitle": "Inicia sesión para continuar",
+            "registerSubtitle": "Crea tu cuenta para continuar",
+            "username": "Nombre de usuario",
+            "phoneNumber": "Número de teléfono",
+            "password": "Contraseña",
+            "repeatPassword": "Repite la contraseña",
+            "usernameOrEmail": "Usuario o correo",
+            "createAccount": "Crear cuenta",
+            "logIn": "Entrar",
+            "alreadyHaveAccount": "¿Ya tienes cuenta? Inicia sesión",
+            "newHereRegister": "¿Nuevo por aquí? Regístrate",
+            "userNotFound": "Usuario no encontrado.",
+            "incorrectPassword": "Contraseña incorrecta.",
+            "completeAllFields": "Completa todos los campos.",
+            "passwordsNoMatch": "Las contraseñas no coinciden.",
+            "logOut": "Cerrar sesión",
+            "invalidEmail": "Introduce un email válido.",
+            "invalidPhone": "Introduce un teléfono válido.",
             "noTrips": "No hay viajes para mostrar", "noNotifications": "No hay notificaciones para mostrar", "noStops": "No hay paradas para mostrar",
             "locatingNearestStop": "Buscando parada más cercana...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Ubicación actual", "walletUnavailable": "Este dispositivo no puede añadir pases a Apple Wallet.", "walletInvalidPass": "No se pudo leer el pase. Selecciona un .pkpass válido y firmado.", "walletNoPass": "No se ha seleccionado ningún pase.",
@@ -2207,6 +2595,24 @@ private enum L {
             "accessibility": "Accessibilité", "fontSize": "Taille du texte", "screenReader": "Lecteur d’écran",
             "voiceOverHelpTitle": "Activer VoiceOver",
             "voiceOverHelpBody": "Ouvrez Réglages > Accessibilité > VoiceOver et activez‑le. Vous pouvez aussi l’ajouter au Centre de contrôle ou définir le raccourci d’accessibilité (triple‑clic sur le bouton latéral).",
+            "loginSubtitle": "Connectez-vous pour continuer",
+            "registerSubtitle": "Créez votre compte pour continuer",
+            "username": "Nom d’utilisateur",
+            "phoneNumber": "Numéro de téléphone",
+            "password": "Mot de passe",
+            "repeatPassword": "Répéter le mot de passe",
+            "usernameOrEmail": "Utilisateur ou e‑mail",
+            "createAccount": "Créer un compte",
+            "logIn": "Se connecter",
+            "alreadyHaveAccount": "Déjà un compte ? Se connecter",
+            "newHereRegister": "Nouveau ? S’inscrire",
+            "userNotFound": "Utilisateur introuvable.",
+            "incorrectPassword": "Mot de passe incorrect.",
+            "completeAllFields": "Veuillez compléter tous les champs.",
+            "passwordsNoMatch": "Les mots de passe ne correspondent pas.",
+            "logOut": "Se déconnecter",
+            "invalidEmail": "Veuillez saisir un e‑mail valide.",
+            "invalidPhone": "Veuillez saisir un numéro valide.",
             "noTrips": "Aucun trajet à afficher", "noNotifications": "Aucune notification à afficher", "noStops": "Aucun arrêt à afficher",
             "locatingNearestStop": "Recherche de l'arrêt le plus proche...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Position actuelle", "walletUnavailable": "Cet appareil ne peut pas ajouter de pass à Apple Wallet.", "walletInvalidPass": "Impossible de lire ce pass. Veuillez choisir un fichier .pkpass signé valide.", "walletNoPass": "Aucun pass sélectionné.",
@@ -2230,6 +2636,24 @@ private enum L {
             "accessibility": "Barrierefreiheit", "fontSize": "Schriftgröße", "screenReader": "Bildschirmleser",
             "voiceOverHelpTitle": "VoiceOver aktivieren",
             "voiceOverHelpBody": "Öffne Einstellungen > Bedienungshilfen > VoiceOver und aktiviere es. Du kannst VoiceOver auch zum Kontrollzentrum hinzufügen oder den Bedienungshilfen‑Kurzbefehl (dreifach die Seitentaste) nutzen.",
+            "loginSubtitle": "Zum Fortfahren anmelden",
+            "registerSubtitle": "Konto erstellen, um fortzufahren",
+            "username": "Benutzername",
+            "phoneNumber": "Telefonnummer",
+            "password": "Passwort",
+            "repeatPassword": "Passwort wiederholen",
+            "usernameOrEmail": "Benutzername oder E‑Mail",
+            "createAccount": "Konto erstellen",
+            "logIn": "Anmelden",
+            "alreadyHaveAccount": "Schon ein Konto? Anmelden",
+            "newHereRegister": "Neu hier? Registrieren",
+            "userNotFound": "Benutzer nicht gefunden.",
+            "incorrectPassword": "Falsches Passwort.",
+            "completeAllFields": "Bitte alle Felder ausfüllen.",
+            "passwordsNoMatch": "Passwörter stimmen nicht überein.",
+            "logOut": "Abmelden",
+            "invalidEmail": "Bitte eine gültige E‑Mail eingeben.",
+            "invalidPhone": "Bitte eine gültige Telefonnummer eingeben.",
             "noTrips": "Keine Reisen vorhanden", "noNotifications": "Keine Benachrichtigungen vorhanden", "noStops": "Keine Haltestellen vorhanden",
             "locatingNearestStop": "Nächste Haltestelle wird gesucht...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Aktueller Standort", "walletUnavailable": "Dieses Gerät kann keine Pässe zu Apple Wallet hinzufügen.", "walletInvalidPass": "Dieser Pass konnte nicht gelesen werden. Bitte eine gültige signierte .pkpass-Datei wählen.", "walletNoPass": "Kein Pass ausgewählt.",
@@ -2253,6 +2677,24 @@ private enum L {
             "accessibility": "辅助功能", "fontSize": "字体大小", "screenReader": "屏幕朗读",
             "voiceOverHelpTitle": "如何开启 VoiceOver",
             "voiceOverHelpBody": "打开“设置”>“辅助功能”>“VoiceOver”，并开启。也可以添加到“控制中心”，或设置辅助功能快捷键（侧边按钮三击）切换。",
+            "loginSubtitle": "登录以继续",
+            "registerSubtitle": "创建账户以继续",
+            "username": "用户名",
+            "phoneNumber": "电话号码",
+            "password": "密码",
+            "repeatPassword": "重复密码",
+            "usernameOrEmail": "用户名或邮箱",
+            "createAccount": "创建账户",
+            "logIn": "登录",
+            "alreadyHaveAccount": "已有账户？登录",
+            "newHereRegister": "新用户？注册",
+            "userNotFound": "未找到用户。",
+            "incorrectPassword": "密码错误。",
+            "completeAllFields": "请填写所有字段。",
+            "passwordsNoMatch": "两次密码不一致。",
+            "logOut": "退出登录",
+            "invalidEmail": "请输入有效邮箱。",
+            "invalidPhone": "请输入有效手机号。",
             "noTrips": "没有可显示的行程", "noNotifications": "没有可显示的通知", "noStops": "没有可显示的站点",
             "locatingNearestStop": "正在定位最近站点...", "appleWallet": "Apple Wallet", "ok": "确定",
             "currentLocation": "当前位置", "walletUnavailable": "此设备无法将票券添加到 Apple Wallet。", "walletInvalidPass": "无法读取该票券，请选择有效且已签名的 .pkpass 文件。", "walletNoPass": "未选择票券。",
@@ -2999,6 +3441,17 @@ private struct AccountNotification: Identifiable {
     let subtitle: String
 }
 
+private struct TicketItem: Identifiable {
+    let id = UUID()
+    let routeTitle: String
+    let originCode: String
+    let destinationCode: String
+    let reference: String
+    let travelDate: Date
+    let durationMins: Int
+    let railcardUsed: Bool
+}
+
 private struct NearbyStopInfo {
     let station: Station
     let distanceMeters: CLLocationDistance
@@ -3221,6 +3674,7 @@ private struct SettingsScreen: View {
     @Binding var preferredAppearance: String
     @Binding var appLanguageRawValue: String
     @Binding var fullName: String
+    @Binding var username: String
     @Binding var email: String
     @Binding var phone: String
     @Binding var fontScale: Double
@@ -3256,6 +3710,7 @@ private struct SettingsScreen: View {
                             preferredAppearance: $preferredAppearance,
                             appLanguageRawValue: $appLanguageRawValue,
                             fullName: $fullName,
+                            username: $username,
                             email: $email,
                             phone: $phone
                         )
@@ -3333,8 +3788,11 @@ private struct PersonalDataSettingsScreen: View {
     @Binding var preferredAppearance: String
     @Binding var appLanguageRawValue: String
     @Binding var fullName: String
+    @Binding var username: String
     @Binding var email: String
     @Binding var phone: String
+    @AppStorage("isLoggedIn") private var isLoggedIn = false
+    @AppStorage("lastLoginTimestamp") private var lastLoginTimestamp: Double = 0
 
     private var language: AppLanguage { AppLanguage(rawValue: appLanguageRawValue) ?? .en }
 
@@ -3351,11 +3809,27 @@ private struct PersonalDataSettingsScreen: View {
     var body: some View {
         settingsBase {
             settingsCard(title: L.text(.personalData, lang: language), icon: "person.text.rectangle.fill") {
-                settingsField(L.text(.fullName, lang: language), text: $fullName)
-                settingsField(L.text(.email, lang: language), text: $email)
+                labeledField(title: L.text(.fullName, lang: language), text: $fullName)
+                labeledField(title: L.text(.username, lang: language), text: $username)
+                labeledField(title: L.text(.email, lang: language), text: $email)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled(true)
-                settingsField(L.text(.phone, lang: language), text: $phone)
+                labeledField(title: L.text(.phone, lang: language), text: $phone)
+            }
+
+            Button {
+                isLoggedIn = false
+                lastLoginTimestamp = 0
+            } label: {
+                Text(L.text(.logOut, lang: language))
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 14)
+                    .background(
+                        RoundedRectangle(cornerRadius: 14)
+                            .fill(Color.red.opacity(0.9))
+                    )
             }
         }
         .navigationTitle(L.text(.personalData, lang: language))
@@ -3417,6 +3891,15 @@ private struct PersonalDataSettingsScreen: View {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(usesLightPalette ? Color.black.opacity(0.06) : Color.white.opacity(0.06))
             )
+    }
+
+    private func labeledField(title: String, text: Binding<String>) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.blue)
+            settingsField(title, text: text)
+        }
     }
 }
 
@@ -3951,6 +4434,7 @@ private struct TrackSheet: View {
     @Environment(\.dismiss) private var dismiss
     let stations: [Station]
     let mapping: StationMapping
+    let ticket: TicketItem?
     @State private var mapPosition: MapCameraPosition = .automatic
     @State private var routePolyline: MKPolyline?
     @State private var trainCoordinate: CLLocationCoordinate2D?
@@ -4039,6 +4523,13 @@ private struct TrackSheet: View {
     }
 
     private var trackingStations: [Station] {
+        if let ticket {
+            let codes = [ticket.originCode, ticket.destinationCode]
+            let matched = codes.compactMap { code in
+                stations.first(where: { $0.code == code && $0.latitude != nil && $0.longitude != nil })
+            }
+            if matched.count >= 2 { return matched }
+        }
         let preferred = ["PRE", "LAN", "BLK", "PNR"]
         let byCode = preferred.compactMap { code in
             stations.first(where: { $0.code == code && $0.latitude != nil && $0.longitude != nil })
@@ -4142,7 +4633,7 @@ private struct TrackSheet: View {
             }
 
             VStack(alignment: .leading, spacing: 6) {
-                Text("Train 38")
+                Text(ticket?.routeTitle ?? "Train 38")
                     .font(.headline.weight(.semibold))
                     .foregroundStyle(.white)
                 Text("Avanti West Coast")

@@ -69,6 +69,7 @@ struct ContentView: View {
     @State private var selectedMapStationId: Int?
     @State private var mapDepartureMode: TransportMode = .train
     @State private var mapPanelExpanded = false
+    @State private var mapLiveTrackContext: MapLiveTrackContext?
     @State private var showDirectionsSheet = false
     @State private var directionsStation: Station?
     @State private var directionsMode: TransportMode = .train
@@ -227,7 +228,17 @@ struct ContentView: View {
             handlePassImport(result: result)
         }
         .sheet(item: $walletPresentation) { presentation in
-            AddPassesSheet(passes: presentation.passes)
+            AddPassesSheet(passes: presentation.passes) {
+                walletMessage = t(.walletSuccess)
+                notifications.insert(
+                    AccountNotification(
+                        title: t(.appleWallet),
+                        subtitle: t(.walletSuccess)
+                    ),
+                    at: 0
+                )
+                walletPresentation = nil
+            }
         }
         .alert(t(.appleWallet), isPresented: Binding(
             get: { walletMessage != nil },
@@ -266,7 +277,20 @@ struct ContentView: View {
             TrackSheet(
                 stations: appState.stations,
                 mapping: appState.mapping,
-                ticket: selectedTicket
+                ticket: selectedTicket,
+                forcedStationIds: nil,
+                serviceTitle: nil,
+                serviceOperator: nil
+            )
+        }
+        .sheet(item: $mapLiveTrackContext) { context in
+            TrackSheet(
+                stations: appState.stations,
+                mapping: appState.mapping,
+                ticket: nil,
+                forcedStationIds: context.stationIds,
+                serviceTitle: context.title,
+                serviceOperator: context.operatorName
             )
         }
         .sheet(isPresented: $showSMSComposer) {
@@ -1874,38 +1898,43 @@ struct ContentView: View {
 
             VStack(spacing: 8) {
                 ForEach(displayedArrivals) { item in
-                    HStack(spacing: 10) {
-                        Text(item.service)
-                            .font(.subheadline.weight(.bold))
-                            .foregroundStyle(.white)
-                            .frame(width: 42, height: 30)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(item.color.opacity(0.8))
-                            )
+                    Button {
+                        openMapLiveTrack(for: item, from: station)
+                    } label: {
+                        HStack(spacing: 10) {
+                            Text(item.service)
+                                .font(.subheadline.weight(.bold))
+                                .foregroundStyle(.white)
+                                .frame(width: 42, height: 30)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(item.color.opacity(0.8))
+                                )
 
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(item.destination)
-                                .font(.subheadline.weight(.semibold))
-                                .foregroundStyle(primaryTextColor)
-                            Text(item.operatorName)
-                                .font(.caption)
-                                .foregroundStyle(secondaryTextColor)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(item.destination)
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(primaryTextColor)
+                                Text(item.operatorName)
+                                    .font(.caption)
+                                    .foregroundStyle(secondaryTextColor)
+                            }
+
+                            Spacer()
+
+                            Text(mapEtaText(for: item))
+                                .font(.subheadline.weight(.bold))
+                                .foregroundStyle(.cyan)
+                                .multilineTextAlignment(.trailing)
                         }
-
-                        Spacer()
-
-                        Text(mapEtaText(for: item))
-                            .font(.subheadline.weight(.bold))
-                            .foregroundStyle(.cyan)
-                            .multilineTextAlignment(.trailing)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 10)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(usesLightPalette ? Color.black.opacity(0.04) : Color.white.opacity(0.06))
+                        )
                     }
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 10)
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(usesLightPalette ? Color.black.opacity(0.04) : Color.white.opacity(0.06))
-                    )
+                    .buttonStyle(.plain)
                 }
             }
 
@@ -2305,6 +2334,32 @@ struct ContentView: View {
         }
     }
 
+    private func openMapLiveTrack(for arrival: MapArrival, from station: Station) {
+        let normalizedDestination = arrival.destination.lowercased()
+        let destination = appState.stations.first { candidate in
+            candidate.name.lowercased() == normalizedDestination
+                || candidate.name.lowercased().contains(normalizedDestination)
+                || normalizedDestination.contains(candidate.name.lowercased())
+        }
+
+        var ids: [Int] = [station.id]
+        if let destination, destination.id != station.id {
+            if let route = appState.findRoute(originId: station.id, destinationId: destination.id, useBFS: false),
+               !route.stationIds.isEmpty {
+                ids = route.stationIds
+            } else {
+                ids = [station.id, destination.id]
+            }
+        }
+
+        let serviceTitle = "\(arrival.mode.title(in: appLanguage)) \(arrival.service) • \(station.name) -> \(arrival.destination)"
+        mapLiveTrackContext = MapLiveTrackContext(
+            title: serviceTitle,
+            operatorName: arrival.operatorName,
+            stationIds: ids
+        )
+    }
+
     private func openDirections(to station: Station) {
         guard let lat = station.latitude, let lon = station.longitude else { return }
         let destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon)))
@@ -2384,11 +2439,33 @@ struct ContentView: View {
                 let data = try Data(contentsOf: url)
                 let pass = try PKPass(data: data)
                 walletPresentation = WalletPassPresentation(passes: [pass])
+                walletMessage = t(.walletReadyToAdd)
+                notifications.insert(
+                    AccountNotification(
+                        title: t(.appleWallet),
+                        subtitle: t(.walletReadyToAdd)
+                    ),
+                    at: 0
+                )
             } catch {
                 walletMessage = t(.walletInvalidPass)
+                notifications.insert(
+                    AccountNotification(
+                        title: t(.appleWallet),
+                        subtitle: t(.walletInvalidPass)
+                    ),
+                    at: 0
+                )
             }
         case .failure:
             walletMessage = t(.walletNoPass)
+            notifications.insert(
+                AccountNotification(
+                    title: t(.appleWallet),
+                    subtitle: t(.walletNoPass)
+                ),
+                at: 0
+            )
         }
     }
 
@@ -2489,6 +2566,7 @@ private enum L {
         case noTrips, noNotifications, noStops
         case locatingNearestStop, appleWallet, ok
         case currentLocation, walletUnavailable, walletInvalidPass, walletNoPass
+        case walletSuccess, walletReadyToAdd
         case viewLaterDepartures, due, atTheStation
         case train, bus, taxi, walk, trainStage, busStage, taxiStage, walkStage
     }
@@ -2551,6 +2629,8 @@ private enum L {
             "noTrips": "No trips to show", "noNotifications": "No notifications to show", "noStops": "No stops to show",
             "locatingNearestStop": "Locating nearest stop...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Current Location", "walletUnavailable": "This device cannot add passes to Apple Wallet.", "walletInvalidPass": "Could not read this pass. Please choose a valid signed .pkpass file.", "walletNoPass": "No pass selected.",
+            "walletSuccess": "Ticket added to Apple Wallet successfully.",
+            "walletReadyToAdd": "Pass loaded. Confirm Add in Apple Wallet.",
             "viewLaterDepartures": "View later departures", "due": "Due", "atTheStation": "at the station",
             "train": "Train", "bus": "Bus", "taxi": "Taxi", "walk": "Walk", "trainStage": "Train Stage", "busStage": "Bus Stage", "taxiStage": "Taxi Stage", "walkStage": "Walk Stage"
         ],
@@ -2592,6 +2672,8 @@ private enum L {
             "noTrips": "No hay viajes para mostrar", "noNotifications": "No hay notificaciones para mostrar", "noStops": "No hay paradas para mostrar",
             "locatingNearestStop": "Buscando parada más cercana...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Ubicación actual", "walletUnavailable": "Este dispositivo no puede añadir pases a Apple Wallet.", "walletInvalidPass": "No se pudo leer el pase. Selecciona un .pkpass válido y firmado.", "walletNoPass": "No se ha seleccionado ningún pase.",
+            "walletSuccess": "Billete añadido a Apple Wallet correctamente.",
+            "walletReadyToAdd": "Pase cargado. Confirma Anadir en Apple Wallet.",
             "viewLaterDepartures": "Ver salidas posteriores", "due": "Inminente", "atTheStation": "en la estación",
             "train": "Tren", "bus": "Bus", "taxi": "Taxi", "walk": "Andando", "trainStage": "Etapa de tren", "busStage": "Etapa de bus", "taxiStage": "Etapa de taxi", "walkStage": "Etapa a pie"
         ],
@@ -2633,6 +2715,8 @@ private enum L {
             "noTrips": "Aucun trajet à afficher", "noNotifications": "Aucune notification à afficher", "noStops": "Aucun arrêt à afficher",
             "locatingNearestStop": "Recherche de l'arrêt le plus proche...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Position actuelle", "walletUnavailable": "Cet appareil ne peut pas ajouter de pass à Apple Wallet.", "walletInvalidPass": "Impossible de lire ce pass. Veuillez choisir un fichier .pkpass signé valide.", "walletNoPass": "Aucun pass sélectionné.",
+            "walletSuccess": "Billet ajoute a Apple Wallet avec succes.",
+            "walletReadyToAdd": "Pass charge. Confirmez l'ajout dans Apple Wallet.",
             "viewLaterDepartures": "Voir les départs suivants", "due": "Imminent", "atTheStation": "à la station",
             "train": "Train", "bus": "Bus", "taxi": "Taxi", "walk": "Marche", "trainStage": "Étape train", "busStage": "Étape bus", "taxiStage": "Étape taxi", "walkStage": "Étape à pied"
         ],
@@ -2674,6 +2758,8 @@ private enum L {
             "noTrips": "Keine Reisen vorhanden", "noNotifications": "Keine Benachrichtigungen vorhanden", "noStops": "Keine Haltestellen vorhanden",
             "locatingNearestStop": "Nächste Haltestelle wird gesucht...", "appleWallet": "Apple Wallet", "ok": "OK",
             "currentLocation": "Aktueller Standort", "walletUnavailable": "Dieses Gerät kann keine Pässe zu Apple Wallet hinzufügen.", "walletInvalidPass": "Dieser Pass konnte nicht gelesen werden. Bitte eine gültige signierte .pkpass-Datei wählen.", "walletNoPass": "Kein Pass ausgewählt.",
+            "walletSuccess": "Ticket erfolgreich zu Apple Wallet hinzugefugt.",
+            "walletReadyToAdd": "Pass geladen. Bitte Hinzufugen in Apple Wallet bestatigen.",
             "viewLaterDepartures": "Spätere Abfahrten anzeigen", "due": "Sofort", "atTheStation": "an der Station",
             "train": "Zug", "bus": "Bus", "taxi": "Taxi", "walk": "Zu Fuß", "trainStage": "Zugabschnitt", "busStage": "Busabschnitt", "taxiStage": "Taxiabschnitt", "walkStage": "Fußweg"
         ],
@@ -2715,6 +2801,8 @@ private enum L {
             "noTrips": "没有可显示的行程", "noNotifications": "没有可显示的通知", "noStops": "没有可显示的站点",
             "locatingNearestStop": "正在定位最近站点...", "appleWallet": "Apple Wallet", "ok": "确定",
             "currentLocation": "当前位置", "walletUnavailable": "此设备无法将票券添加到 Apple Wallet。", "walletInvalidPass": "无法读取该票券，请选择有效且已签名的 .pkpass 文件。", "walletNoPass": "未选择票券。",
+            "walletSuccess": "车票已成功添加到 Apple Wallet。",
+            "walletReadyToAdd": "票券已加载，请在 Apple Wallet 中确认添加。",
             "viewLaterDepartures": "查看稍后班次", "due": "即将到达", "atTheStation": "已到站",
             "train": "火车", "bus": "公交", "taxi": "出租车", "walk": "步行", "trainStage": "火车阶段", "busStage": "公交阶段", "taxiStage": "出租车阶段", "walkStage": "步行阶段"
         ]
@@ -3470,6 +3558,13 @@ private struct TicketItem: Identifiable {
     let railcardUsed: Bool
 }
 
+private struct MapLiveTrackContext: Identifiable {
+    let id = UUID()
+    let title: String
+    let operatorName: String
+    let stationIds: [Int]
+}
+
 private struct NearbyStopInfo {
     let station: Station
     let distanceMeters: CLLocationDistance
@@ -4188,15 +4283,34 @@ private struct AccessibilitySettingsScreen: View {
 
 private struct AddPassesSheet: UIViewControllerRepresentable {
     let passes: [PKPass]
+    let onFinish: () -> Void
 
     func makeUIViewController(context: Context) -> UIViewController {
         if let controller = PKAddPassesViewController(passes: passes) {
+            controller.delegate = context.coordinator
             return controller
         }
         return UIViewController()
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(onFinish: onFinish)
+    }
+
+    final class Coordinator: NSObject, PKAddPassesViewControllerDelegate {
+        private let onFinish: () -> Void
+
+        init(onFinish: @escaping () -> Void) {
+            self.onFinish = onFinish
+        }
+
+        func addPassesViewControllerDidFinish(_ controller: PKAddPassesViewController) {
+            controller.dismiss(animated: true)
+            onFinish()
+        }
+    }
 }
 
 private struct MessageComposeView: UIViewControllerRepresentable {
@@ -4453,6 +4567,9 @@ private struct TrackSheet: View {
     let stations: [Station]
     let mapping: StationMapping
     let ticket: TicketItem?
+    let forcedStationIds: [Int]?
+    let serviceTitle: String?
+    let serviceOperator: String?
     @State private var mapPosition: MapCameraPosition = .automatic
     @State private var routePolyline: MKPolyline?
     @State private var trainCoordinate: CLLocationCoordinate2D?
@@ -4541,6 +4658,13 @@ private struct TrackSheet: View {
     }
 
     private var trackingStations: [Station] {
+        if let forcedStationIds, forcedStationIds.count >= 2 {
+            let matched = forcedStationIds.compactMap { id in
+                stations.first(where: { $0.id == id && $0.latitude != nil && $0.longitude != nil })
+            }
+            if matched.count >= 2 { return matched }
+        }
+
         if let ticket {
             let byPath = ticket.stationIds.compactMap { id in
                 stations.first(where: { $0.id == id && $0.latitude != nil && $0.longitude != nil })
@@ -4656,10 +4780,10 @@ private struct TrackSheet: View {
             }
 
             VStack(alignment: .leading, spacing: 6) {
-                Text(ticket?.routeTitle ?? "Train 38")
+                Text(serviceTitle ?? ticket?.routeTitle ?? "Train 38")
                     .font(.headline.weight(.semibold))
                     .foregroundStyle(.white)
-                Text("Avanti West Coast")
+                Text(serviceOperator ?? "Avanti West Coast")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -4735,7 +4859,7 @@ private struct TrackSheet: View {
         }
         .padding(.vertical, 20)
         .padding(.horizontal, 14)
-        .frame(width: 230, alignment: .topLeading)
+        .frame(width: 160, alignment: .topLeading)
         .frame(maxHeight: .infinity, alignment: .topLeading)
         .background(
             RoundedRectangle(cornerRadius: 20)

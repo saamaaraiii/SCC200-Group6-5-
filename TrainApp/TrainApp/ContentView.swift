@@ -1631,6 +1631,7 @@ struct ContentView: View {
                 routeTitle: "Preston → Lancaster",
                 originCode: "PRE",
                 destinationCode: "LAN",
+                stationIds: ticketStationIds(originCode: "PRE", destinationCode: "LAN"),
                 reference: ticketReference,
                 travelDate: ticketTravelDate,
                 durationMins: ticketDurationMins,
@@ -1639,22 +1640,38 @@ struct ContentView: View {
             TicketItem(
                 routeTitle: "Lancaster → Blackpool North",
                 originCode: "LAN",
-                destinationCode: "BLK",
+                destinationCode: "BPN",
+                stationIds: ticketStationIds(originCode: "LAN", destinationCode: "BPN"),
                 reference: "TR-9012",
                 travelDate: Calendar.current.date(byAdding: .day, value: 1, to: ticketTravelDate) ?? ticketTravelDate,
                 durationMins: 58,
                 railcardUsed: false
             ),
             TicketItem(
-                routeTitle: "Preston → Penrith",
+                routeTitle: "Preston → Barrow-in-Furness",
                 originCode: "PRE",
-                destinationCode: "PNR",
+                destinationCode: "BAR",
+                stationIds: ticketStationIds(originCode: "PRE", destinationCode: "BAR"),
                 reference: "TR-7744",
                 travelDate: Calendar.current.date(byAdding: .day, value: 3, to: ticketTravelDate) ?? ticketTravelDate,
                 durationMins: 86,
                 railcardUsed: true
             )
         ]
+    }
+
+    private func ticketStationIds(originCode: String, destinationCode: String) -> [Int] {
+        guard
+            let origin = appState.stations.first(where: { $0.code == originCode }),
+            let destination = appState.stations.first(where: { $0.code == destinationCode })
+        else {
+            return []
+        }
+        if let route = appState.findRoute(originId: origin.id, destinationId: destination.id, useBFS: false),
+           !route.stationIds.isEmpty {
+            return route.stationIds
+        }
+        return [origin.id, destination.id]
     }
 
     private var selectedTicket: TicketItem? {
@@ -3446,6 +3463,7 @@ private struct TicketItem: Identifiable {
     let routeTitle: String
     let originCode: String
     let destinationCode: String
+    let stationIds: [Int]
     let reference: String
     let travelDate: Date
     let durationMins: Int
@@ -4524,13 +4542,18 @@ private struct TrackSheet: View {
 
     private var trackingStations: [Station] {
         if let ticket {
+            let byPath = ticket.stationIds.compactMap { id in
+                stations.first(where: { $0.id == id && $0.latitude != nil && $0.longitude != nil })
+            }
+            if byPath.count >= 2 { return byPath }
+
             let codes = [ticket.originCode, ticket.destinationCode]
-            let matched = codes.compactMap { code in
+            let byCodes = codes.compactMap { code in
                 stations.first(where: { $0.code == code && $0.latitude != nil && $0.longitude != nil })
             }
-            if matched.count >= 2 { return matched }
+            if byCodes.count >= 2 { return byCodes }
         }
-        let preferred = ["PRE", "LAN", "BLK", "PNR"]
+        let preferred = ["PRE", "LAN", "BPN", "BAR"]
         let byCode = preferred.compactMap { code in
             stations.first(where: { $0.code == code && $0.latitude != nil && $0.longitude != nil })
         }

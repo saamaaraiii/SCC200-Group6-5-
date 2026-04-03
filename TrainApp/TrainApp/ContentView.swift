@@ -50,6 +50,7 @@ struct ContentView: View {
     @State private var smsButtonOffset: CGSize = .zero
     @State private var smsButtonDrag: CGSize = .zero
     @State private var showRegister = false
+    @State private var showForgotPasswordFlow = false
     @State private var loginIdentifier = ""
     @State private var loginPassword = ""
     @State private var registerEmail = ""
@@ -62,6 +63,13 @@ struct ContentView: View {
     @State private var showLoginPassword = false
     @State private var showRegisterPassword = false
     @State private var showRegisterPasswordConfirm = false
+    @State private var recoveryStep: RecoveryStep = .email
+    @State private var recoveryEmail = ""
+    @State private var recoverySentCode = ""
+    @State private var recoveryCodeInput = ""
+    @State private var recoveryNewPassword = ""
+    @State private var recoveryRepeatPassword = ""
+    @State private var recoveryMessage: String?
     @State private var showPassImporter = false
     @State private var walletPresentation: WalletPassPresentation?
     @State private var walletMessage: String?
@@ -280,17 +288,26 @@ struct ContentView: View {
                 ticket: selectedTicket,
                 forcedStationIds: nil,
                 serviceTitle: nil,
-                serviceOperator: nil
+                serviceOperator: nil,
+                showFavoriteButton: false,
+                isFavorite: false,
+                onToggleFavorite: nil
             )
         }
         .sheet(item: $mapLiveTrackContext) { context in
+            let trip = savedTrip(for: context)
             TrackSheet(
                 stations: appState.stations,
                 mapping: appState.mapping,
                 ticket: nil,
                 forcedStationIds: context.stationIds,
                 serviceTitle: context.title,
-                serviceOperator: context.operatorName
+                serviceOperator: context.operatorName,
+                showFavoriteButton: true,
+                isFavorite: savedTrips.contains(where: { $0.key == trip.key }),
+                onToggleFavorite: {
+                    toggleSavedMapLiveTrip(trip)
+                }
             )
         }
         .sheet(isPresented: $showSMSComposer) {
@@ -298,6 +315,9 @@ struct ContentView: View {
                 showSMSComposer = false
             }
             .ignoresSafeArea()
+        }
+        .sheet(isPresented: $showForgotPasswordFlow) {
+            forgotPasswordScreen
         }
     }
 
@@ -543,15 +563,27 @@ struct ContentView: View {
                     }
                     .padding(.horizontal, 14)
 
-                    Button {
-                        withAnimation(.easeInOut) {
-                            showRegister.toggle()
-                            authErrorMessage = nil
+                    VStack(spacing: 8) {
+                        Button {
+                            withAnimation(.easeInOut) {
+                                showRegister.toggle()
+                                authErrorMessage = nil
+                            }
+                        } label: {
+                            Text(showRegister ? t(.alreadyHaveAccount) : t(.newHereRegister))
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(.blue)
                         }
-                    } label: {
-                        Text(showRegister ? t(.alreadyHaveAccount) : t(.newHereRegister))
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(.blue)
+                        if !showRegister {
+                            Button {
+                                resetRecoveryFlow()
+                                showForgotPasswordFlow = true
+                            } label: {
+                                Label("Olvide mi contrasena", systemImage: "key.fill")
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(.cyan)
+                            }
+                        }
                     }
                     .padding(.bottom, 24)
                 }
@@ -806,6 +838,155 @@ struct ContentView: View {
         loginPassword = ""
         registerPassword = ""
         registerPasswordConfirm = ""
+    }
+
+    private var forgotPasswordScreen: some View {
+        NavigationStack {
+            ZStack {
+                screenGradient
+                ScrollView {
+                    VStack(spacing: 16) {
+                        homeBrandLogo
+                        Text("Recuperar contrasena")
+                            .font(.title2.weight(.bold))
+                            .foregroundStyle(primaryTextColor)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+
+                        VStack(spacing: 12) {
+                            switch recoveryStep {
+                            case .email:
+                                authField(title: t(.email), text: $recoveryEmail, icon: "envelope.fill", keyboard: .emailAddress)
+                                    .textInputAutocapitalization(.never)
+                                    .autocorrectionDisabled(true)
+                                Button {
+                                    sendRecoveryCode()
+                                } label: {
+                                    Text("Enviar codigo")
+                                        .font(.headline.weight(.semibold))
+                                        .foregroundStyle(.white)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 12)
+                                        .background(RoundedRectangle(cornerRadius: 12).fill(Color.blue))
+                                }
+
+                            case .code:
+                                authField(title: "Codigo", text: $recoveryCodeInput, icon: "number.square.fill", keyboard: .numberPad)
+                                Button {
+                                    verifyRecoveryCode()
+                                } label: {
+                                    Text("Verificar codigo")
+                                        .font(.headline.weight(.semibold))
+                                        .foregroundStyle(.white)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 12)
+                                        .background(RoundedRectangle(cornerRadius: 12).fill(Color.blue))
+                                }
+
+                            case .newPassword:
+                                authPasswordField(title: t(.password), text: $recoveryNewPassword, icon: "lock.fill", isVisible: $showRegisterPassword)
+                                authPasswordField(title: t(.repeatPassword), text: $recoveryRepeatPassword, icon: "lock.fill", isVisible: $showRegisterPasswordConfirm)
+                                Button {
+                                    updateRecoveredPassword()
+                                } label: {
+                                    Text("Actualizar contrasena")
+                                        .font(.headline.weight(.semibold))
+                                        .foregroundStyle(.white)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 12)
+                                        .background(RoundedRectangle(cornerRadius: 12).fill(Color.blue))
+                                }
+                            }
+
+                            if let recoveryMessage {
+                                Text(recoveryMessage)
+                                    .font(.caption)
+                                    .foregroundStyle(.orange)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                        }
+                        .padding(16)
+                        .background(cardBackground)
+                    }
+                    .padding(.horizontal, 18)
+                    .padding(.top, 8)
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(t(.back)) {
+                        showForgotPasswordFlow = false
+                    }
+                }
+            }
+        }
+    }
+
+    private func sendRecoveryCode() {
+        let normalized = recoveryEmail.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        guard normalized.contains("@") else {
+            recoveryMessage = t(.invalidEmail)
+            return
+        }
+        guard normalized == email.lowercased() else {
+            recoveryMessage = t(.userNotFound)
+            return
+        }
+        recoverySentCode = String(format: "%06d", Int.random(in: 100000...999999))
+        recoveryStep = .code
+        recoveryMessage = "Este es su codigo. Revise su email. (Demo code: \(recoverySentCode))"
+        notifications.insert(
+            AccountNotification(
+                title: "Password recovery",
+                subtitle: "Code sent to \(recoveryEmail)"
+            ),
+            at: 0
+        )
+    }
+
+    private func verifyRecoveryCode() {
+        let input = recoveryCodeInput.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !input.isEmpty else {
+            recoveryMessage = "Introduzca el codigo."
+            return
+        }
+        guard input == recoverySentCode else {
+            recoveryMessage = "Codigo incorrecto."
+            return
+        }
+        recoveryStep = .newPassword
+        recoveryMessage = nil
+    }
+
+    private func updateRecoveredPassword() {
+        guard !recoveryNewPassword.isEmpty else {
+            recoveryMessage = t(.completeAllFields)
+            return
+        }
+        guard recoveryNewPassword == recoveryRepeatPassword else {
+            recoveryMessage = t(.passwordsNoMatch)
+            return
+        }
+        storedPassword = recoveryNewPassword
+        recoveryMessage = nil
+        showForgotPasswordFlow = false
+        resetRecoveryFlow()
+        notifications.insert(
+            AccountNotification(
+                title: "Password updated",
+                subtitle: "Your password was changed successfully."
+            ),
+            at: 0
+        )
+    }
+
+    private func resetRecoveryFlow() {
+        recoveryStep = .email
+        recoveryEmail = ""
+        recoverySentCode = ""
+        recoveryCodeInput = ""
+        recoveryNewPassword = ""
+        recoveryRepeatPassword = ""
+        recoveryMessage = nil
     }
 
     private struct PhonePrefix: Identifiable {
@@ -2018,7 +2199,19 @@ struct ContentView: View {
                             .foregroundStyle(primaryTextColor)
 
                         NavigationLink {
-                            SavedTripsScreen(trips: savedTrips, language: appLanguage, preferredAppearance: preferredAppearance)
+                            SavedTripsScreen(
+                                trips: savedTrips,
+                                language: appLanguage,
+                                preferredAppearance: preferredAppearance
+                            ) { trip in
+                                notifications.insert(
+                                    AccountNotification(
+                                        title: t(.book),
+                                        subtitle: "\(trip.title) • Booking started"
+                                    ),
+                                    at: 0
+                                )
+                            }
                         } label: {
                             accountActionRow(title: t(.savedTrips), icon: "bookmark.fill")
                         }
@@ -2358,6 +2551,24 @@ struct ContentView: View {
             operatorName: arrival.operatorName,
             stationIds: ids
         )
+    }
+
+    private func savedTrip(for context: MapLiveTrackContext) -> SavedTrip {
+        let key = "map-live-\(context.stationIds.map(String.init).joined(separator: "-"))-\(context.title.lowercased())"
+        return SavedTrip(
+            key: key,
+            title: context.title,
+            subtitle: "Live tracking route",
+            canBook: true
+        )
+    }
+
+    private func toggleSavedMapLiveTrip(_ trip: SavedTrip) {
+        if let idx = savedTrips.firstIndex(where: { $0.key == trip.key }) {
+            savedTrips.remove(at: idx)
+        } else {
+            savedTrips.insert(trip, at: 0)
+        }
     }
 
     private func openDirections(to station: Station) {
@@ -3225,15 +3436,16 @@ private struct SearchTrainsScreen: View {
     }
 
     private var isRouteSaved: Bool {
-        savedTrips.contains(where: { $0.title == routeTitle })
+        savedTrips.contains(where: { $0.key == routeTitle.lowercased() })
     }
 
     private func toggleSavedRoute() {
-        if let idx = savedTrips.firstIndex(where: { $0.title == routeTitle }) {
+        let key = routeTitle.lowercased()
+        if let idx = savedTrips.firstIndex(where: { $0.key == key }) {
             savedTrips.remove(at: idx)
         } else {
             savedTrips.insert(
-                SavedTrip(title: routeTitle, subtitle: routeSubtitle),
+                SavedTrip(key: key, title: routeTitle, subtitle: routeSubtitle, canBook: true),
                 at: 0
             )
         }
@@ -3525,10 +3737,18 @@ private enum WalkField {
     case to
 }
 
+private enum RecoveryStep {
+    case email
+    case code
+    case newPassword
+}
+
 private struct SavedTrip: Identifiable {
     let id = UUID()
+    let key: String
     let title: String
     let subtitle: String
+    let canBook: Bool
 }
 
 private struct SavedStop: Identifiable {
@@ -3619,6 +3839,7 @@ private struct SavedTripsScreen: View {
     let trips: [SavedTrip]
     let language: AppLanguage
     let preferredAppearance: String
+    let onBook: (SavedTrip) -> Void
 
     private var usesLightPalette: Bool {
         switch preferredAppearance {
@@ -3643,6 +3864,23 @@ private struct SavedTripsScreen: View {
                         Text(trip.subtitle)
                             .font(.subheadline)
                             .foregroundStyle(usesLightPalette ? Color.black.opacity(0.75) : .white)
+                        if trip.canBook {
+                            Button {
+                                onBook(trip)
+                            } label: {
+                                Text(L.text(.book, lang: language))
+                                    .font(.caption.weight(.bold))
+                                    .foregroundStyle(.white)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 6)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(Color.blue)
+                                    )
+                            }
+                            .buttonStyle(.plain)
+                            .padding(.top, 2)
+                        }
                     }
                     .padding(.vertical, 10)
                     .listRowBackground(
@@ -4570,6 +4808,9 @@ private struct TrackSheet: View {
     let forcedStationIds: [Int]?
     let serviceTitle: String?
     let serviceOperator: String?
+    let showFavoriteButton: Bool
+    let isFavorite: Bool
+    let onToggleFavorite: (() -> Void)?
     @State private var mapPosition: MapCameraPosition = .automatic
     @State private var routePolyline: MKPolyline?
     @State private var trainCoordinate: CLLocationCoordinate2D?
@@ -4779,13 +5020,31 @@ private struct TrackSheet: View {
                     .foregroundStyle(.green)
             }
 
-            VStack(alignment: .leading, spacing: 6) {
-                Text(serviceTitle ?? ticket?.routeTitle ?? "Train 38")
-                    .font(.headline.weight(.semibold))
-                    .foregroundStyle(.white)
-                Text(serviceOperator ?? "Avanti West Coast")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+            HStack(alignment: .top, spacing: 8) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(serviceTitle ?? ticket?.routeTitle ?? "Train 38")
+                        .font(.headline.weight(.semibold))
+                        .foregroundStyle(.white)
+                    Text(serviceOperator ?? "Avanti West Coast")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer(minLength: 0)
+                if showFavoriteButton {
+                    Button {
+                        onToggleFavorite?()
+                    } label: {
+                        Image(systemName: isFavorite ? "star.fill" : "star")
+                            .font(.subheadline.weight(.bold))
+                            .foregroundStyle(isFavorite ? .yellow : .white)
+                            .frame(width: 28, height: 28)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.white.opacity(0.10))
+                            )
+                    }
+                    .buttonStyle(.plain)
+                }
             }
 
             VStack(alignment: .leading, spacing: 10) {

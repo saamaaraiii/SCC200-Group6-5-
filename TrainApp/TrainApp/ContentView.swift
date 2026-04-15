@@ -10,6 +10,7 @@ struct ContentView: View {
     @Environment(\.colorScheme) private var systemColorScheme
     @AppStorage("preferredAppearance") private var preferredAppearance = "dark"
     @AppStorage("appLanguage") private var appLanguageRawValue = AppLanguage.en.rawValue
+    @AppStorage("selectedCurrency") private var selectedCurrencyRawValue = AppCurrency.gbp.rawValue
     @AppStorage("fontScale") private var fontScale: Double = 1.0
     @AppStorage("isLoggedIn") private var isLoggedIn = false
     @AppStorage("lastLoginTimestamp") private var lastLoginTimestamp: Double = 0
@@ -618,6 +619,7 @@ struct ContentView: View {
                 SettingsScreen(
                     preferredAppearance: $preferredAppearance,
                     appLanguageRawValue: $appLanguageRawValue,
+                    selectedCurrencyRawValue: $selectedCurrencyRawValue,
                     fullName: $fullName,
                     username: $username,
                     email: $email,
@@ -653,7 +655,12 @@ struct ContentView: View {
 
     private var searchAllTrainsCard: some View {
         NavigationLink {
-            SearchTrainsScreen(stations: appState.stations, language: appLanguage, savedTrips: $savedTrips)
+            SearchTrainsScreen(
+                stations: appState.stations,
+                language: appLanguage,
+                selectedCurrencyRawValue: selectedCurrencyRawValue,
+                savedTrips: $savedTrips
+            )
         } label: {
             HStack(spacing: 10) {
                 Image(systemName: "magnifyingglass")
@@ -2232,6 +2239,7 @@ struct ContentView: View {
                             SettingsScreen(
                                 preferredAppearance: $preferredAppearance,
                                 appLanguageRawValue: $appLanguageRawValue,
+                                selectedCurrencyRawValue: $selectedCurrencyRawValue,
                                 fullName: $fullName,
                                 username: $username,
                                 email: $email,
@@ -2754,6 +2762,44 @@ private enum AppLanguage: String, CaseIterable {
     }
 }
 
+private enum AppCurrency: String, CaseIterable {
+    case eur = "EUR"
+    case gbp = "GBP"
+    case usd = "USD"
+    case cny = "CNY"
+
+    var code: String { rawValue }
+
+    var symbol: String {
+        switch self {
+        case .eur: return "€"
+        case .gbp: return "£"
+        case .usd: return "$"
+        case .cny: return "¥"
+        }
+    }
+
+    var displayName: String {
+        switch self {
+        case .eur: return "Euro (€)"
+        case .gbp: return "Pounds (£)"
+        case .usd: return "US Dollar ($)"
+        case .cny: return "Chinese Yuan (¥)"
+        }
+    }
+
+    // Fixed conversion rates from EUR requested for this app demo.
+    // 1 EUR = 0.865 GBP, 1.165 USD, 7.95 CNY
+    var rateFromEUR: Double {
+        switch self {
+        case .eur: return 1.0
+        case .gbp: return 0.865
+        case .usd: return 1.165
+        case .cny: return 7.95
+        }
+    }
+}
+
 private enum L {
     enum Key: String {
         case home, map, tickets, account
@@ -2767,7 +2813,9 @@ private enum L {
         case planJourneyTitle, planJourneySubtitle, searchTrains, `where`, origin, destination
         case typeDeparture, typeArrival, when, single, returnLabel, openReturn
         case travelDates, outbound, notRequired, outboundDate, returnDate, returnDateOptional
-        case localOperators, passengers, railcard
+        case localOperators, passengers, railcard, currency
+        case timesAndPrices, findTimesAndPrices, departure, arrival, duration, changes, direct, changeSingular, changesPlural, services
+        case railcardApplied, noRailcardApplied
         case personalData, fullName, email, phone, appearance, theme, dark, light, system, language
         case accessibility, fontSize, screenReader, voiceOverHelpTitle, voiceOverHelpBody
         case loginSubtitle, registerSubtitle, username, phoneNumber, password, repeatPassword
@@ -2814,7 +2862,9 @@ private enum L {
             "planJourneyTitle": "Plan Your Rail Journey", "planJourneySubtitle": "Enter where you are going and customise your trip", "searchTrains": "Search Trains", "where": "Where", "origin": "Origin", "destination": "Destination",
             "typeDeparture": "Type departure station", "typeArrival": "Type arrival station", "when": "When", "single": "Single", "returnLabel": "Return", "openReturn": "Open Return",
             "travelDates": "Travel Dates", "outbound": "Outbound", "notRequired": "Not required", "outboundDate": "Outbound Date", "returnDate": "Return Date", "returnDateOptional": "Return Date (optional guidance)",
-            "localOperators": "Local Operators (NOC)", "passengers": "Passengers", "railcard": "Railcard",
+            "localOperators": "Local Operators (NOC)", "passengers": "Passengers", "railcard": "Railcard", "currency": "Currency",
+            "timesAndPrices": "Times & Prices", "findTimesAndPrices": "Find times & prices", "departure": "Departure", "arrival": "Arrival", "duration": "Duration", "changes": "Changes", "direct": "Direct", "changeSingular": "1 change", "changesPlural": "changes", "services": "Services",
+            "railcardApplied": "Railcard applied", "noRailcardApplied": "No railcard",
             "personalData": "Personal Data", "fullName": "Full Name", "email": "Email", "phone": "Phone", "appearance": "Appearance", "theme": "Theme", "dark": "Dark", "light": "Light", "system": "System", "language": "Language",
             "accessibility": "Accessibility", "fontSize": "Font Size", "screenReader": "Screen Reader",
             "voiceOverHelpTitle": "How to enable VoiceOver",
@@ -2857,7 +2907,9 @@ private enum L {
             "planJourneyTitle": "Planifica tu viaje en tren", "planJourneySubtitle": "Indica a dónde vas y personaliza tu viaje", "searchTrains": "Buscar trenes", "where": "Dónde", "origin": "Origen", "destination": "Destino",
             "typeDeparture": "Escribe estación de salida", "typeArrival": "Escribe estación de llegada", "when": "Cuándo", "single": "Solo ida", "returnLabel": "Ida y vuelta", "openReturn": "Vuelta abierta",
             "travelDates": "Fechas de viaje", "outbound": "Ida", "notRequired": "No requerido", "outboundDate": "Fecha de ida", "returnDate": "Fecha de vuelta", "returnDateOptional": "Fecha de vuelta (opcional)",
-            "localOperators": "Operadores locales (NOC)", "passengers": "Pasajeros", "railcard": "Railcard",
+            "localOperators": "Operadores locales (NOC)", "passengers": "Pasajeros", "railcard": "Railcard", "currency": "Moneda",
+            "timesAndPrices": "Horarios y precios", "findTimesAndPrices": "Ver horarios y precios", "departure": "Salida", "arrival": "Llegada", "duration": "Duración", "changes": "Cambios", "direct": "Directo", "changeSingular": "1 cambio", "changesPlural": "cambios", "services": "Servicios",
+            "railcardApplied": "Railcard aplicada", "noRailcardApplied": "Sin railcard",
             "personalData": "Datos personales", "fullName": "Nombre completo", "email": "Correo", "phone": "Teléfono", "appearance": "Apariencia", "theme": "Tema", "dark": "Oscuro", "light": "Claro", "system": "Sistema", "language": "Idioma",
             "accessibility": "Accesibilidad", "fontSize": "Tamaño de letra", "screenReader": "Narrador de pantalla",
             "voiceOverHelpTitle": "Cómo activar VoiceOver",
@@ -2900,7 +2952,9 @@ private enum L {
             "planJourneyTitle": "Planifiez votre voyage en train", "planJourneySubtitle": "Entrez votre destination et personnalisez votre trajet", "searchTrains": "Rechercher des trains", "where": "Où", "origin": "Origine", "destination": "Destination",
             "typeDeparture": "Saisir la gare de départ", "typeArrival": "Saisir la gare d'arrivée", "when": "Quand", "single": "Aller simple", "returnLabel": "Aller-retour", "openReturn": "Retour ouvert",
             "travelDates": "Dates de voyage", "outbound": "Aller", "notRequired": "Non requis", "outboundDate": "Date aller", "returnDate": "Date retour", "returnDateOptional": "Date retour (optionnelle)",
-            "localOperators": "Opérateurs locaux (NOC)", "passengers": "Passagers", "railcard": "Railcard",
+            "localOperators": "Opérateurs locaux (NOC)", "passengers": "Passagers", "railcard": "Railcard", "currency": "Devise",
+            "timesAndPrices": "Horaires et prix", "findTimesAndPrices": "Voir horaires et prix", "departure": "Départ", "arrival": "Arrivée", "duration": "Durée", "changes": "Correspondances", "direct": "Direct", "changeSingular": "1 correspondance", "changesPlural": "correspondances", "services": "Services",
+            "railcardApplied": "Railcard appliquée", "noRailcardApplied": "Sans railcard",
             "personalData": "Données personnelles", "fullName": "Nom complet", "email": "E-mail", "phone": "Téléphone", "appearance": "Apparence", "theme": "Thème", "dark": "Sombre", "light": "Clair", "system": "Système", "language": "Langue",
             "accessibility": "Accessibilité", "fontSize": "Taille du texte", "screenReader": "Lecteur d’écran",
             "voiceOverHelpTitle": "Activer VoiceOver",
@@ -2943,7 +2997,9 @@ private enum L {
             "planJourneyTitle": "Plane deine Zugreise", "planJourneySubtitle": "Gib dein Ziel ein und passe die Reise an", "searchTrains": "Züge suchen", "where": "Wohin", "origin": "Start", "destination": "Ziel",
             "typeDeparture": "Abfahrtsbahnhof eingeben", "typeArrival": "Ankunftsbahnhof eingeben", "when": "Wann", "single": "Einfach", "returnLabel": "Hin und zurück", "openReturn": "Offene Rückfahrt",
             "travelDates": "Reisedaten", "outbound": "Hin", "notRequired": "Nicht erforderlich", "outboundDate": "Hinreisedatum", "returnDate": "Rückreisedatum", "returnDateOptional": "Rückreisedatum (optional)",
-            "localOperators": "Lokale Betreiber (NOC)", "passengers": "Passagiere", "railcard": "Railcard",
+            "localOperators": "Lokale Betreiber (NOC)", "passengers": "Passagiere", "railcard": "Railcard", "currency": "Währung",
+            "timesAndPrices": "Zeiten und Preise", "findTimesAndPrices": "Zeiten und Preise anzeigen", "departure": "Abfahrt", "arrival": "Ankunft", "duration": "Dauer", "changes": "Umstiege", "direct": "Direkt", "changeSingular": "1 Umstieg", "changesPlural": "Umstiege", "services": "Verbindungen",
+            "railcardApplied": "Railcard angewendet", "noRailcardApplied": "Keine railcard",
             "personalData": "Persönliche Daten", "fullName": "Vollständiger Name", "email": "E-Mail", "phone": "Telefon", "appearance": "Darstellung", "theme": "Design", "dark": "Dunkel", "light": "Hell", "system": "System", "language": "Sprache",
             "accessibility": "Barrierefreiheit", "fontSize": "Schriftgröße", "screenReader": "Bildschirmleser",
             "voiceOverHelpTitle": "VoiceOver aktivieren",
@@ -2986,7 +3042,9 @@ private enum L {
             "planJourneyTitle": "规划你的火车行程", "planJourneySubtitle": "输入目的地并自定义行程", "searchTrains": "搜索火车", "where": "出行地点", "origin": "出发地", "destination": "目的地",
             "typeDeparture": "输入出发站", "typeArrival": "输入到达站", "when": "时间", "single": "单程", "returnLabel": "往返", "openReturn": "开放返程",
             "travelDates": "出行日期", "outbound": "去程", "notRequired": "不需要", "outboundDate": "去程日期", "returnDate": "返程日期", "returnDateOptional": "返程日期（可选）",
-            "localOperators": "本地运营商 (NOC)", "passengers": "乘客", "railcard": "Railcard",
+            "localOperators": "本地运营商 (NOC)", "passengers": "乘客", "railcard": "Railcard", "currency": "货币",
+            "timesAndPrices": "时刻与票价", "findTimesAndPrices": "查看时刻与票价", "departure": "出发", "arrival": "到达", "duration": "耗时", "changes": "换乘", "direct": "直达", "changeSingular": "1 次换乘", "changesPlural": "次换乘", "services": "班次",
+            "railcardApplied": "已应用 Railcard", "noRailcardApplied": "未使用 Railcard",
             "personalData": "个人资料", "fullName": "姓名", "email": "邮箱", "phone": "电话", "appearance": "外观", "theme": "主题", "dark": "深色", "light": "浅色", "system": "系统", "language": "语言",
             "accessibility": "辅助功能", "fontSize": "字体大小", "screenReader": "屏幕朗读",
             "voiceOverHelpTitle": "如何开启 VoiceOver",
@@ -3101,6 +3159,7 @@ private struct SearchTrainsScreen: View {
     @Environment(\.colorScheme) private var colorScheme
     let stations: [Station]
     let language: AppLanguage
+    let selectedCurrencyRawValue: String
     @Binding var savedTrips: [SavedTrip]
     @State private var originId: Int?
     @State private var destinationId: Int?
@@ -3111,11 +3170,13 @@ private struct SearchTrainsScreen: View {
     @State private var returnDate: Date = Calendar.current.date(byAdding: .day, value: 1, to: .now) ?? .now
     @State private var passengerCount: Int = 1
     @State private var selectedRailcard: String
+    @State private var showTimesAndPrices = false
     @FocusState private var focusedField: SearchField?
 
-    init(stations: [Station], language: AppLanguage, savedTrips: Binding<[SavedTrip]>) {
+    init(stations: [Station], language: AppLanguage, selectedCurrencyRawValue: String, savedTrips: Binding<[SavedTrip]>) {
         self.stations = stations
         self.language = language
+        self.selectedCurrencyRawValue = selectedCurrencyRawValue
         self._savedTrips = savedTrips
         _selectedRailcard = State(initialValue: RailcardOption.options(for: language).first ?? "No Railcard")
     }
@@ -3180,15 +3241,50 @@ private struct SearchTrainsScreen: View {
                         whenCard
                         travelDatesCard
                         passengersCard
+                        findTimesAndPricesButton
                     }
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 12)
                 .padding(.bottom, 26)
             }
+
+            NavigationLink(isActive: $showTimesAndPrices) {
+                JourneyTimesPricesScreen(
+                    language: language,
+                    originName: originStation?.name ?? L.text(.origin, lang: language),
+                    destinationName: destinationStation?.name ?? L.text(.destination, lang: language),
+                    outboundDate: outboundDate,
+                    tripType: tripType,
+                    passengerCount: passengerCount,
+                    selectedRailcard: selectedRailcard,
+                    selectedCurrencyRawValue: selectedCurrencyRawValue
+                )
+            } label: {
+                EmptyView()
+            }
+            .hidden()
         }
         .navigationTitle(L.text(.searchTrains, lang: language))
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var findTimesAndPricesButton: some View {
+        Button {
+            focusedField = nil
+            showTimesAndPrices = true
+        } label: {
+            Text(L.text(.findTimesAndPrices, lang: language))
+                .font(.custom("AvenirNext-DemiBold", size: 18))
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 13)
+                .background(
+                    RoundedRectangle(cornerRadius: 14)
+                        .fill(Color.blue)
+                )
+        }
+        .buttonStyle(.plain)
     }
 
     private var whereCard: some View {
@@ -3539,6 +3635,397 @@ private struct SearchTrainsScreen: View {
     private var fieldCard: some View {
         RoundedRectangle(cornerRadius: 12)
             .fill(fieldFillColor)
+    }
+}
+
+private enum JourneyResultsMode: String, CaseIterable {
+    case train
+    case bus
+
+    var icon: String {
+        switch self {
+        case .train: return "tram.fill"
+        case .bus: return "bus.fill"
+        }
+    }
+
+    func title(in language: AppLanguage) -> String {
+        switch self {
+        case .train: return L.text(.train, lang: language)
+        case .bus: return L.text(.bus, lang: language)
+        }
+    }
+}
+
+private struct JourneyOption: Identifiable {
+    struct ChangeDetail: Identifiable {
+        let id: String
+        let at: String
+        let layoverMins: Int
+    }
+
+    let id: String
+    let mode: JourneyResultsMode
+    let departure: Date
+    let arrival: Date
+    let price: Double
+    let route: String
+    let durationMins: Int
+    let changes: Int
+    let changeDetails: [ChangeDetail]
+}
+
+private struct JourneyTimesPricesScreen: View {
+    @Environment(\.colorScheme) private var colorScheme
+    let language: AppLanguage
+    let originName: String
+    let destinationName: String
+    let outboundDate: Date
+    let tripType: TripType
+    let passengerCount: Int
+    let selectedRailcard: String
+    let selectedCurrencyRawValue: String
+    @State private var mode: JourneyResultsMode = .train
+    @State private var expandedChangeCards: Set<String> = []
+
+    private var usesLightPalette: Bool {
+        colorScheme == .light
+    }
+
+    private var primaryTextColor: Color {
+        usesLightPalette ? .black : .white
+    }
+
+    private var secondaryTextColor: Color {
+        usesLightPalette ? Color.black.opacity(0.62) : .secondary
+    }
+
+    private var selectedCurrency: AppCurrency {
+        AppCurrency(rawValue: selectedCurrencyRawValue) ?? .gbp
+    }
+
+    private var visibleOptions: [JourneyOption] {
+        sampleOptions.filter { $0.mode == mode }
+    }
+
+    private var sampleOptions: [JourneyOption] {
+        let base = Calendar.current.date(bySettingHour: 6, minute: 45, second: 0, of: outboundDate) ?? outboundDate
+        let route = "\(originName) → \(destinationName)"
+        let routeFactor = max(1, ((originName.count + destinationName.count) % 6) + 1)
+
+        let multiplier: Double
+        switch tripType {
+        case .single:
+            multiplier = 1.0
+        case .return:
+            multiplier = 1.75
+        case .openReturn:
+            multiplier = 2.0
+        }
+
+        func makeOptions(mode: JourneyResultsMode) -> [JourneyOption] {
+            (0..<5).map { idx in
+                let departOffset = idx * (mode == .train ? 38 : 42)
+                let dep = Calendar.current.date(byAdding: .minute, value: departOffset, to: base) ?? base
+                let duration = (mode == .train ? 28 : 42) + routeFactor * (mode == .train ? 3 : 4) + idx * (mode == .train ? 2 : 3)
+                let arr = Calendar.current.date(byAdding: .minute, value: duration, to: dep) ?? dep
+                // Price model is computed in EUR, then converted for display using selected currency.
+                let basePriceEUR = (mode == .train ? 12.5 : 7.5) + Double(routeFactor) * (mode == .train ? 2.7 : 1.8) + Double(idx) * (mode == .train ? 1.2 : 0.9)
+                let perPassenger = basePriceEUR * multiplier
+                let price = totalPriceApplyingRailcard(basePerPassenger: perPassenger)
+                let changes = mode == .train ? (idx % 3 == 0 ? 0 : 1) : (idx % 2 == 0 ? 0 : 1)
+
+                let changeStations = ["Preston", "Lancaster", "Blackpool North", "Barrow-in-Furness", "Windermere"]
+                let changeDetails: [JourneyOption.ChangeDetail]
+                if changes == 0 {
+                    changeDetails = []
+                } else {
+                    let stationName = changeStations[(idx + routeFactor) % changeStations.count]
+                    let layover = (mode == .train ? 6 : 8) + (idx * 2)
+                    changeDetails = [
+                        JourneyOption.ChangeDetail(
+                            id: "\(mode.rawValue)-\(idx)-change-0",
+                            at: stationName,
+                            layoverMins: layover
+                        )
+                    ]
+                }
+
+                return JourneyOption(
+                    id: "\(mode.rawValue)-\(idx)-\(routeFactor)",
+                    mode: mode,
+                    departure: dep,
+                    arrival: arr,
+                    price: price,
+                    route: route,
+                    durationMins: duration,
+                    changes: changes,
+                    changeDetails: changeDetails
+                )
+            }
+        }
+
+        return makeOptions(mode: .train) + makeOptions(mode: .bus)
+    }
+
+    var body: some View {
+        ZStack {
+            LinearGradient(
+                colors: usesLightPalette
+                    ? [Color.white, Color(red: 0.95, green: 0.96, blue: 0.98)]
+                    : [Color(red: 0.02, green: 0.09, blue: 0.20), Color.black],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 14) {
+                    modeTabs
+                    ForEach(visibleOptions) { option in
+                        optionCard(option)
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 12)
+                .padding(.bottom, 20)
+            }
+        }
+        .navigationTitle(L.text(.timesAndPrices, lang: language))
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var modeTabs: some View {
+        HStack(spacing: 8) {
+            ForEach(JourneyResultsMode.allCases, id: \.self) { item in
+                Button {
+                    mode = item
+                } label: {
+                    HStack(spacing: 8) {
+                        Image(systemName: item.icon)
+                        Text(item.title(in: language))
+                    }
+                    .font(.custom("AvenirNext-DemiBold", size: 15))
+                    .foregroundStyle(mode == item ? .white : secondaryTextColor)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 11)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(mode == item ? Color.blue : (usesLightPalette ? Color.black.opacity(0.08) : Color.white.opacity(0.08)))
+                    )
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(10)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(usesLightPalette ? Color.white : Color.white.opacity(0.06))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(usesLightPalette ? Color.black.opacity(0.08) : Color.white.opacity(0.07), lineWidth: 1)
+                )
+        )
+    }
+
+    private func optionCard(_ option: JourneyOption) -> some View {
+        let cardFill = usesLightPalette ? Color.white : Color.white.opacity(0.08)
+        let cardStroke = usesLightPalette ? Color.black.opacity(0.10) : Color.white.opacity(0.08)
+        return VStack(alignment: .leading, spacing: 10) {
+            optionHeader(option)
+            railcardStatusRow
+            HStack(spacing: 10) {
+                infoPill(title: L.text(.departure, lang: language), value: time(option.departure))
+                infoPill(title: L.text(.arrival, lang: language), value: time(option.arrival))
+            }
+            HStack(spacing: 10) {
+                infoPill(title: L.text(.duration, lang: language), value: "\(option.durationMins) \(L.text(.min, lang: language))")
+                changesCard(option)
+            }
+        }
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(cardFill)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(cardStroke, lineWidth: 1)
+                )
+        )
+    }
+
+    private func optionHeader(_ option: JourneyOption) -> some View {
+        HStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(option.route)
+                    .font(.custom("AvenirNext-DemiBold", size: 17))
+                    .foregroundStyle(primaryTextColor)
+                Text(L.text(.services, lang: language))
+                    .font(.custom("AvenirNext-Medium", size: 12))
+                    .foregroundStyle(secondaryTextColor)
+            }
+            Spacer()
+            Text(currency(option.price))
+                .font(.custom("AvenirNext-Bold", size: 24))
+                .foregroundStyle(.blue)
+        }
+    }
+
+    private var railcardStatusRow: some View {
+        let railcardApplied = railcardDiscountCategory != .none
+        let iconName = railcardApplied ? "checkmark.seal.fill" : "xmark.seal.fill"
+        let statusText = railcardApplied
+            ? L.text(.railcardApplied, lang: language)
+            : L.text(.noRailcardApplied, lang: language)
+        let statusColor: Color = railcardApplied ? .green : .secondary
+
+        return HStack(spacing: 8) {
+            Image(systemName: iconName)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(statusColor)
+            Text(statusText)
+                .font(.custom("AvenirNext-Medium", size: 13))
+                .foregroundStyle(secondaryTextColor)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 8)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(usesLightPalette ? Color.black.opacity(0.05) : Color.white.opacity(0.05))
+        )
+    }
+
+    private func infoPill(title: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(title)
+                .font(.custom("AvenirNext-Medium", size: 12))
+                .foregroundStyle(secondaryTextColor)
+            Text(value)
+                .font(.custom("AvenirNext-DemiBold", size: 16))
+                .foregroundStyle(primaryTextColor)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(10)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(usesLightPalette ? Color.black.opacity(0.06) : Color.white.opacity(0.06))
+        )
+    }
+
+    private func changesCard(_ option: JourneyOption) -> some View {
+        let expanded = expandedChangeCards.contains(option.id)
+        return VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(L.text(.changes, lang: language))
+                        .font(.custom("AvenirNext-Medium", size: 12))
+                        .foregroundStyle(secondaryTextColor)
+                    Text(changesText(option.changes))
+                        .font(.custom("AvenirNext-DemiBold", size: 16))
+                        .foregroundStyle(primaryTextColor)
+                }
+                Spacer()
+                if option.changes > 0 {
+                    Image(systemName: expanded ? "chevron.up" : "chevron.down")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.blue)
+                }
+            }
+
+            if expanded && option.changes > 0 {
+                Divider()
+                    .overlay(usesLightPalette ? Color.black.opacity(0.12) : Color.white.opacity(0.12))
+                VStack(alignment: .leading, spacing: 4) {
+                    ForEach(option.changeDetails) { detail in
+                        Text("• \(detail.at) • \(detail.layoverMins) \(L.text(.min, lang: language))")
+                            .font(.custom("AvenirNext-Medium", size: 13))
+                            .foregroundStyle(secondaryTextColor)
+                    }
+                }
+                .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(10)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(usesLightPalette ? Color.black.opacity(0.06) : Color.white.opacity(0.06))
+        )
+        .contentShape(Rectangle())
+        .onTapGesture {
+            guard option.changes > 0 else { return }
+            withAnimation(.easeInOut(duration: 0.22)) {
+                if expanded {
+                    expandedChangeCards.remove(option.id)
+                } else {
+                    expandedChangeCards.insert(option.id)
+                }
+            }
+        }
+    }
+
+    private func time(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter.string(from: date)
+    }
+
+    private func currency(_ value: Double) -> String {
+        let convertedValue = value * selectedCurrency.rateFromEUR
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = selectedCurrency.code
+        formatter.locale = Locale(identifier: "en_GB")
+        formatter.maximumFractionDigits = 2
+        return formatter.string(from: NSNumber(value: convertedValue)) ?? "\(selectedCurrency.symbol)\(String(format: "%.2f", convertedValue))"
+    }
+
+    private enum RailcardDiscountCategory {
+        case none
+        case standardThird
+        case familyFriends
+        case saver1617
+    }
+
+    private var railcardDiscountCategory: RailcardDiscountCategory {
+        let lower = selectedRailcard.lowercased()
+        if lower.contains("no railcard") || lower.contains("sin railcard") || lower.contains("sans railcard") || lower.contains("keine railcard") || lower.contains("无 railcard") {
+            return .none
+        }
+        if lower.contains("16-17") {
+            return .saver1617
+        }
+        if lower.contains("family") {
+            return .familyFriends
+        }
+        return .standardThird
+    }
+
+    private func totalPriceApplyingRailcard(basePerPassenger: Double) -> Double {
+        let adults = max(passengerCount, 1)
+        switch railcardDiscountCategory {
+        case .none:
+            return basePerPassenger * Double(adults)
+        case .standardThird:
+            return basePerPassenger * 0.67 * Double(adults)
+        case .familyFriends:
+            // Current search form only captures total passengers (adults), so 33% is applied here.
+            return basePerPassenger * 0.67 * Double(adults)
+        case .saver1617:
+            return basePerPassenger * 0.50 * Double(adults)
+        }
+    }
+
+    private func changesText(_ count: Int) -> String {
+        switch count {
+        case 0:
+            return L.text(.direct, lang: language)
+        case 1:
+            return L.text(.changeSingular, lang: language)
+        default:
+            return "\(count) \(L.text(.changesPlural, lang: language))"
+        }
     }
 }
 
@@ -4024,6 +4511,7 @@ private struct SettingsScreen: View {
     @Environment(\.colorScheme) private var systemColorScheme
     @Binding var preferredAppearance: String
     @Binding var appLanguageRawValue: String
+    @Binding var selectedCurrencyRawValue: String
     @Binding var fullName: String
     @Binding var username: String
     @Binding var email: String
@@ -4076,6 +4564,16 @@ private struct SettingsScreen: View {
                         )
                     } label: {
                         settingsMenuRow(title: L.text(.language, lang: language), icon: "globe")
+                    }
+
+                    NavigationLink {
+                        CurrencySettingsScreen(
+                            preferredAppearance: $preferredAppearance,
+                            appLanguageRawValue: $appLanguageRawValue,
+                            selectedCurrencyRawValue: $selectedCurrencyRawValue
+                        )
+                    } label: {
+                        settingsMenuRow(title: L.text(.currency, lang: language), icon: "sterlingsign.circle.fill")
                     }
 
                     NavigationLink {
@@ -4369,6 +4867,92 @@ private struct AppearanceSettingsScreen: View {
             }
         }
         .navigationTitle(L.text(.appearance, lang: language))
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func settingsBase<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        ZStack {
+            LinearGradient(
+                colors: usesLightPalette
+                    ? [Color.white, Color(red: 0.95, green: 0.96, blue: 0.98)]
+                    : [Color(red: 0.03, green: 0.11, blue: 0.28), Color.black],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 14) {
+                    content()
+                }
+                .padding(.horizontal, 14)
+                .padding(.top, 12)
+                .padding(.bottom, 24)
+            }
+        }
+    }
+
+    private func settingsCard<Content: View>(title: String, icon: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 10) {
+                Image(systemName: icon)
+                    .font(.headline)
+                    .foregroundStyle(.blue)
+                    .frame(width: 26, height: 26)
+                    .background(Circle().fill(Color.white.opacity(0.08)))
+                Text(title)
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(primaryTextColor)
+            }
+            content()
+        }
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(usesLightPalette ? Color.white.opacity(0.95) : Color.white.opacity(0.08))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(usesLightPalette ? Color.black.opacity(0.10) : Color.white.opacity(0.06), lineWidth: 1)
+                )
+        )
+    }
+}
+
+private struct CurrencySettingsScreen: View {
+    @Environment(\.colorScheme) private var systemColorScheme
+    @Binding var preferredAppearance: String
+    @Binding var appLanguageRawValue: String
+    @Binding var selectedCurrencyRawValue: String
+
+    private var language: AppLanguage { AppLanguage(rawValue: appLanguageRawValue) ?? .en }
+
+    private var usesLightPalette: Bool {
+        switch preferredAppearance {
+        case "light": return true
+        case "dark": return false
+        default: return systemColorScheme == .light
+        }
+    }
+
+    private var primaryTextColor: Color { usesLightPalette ? .black : .white }
+
+    var body: some View {
+        settingsBase {
+            settingsCard(title: L.text(.currency, lang: language), icon: "sterlingsign.circle.fill") {
+                Picker(L.text(.currency, lang: language), selection: $selectedCurrencyRawValue) {
+                    ForEach(AppCurrency.allCases, id: \.rawValue) { option in
+                        Text(option.displayName).tag(option.rawValue)
+                    }
+                }
+                .tint(primaryTextColor)
+                .padding(12)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(usesLightPalette ? Color.black.opacity(0.06) : Color.white.opacity(0.06))
+                )
+            }
+        }
+        .navigationTitle(L.text(.currency, lang: language))
         .navigationBarTitleDisplayMode(.inline)
     }
 

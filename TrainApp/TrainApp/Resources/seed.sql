@@ -1,5 +1,5 @@
--- Seed aligned with SCC.200 2025-26 brief (Lancashire coastal region + key links)
--- Includes core CRS stations listed in the brief and local corridor links.
+-- Seed aligned with SCC.200 2025-26 brief (Lancashire coastal region + local urban bus stops)
+-- Region covered: Preston <-> Lancaster, including Blackpool, Fylde and Wyre coast.
 
 INSERT OR IGNORE INTO stations (id, name, code, latitude, longitude) VALUES
 (1, 'Preston', 'PRE', 53.7569, -2.7089),
@@ -26,10 +26,47 @@ INSERT OR IGNORE INTO stations (id, name, code, latitude, longitude) VALUES
 (22, 'Liverpool Lime Street', 'LIV', 53.4084, -2.9788),
 (23, 'Birkenhead North', 'BKN', 53.3926, -3.0148),
 (24, 'New Brighton', 'NBN', 53.4370, -3.0490),
-(25, 'West Kirby', 'WKI', 53.3734, -3.1847);
+(25, 'West Kirby', 'WKI', 53.3734, -3.1847),
 
--- Bidirectional corridor links with indicative distances/times (mins)
+-- Urban/coastal bus stop network (expanded)
+(26, 'Lancaster Bus Station', 'LBS', 54.0468, -2.7980),
+(27, 'Lancaster City Centre', 'LCC', 54.0478, -2.8013),
+(28, 'Common Garden Street', 'CGS', 54.0459, -2.8042),
+(29, 'Lancaster University Underpass', 'LUN', 54.0109, -2.7868),
+(30, 'Alexandra Square', 'LUS', 54.0104, -2.7878),
+(31, 'Hala Square', 'HLS', 54.0021, -2.7892),
+(32, 'Lancaster Railway Forecourt', 'LRF', 54.0482, -2.8061),
+(33, 'Morecambe Bus Station', 'MBS', 54.0707, -2.8656),
+(34, 'Bare Lane Stops', 'BLS', 54.0741, -2.8492),
+(35, 'Heysham Village', 'HGV', 54.0460, -2.8990),
+(36, 'Preston Bus Station', 'PBS', 53.7638, -2.6976),
+(37, 'Preston City Centre', 'PCC', 53.7581, -2.7057),
+(38, 'Fishergate', 'FGT', 53.7570, -2.7084),
+(39, 'UCLan Campus', 'UCL', 53.7630, -2.7050),
+(40, 'Fulwood Central', 'FWC', 53.7818, -2.6914),
+(41, 'Blackpool Talbot Road', 'BTR', 53.8170, -3.0480),
+(42, 'Abingdon Street', 'BAS', 53.8191, -3.0506),
+(43, 'Blackpool Tower', 'BWT', 53.8158, -3.0550),
+(44, 'Blackpool Central Coach Stop', 'BCC', 53.8112, -3.0504),
+(45, 'South Pier', 'SPB', 53.8048, -3.0543),
+(46, 'Starr Gate', 'STG', 53.7729, -3.0525),
+(47, 'Cleveleys Victoria Square', 'CVS', 53.8778, -3.0404),
+(48, 'Thornton Centre', 'THC', 53.8684, -2.9997),
+(49, 'Fleetwood Ferry', 'FLF', 53.9237, -3.0056),
+(50, 'Poulton Town Centre', 'PTC', 53.8470, -2.9922),
+(51, 'Wesham Centre', 'WSC', 53.7920, -2.8850),
+(52, 'Lytham Square', 'LYS', 53.7367, -2.9612),
+(53, 'St Annes Square', 'SASQ', 53.7510, -3.0280),
+(54, 'Kirkham Town Centre', 'KTC', 53.7825, -2.8706),
+(55, 'Garstang High Street', 'GHS', 53.9007, -2.7744),
+(56, 'Knott End Promenade', 'KEP', 53.9170, -2.9792),
+(57, 'Bispham Village', 'BSV', 53.8478, -3.0408),
+(58, 'Poulton Retail Park', 'PRP', 53.8501, -2.9777),
+(59, 'Lancaster Infirmary', 'LIF', 54.0513, -2.7920),
+(60, 'Royal Albert Hospital', 'RAH', 53.9869, -2.7444);
+
 INSERT OR IGNORE INTO route_segments (from_station_id, to_station_id, distance_km, duration_mins) VALUES
+-- Core corridor rail/coastal links
 (1, 2, 33.0, 18), (2, 1, 33.0, 18),
 (2, 3, 13.0, 12), (3, 2, 13.0, 12),
 (3, 4, 6.0, 7), (4, 3, 6.0, 7),
@@ -54,4 +91,63 @@ INSERT OR IGNORE INTO route_segments (from_station_id, to_station_id, distance_k
 (1, 22, 50.0, 45), (22, 1, 50.0, 45),
 (22, 23, 5.2, 9), (23, 22, 5.2, 9),
 (23, 24, 4.8, 14), (24, 23, 4.8, 14),
-(23, 25, 11.0, 18), (25, 23, 11.0, 18);
+(23, 25, 11.0, 18), (25, 23, 11.0, 18),
+
+-- Lancaster city + university bus network
+(2, 32, 0.5, 3), (32, 2, 0.5, 3),
+(32, 26, 0.8, 4), (26, 32, 0.8, 4),
+(26, 27, 0.6, 3), (27, 26, 0.6, 3),
+(27, 28, 0.4, 2), (28, 27, 0.4, 2),
+(28, 59, 1.1, 4), (59, 28, 1.1, 4),
+(59, 29, 4.0, 12), (29, 59, 4.0, 12),
+(29, 30, 0.4, 2), (30, 29, 0.4, 2),
+(30, 31, 1.4, 4), (31, 30, 1.4, 4),
+(28, 29, 4.2, 13), (29, 28, 4.2, 13),
+(29, 60, 6.5, 17), (60, 29, 6.5, 17),
+(26, 6, 6.8, 18), (6, 26, 6.8, 18),
+(6, 33, 0.6, 3), (33, 6, 0.6, 3),
+(33, 34, 1.3, 5), (34, 33, 1.3, 5),
+(33, 35, 3.0, 10), (35, 33, 3.0, 10),
+(35, 7, 2.2, 8), (7, 35, 2.2, 8),
+(26, 55, 18.5, 32), (55, 26, 18.5, 32),
+
+-- Preston urban bus network
+(1, 36, 1.2, 5), (36, 1, 1.2, 5),
+(36, 37, 0.8, 4), (37, 36, 0.8, 4),
+(37, 38, 0.4, 3), (38, 37, 0.4, 3),
+(38, 39, 1.0, 5), (39, 38, 1.0, 5),
+(39, 40, 2.8, 10), (40, 39, 2.8, 10),
+(40, 36, 3.2, 11), (36, 40, 3.2, 11),
+(36, 54, 14.0, 24), (54, 36, 14.0, 24),
+
+-- Blackpool / Fylde / Wyre urban-coastal network
+(8, 41, 0.5, 3), (41, 8, 0.5, 3),
+(41, 42, 0.4, 2), (42, 41, 0.4, 2),
+(42, 43, 0.6, 3), (43, 42, 0.6, 3),
+(43, 44, 0.7, 3), (44, 43, 0.7, 3),
+(44, 45, 1.3, 5), (45, 44, 1.3, 5),
+(45, 46, 3.5, 11), (46, 45, 3.5, 11),
+(46, 16, 1.8, 5), (16, 46, 1.8, 5),
+(45, 15, 0.9, 4), (15, 45, 0.9, 4),
+(41, 57, 2.7, 9), (57, 41, 2.7, 9),
+(57, 47, 3.5, 12), (47, 57, 3.5, 12),
+(47, 48, 2.0, 8), (48, 47, 2.0, 8),
+(48, 49, 5.8, 15), (49, 48, 5.8, 15),
+(49, 56, 1.3, 4), (56, 49, 1.3, 4),
+(48, 50, 3.0, 10), (50, 48, 3.0, 10),
+(50, 10, 0.8, 4), (10, 50, 0.8, 4),
+(50, 58, 1.4, 5), (58, 50, 1.4, 5),
+
+-- Fylde local town connectors
+(11, 51, 1.0, 4), (51, 11, 1.0, 4),
+(51, 54, 1.1, 4), (54, 51, 1.1, 4),
+(20, 52, 0.5, 3), (52, 20, 0.5, 3),
+(52, 53, 2.2, 7), (53, 52, 2.2, 7),
+(53, 18, 0.6, 3), (18, 53, 0.6, 3),
+(53, 19, 1.8, 6), (19, 53, 1.8, 6),
+
+-- Cross-city coach-style links inside authority region
+(36, 26, 33.5, 68), (26, 36, 33.5, 68),
+(36, 41, 28.0, 54), (41, 36, 28.0, 54),
+(26, 41, 34.0, 66), (41, 26, 34.0, 66),
+(55, 36, 16.5, 30), (36, 55, 16.5, 30);

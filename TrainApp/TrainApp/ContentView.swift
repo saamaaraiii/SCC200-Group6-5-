@@ -94,6 +94,10 @@ struct ContentView: View {
     @State private var ticketDurationMins = 42
     @State private var ticketRailcardUsed = true
     @State private var selectedTicketIndex = 0
+    @State private var mapCurrentRegion = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 53.90, longitude: -2.95),
+        span: MKCoordinateSpan(latitudeDelta: 0.85, longitudeDelta: 1.0)
+    )
     @State private var mapPosition: MapCameraPosition = .region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 53.90, longitude: -2.95),
@@ -169,6 +173,13 @@ struct ContentView: View {
 
     private func t(_ key: L.Key) -> String {
         L.text(key, lang: appLanguage)
+    }
+
+    private var defaultMapRegion: MKCoordinateRegion {
+        MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: 53.90, longitude: -2.95),
+            span: MKCoordinateSpan(latitudeDelta: 0.85, longitudeDelta: 1.0)
+        )
     }
 
     private var shouldShowLogin: Bool {
@@ -1992,20 +2003,49 @@ struct ContentView: View {
                 }
                 .mapStyle(.standard(elevation: .realistic))
                 .ignoresSafeArea()
+                .onMapCameraChange(frequency: .continuous) { context in
+                    mapCurrentRegion = context.region
+                }
 
-                Button {
-                    mapPosition = .region(
-                        MKCoordinateRegion(
+                VStack(spacing: 12) {
+                    Button {
+                        applyMapZoom(scale: 0.6)
+                    } label: {
+                        Image(systemName: "plus")
+                            .font(.headline.weight(.bold))
+                            .foregroundStyle(.white)
+                            .frame(width: 42, height: 42)
+                            .background(Circle().fill(Color.black.opacity(0.65)))
+                    }
+
+                    Button {
+                        applyMapZoom(scale: 1.6)
+                    } label: {
+                        Image(systemName: "minus")
+                            .font(.headline.weight(.bold))
+                            .foregroundStyle(.white)
+                            .frame(width: 42, height: 42)
+                            .background(Circle().fill(Color.black.opacity(0.65)))
+                    }
+
+                    Button {
+                        mapPosition = .region(
+                            MKCoordinateRegion(
+                                center: CLLocationCoordinate2D(latitude: 53.90, longitude: -2.95),
+                                span: MKCoordinateSpan(latitudeDelta: 0.85, longitudeDelta: 1.0)
+                            )
+                        )
+                        mapCurrentRegion = MKCoordinateRegion(
                             center: CLLocationCoordinate2D(latitude: 53.90, longitude: -2.95),
                             span: MKCoordinateSpan(latitudeDelta: 0.85, longitudeDelta: 1.0)
                         )
-                    )
-                } label: {
-                    Image(systemName: "scope")
-                        .font(.headline)
-                        .foregroundStyle(.white)
-                        .frame(width: 42, height: 42)
-                        .background(Circle().fill(Color.black.opacity(0.65)))
+                    } label: {
+                        Image(systemName: "scope")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                            .frame(width: 42, height: 42)
+                            .background(Circle().fill(Color.black.opacity(0.65)))
+                    }
                 }
                 .padding(.trailing, 16)
                 .padding(.bottom, 18)
@@ -2182,6 +2222,19 @@ struct ContentView: View {
                 )
         }
         .buttonStyle(.plain)
+    }
+
+    private func applyMapZoom(scale: Double) {
+        let minDelta = 0.002
+        let maxDelta = 160.0
+        let latitudeDelta = min(max(mapCurrentRegion.span.latitudeDelta * scale, minDelta), maxDelta)
+        let longitudeDelta = min(max(mapCurrentRegion.span.longitudeDelta * scale, minDelta), maxDelta)
+        let updatedRegion = MKCoordinateRegion(
+            center: mapCurrentRegion.center,
+            span: MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
+        )
+        mapCurrentRegion = updatedRegion
+        mapPosition = .region(updatedRegion)
     }
 
     private var accountScreen: some View {

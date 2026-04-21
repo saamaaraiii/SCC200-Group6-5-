@@ -40,7 +40,7 @@ final class DatabaseManager {
         try execute(schemaSQL)
         try execute("CREATE TABLE IF NOT EXISTS app_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL)")
 
-        let requiredSeedVersion = "lancashire_v3_urban_bus_stops"
+        let requiredSeedVersion = "lancashire_v4_fuller_district_substops"
         let currentSeedVersion = try executeScalar("SELECT value FROM app_meta WHERE key = 'seed_version'") as? String
 
         if currentSeedVersion != requiredSeedVersion {

@@ -1,0 +1,170 @@
+diff --git a/.gitignore b/.gitignore
+index 43ae0e2..b51033f 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,2 +1,23 @@
++# Python bytecode/cache
+ __pycache__/
+ *.py[cod]
++
++# Virtual environments
++.venv/
++venv/
++
++# Temporary/local artifacts
++*.tmp
++*.temp
++tmp/
++temp/
++*.log
++
++# macOS / editor noise
++.DS_Store
++*.swp
++*.swo
++
++# Test/runtime outputs
++htmlcov/
++.pytest_cache/
+diff --git a/API+ server draft tripadvisor API interface/README.md b/API+ server draft tripadvisor API interface/README.md
+index b30c52f..b8be221 100644
+--- a/API+ server draft tripadvisor API interface/README.md	
++++ b/API+ server draft tripadvisor API interface/README.md	
+@@ -1,3 +1,8 @@
++> [!NOTE]
++> **Archive folder (AI suggestions, not primary runtime code).**
++> Contents here are supporting notes/suggestions and are not required to run the submitted system.
++> Use root `README.md` and `backend/` for the executable assessment path.
++
+ # SCC200 Group 6-5 — AI Suggestions & Contributions
+ 
+ This repo contains AI-generated suggestions, improvements, and additions for the [SCC200 Group 6-5 project](https://github.com/saamaaraiii/SCC200-Group6-5-).
+diff --git a/API+SERVER_Draft/README.md b/API+SERVER_Draft/README.md
+index 6b80b15..45e6be9 100644
+--- a/API+SERVER_Draft/README.md
++++ b/API+SERVER_Draft/README.md
+@@ -1,3 +1,9 @@
++> [!WARNING]
++> **Legacy folder (deprecated for submission runtime).**
++> This directory contains an earlier API prototype kept for development history.
++> For current submission execution/testing, use `backend/main.py` from the repo root.
++> See the root `README.md` for the authoritative run path.
++
+ # A Python Flask-based REST API server that consolidates data from multiple streams (JSON, XML, plain text) serving the DB_Scc transportation data system. This server provides standardized HTTP endpoints for iOS (Swift) and Android (Kotlin) mobile applications.
+ 
+ ## Architecture Overview
+diff --git a/DB+API_FULL/README.md b/DB+API_FULL/README.md
+index 6b80b15..a2f5adf 100644
+--- a/DB+API_FULL/README.md
++++ b/DB+API_FULL/README.md
+@@ -1,3 +1,9 @@
++> [!WARNING]
++> **Legacy/reference folder (not primary submission runtime).**
++> This directory is a historical integrated prototype snapshot.
++> For the assessed runtime path, execute `backend/main.py` from the repo root.
++> See root `README.md` for current architecture and run instructions.
++
+ # A Python Flask-based REST API server that consolidates data from multiple streams (JSON, XML, plain text) serving the DB_Scc transportation data system. This server provides standardized HTTP endpoints for iOS (Swift) and Android (Kotlin) mobile applications.
+ 
+ ## Architecture Overview
+diff --git a/README.md b/README.md
+index db28efc..cdd09f2 100644
+--- a/README.md
++++ b/README.md
+@@ -1,12 +1,75 @@
+-# SCC200-Group6-5-
++# SCC200 Group 6-5 — Submission Readiness Repo
+ 
+-Group 6-5 for group project at Lancaster University.
++This repository contains the Group 6-5 coursework project artifacts for SCC200.
+ 
+-## Python Backend
++## What is the canonical implementation?
+ 
+-- Entry point: `backend/main.py`
+-- Install dependencies: `python -m pip install -r requirements.txt`
+-- Run server: `python backend/main.py`
+-- Run tests: `python -m unittest -v backend/test/test_api_python.py`
++- **Canonical backend:** `backend/main.py`
++- **Canonical backend docs/tests:** `backend/README.md`, `backend/test/test_api_python.py`
++- **iOS app (Phase 1):** `TrainApp/TrainApp/...`
+ 
+-Detailed backend endpoint documentation is in `backend/README.md`.
++Legacy draft folders are preserved for reference only and are marked deprecated:
++- `API+SERVER_Draft/`
++- `DB+API_FULL/`
++
++See `ARCHITECTURE_DECISION.md` and `PROJECT_STATUS.md`.
++
++---
++
++## Quick start (backend)
++
++### Option A: one command bootstrap
++
++```bash
++./scripts/bootstrap_backend.sh
++```
++
++This creates a virtualenv, installs dependencies, and runs tests.
++
++### Option B: manual
++
++```bash
++cd backend
++python3 -m venv .venv
++source .venv/bin/activate
++pip install -r requirements.txt
++python main.py
++```
++
++Backend default URL: `http://127.0.0.1:8000`
++
++---
++
++## Run tests
++
++```bash
++./scripts/test_backend.sh
++```
++
++Expected: backend API tests pass (`backend/test/test_api_python.py`).
++
++---
++
++## Repository map
++
++- `backend/` — active Flask backend and tests
++- `TrainApp/` — iOS SwiftUI app (Phase 1 pathfinding UI)
++- `web scraping tools/` — data scraping/search assets
++- `docs/` — architecture + API contract notes
++- `scripts/` — bootstrap/test convenience scripts
++- `API+SERVER_Draft/`, `DB+API_FULL/` — archived/deprecated reference implementations
++
++---
++
++## Current project state
++
++A concise done/partial/missing matrix is maintained in:
++- `PROJECT_STATUS.md`
++
++---
++
++## Notes for assessors/demo
++
++- This repo intentionally preserves legacy drafts for traceability.
++- Submission/demo should target **canonical backend + current iOS app**.
++- If functionality appears duplicated, prefer `backend/main.py` implementation.
+diff --git a/TrainApp/README.md b/TrainApp/README.md
+index 73de110..a64c0c8 100644
+--- a/TrainApp/README.md
++++ b/TrainApp/README.md
+@@ -13,7 +13,7 @@ You need a **Mac with Xcode** installed (Xcode and the iOS Simulator don’t run
+ 
+ 1. **Open the project**
+    - On your Mac, go to the repo folder and open:
+-   - **`TrainApp/TrainApp.xcodeproj`** (double‑click or in Xcode: File → Open).
++   - **`TrainApp/TrainApp/TrainApp.xcodeproj`** (double‑click or in Xcode: File → Open).
+ 
+ 2. **Select a run destination**
+    - At the top of Xcode, click the device/simulator dropdown (e.g. “iPhone 15”) and pick an **iPhone simulator** (or a connected iPhone).

@@ -1,0 +1,23 @@
+# Python bytecode/cache
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+
+# Temporary/local artifacts
+*.tmp
+*.temp
+tmp/
+temp/
+*.log
+
+# macOS / editor noise
+.DS_Store
+*.swp
+*.swo
+
+# Test/runtime outputs
+htmlcov/
+.pytest_cache/

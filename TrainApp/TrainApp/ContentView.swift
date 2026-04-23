@@ -123,7 +123,7 @@ struct ContentView: View {
 
     private var selectedMapStation: Station? {
         guard let selectedMapStationId else { return nil }
-        return appState.stations.first(where: { $0.id == selectedMapStationId })
+        return appState.mapStations.first(where: { $0.id == selectedMapStationId })
     }
 
     private var appLanguage: AppLanguage {
@@ -591,7 +591,7 @@ struct ContentView: View {
                                 resetRecoveryFlow()
                                 showForgotPasswordFlow = true
                             } label: {
-                                Label("Olvide mi contrasena", systemImage: "key.fill")
+                                Label("Forgot password?", systemImage: "key.fill")
                                     .font(.subheadline.weight(.semibold))
                                     .foregroundStyle(.cyan)
                             }
@@ -865,7 +865,7 @@ struct ContentView: View {
                 ScrollView {
                     VStack(spacing: 16) {
                         homeBrandLogo
-                        Text("Recuperar contrasena")
+                        Text("Recover password")
                             .font(.title2.weight(.bold))
                             .foregroundStyle(primaryTextColor)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -879,7 +879,7 @@ struct ContentView: View {
                                 Button {
                                     sendRecoveryCode()
                                 } label: {
-                                    Text("Enviar codigo")
+                                    Text("Send code")
                                         .font(.headline.weight(.semibold))
                                         .foregroundStyle(.white)
                                         .frame(maxWidth: .infinity)
@@ -888,11 +888,11 @@ struct ContentView: View {
                                 }
 
                             case .code:
-                                authField(title: "Codigo", text: $recoveryCodeInput, icon: "number.square.fill", keyboard: .numberPad)
+                                authField(title: "Code", text: $recoveryCodeInput, icon: "number.square.fill", keyboard: .numberPad)
                                 Button {
                                     verifyRecoveryCode()
                                 } label: {
-                                    Text("Verificar codigo")
+                                    Text("Verify code")
                                         .font(.headline.weight(.semibold))
                                         .foregroundStyle(.white)
                                         .frame(maxWidth: .infinity)
@@ -906,7 +906,7 @@ struct ContentView: View {
                                 Button {
                                     updateRecoveredPassword()
                                 } label: {
-                                    Text("Actualizar contrasena")
+                                    Text("Update password")
                                         .font(.headline.weight(.semibold))
                                         .foregroundStyle(.white)
                                         .frame(maxWidth: .infinity)
@@ -951,7 +951,7 @@ struct ContentView: View {
         }
         recoverySentCode = String(format: "%06d", Int.random(in: 100000...999999))
         recoveryStep = .code
-        recoveryMessage = "Este es su codigo. Revise su email. (Demo code: \(recoverySentCode))"
+        recoveryMessage = "This is your code. Check your email. (Demo code: \(recoverySentCode))"
         notifications.insert(
             AccountNotification(
                 title: "Password recovery",
@@ -964,11 +964,11 @@ struct ContentView: View {
     private func verifyRecoveryCode() {
         let input = recoveryCodeInput.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !input.isEmpty else {
-            recoveryMessage = "Introduzca el codigo."
+            recoveryMessage = "Enter the code."
             return
         }
         guard input == recoverySentCode else {
-            recoveryMessage = "Codigo incorrecto."
+            recoveryMessage = "Incorrect code."
             return
         }
         recoveryStep = .newPassword
@@ -1193,53 +1193,48 @@ struct ContentView: View {
     }
 
     private var transportModeCard: some View {
-        HStack(spacing: 10) {
-            transportModeButton(mode: .train)
-            transportModeButton(mode: .bus)
-            transportModeButton(mode: .taxi)
-            transportModeButton(mode: .walk)
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Mode")
+                .font(.headline)
+                .foregroundStyle(primaryTextColor)
+
+            HStack(spacing: 10) {
+                ForEach([TransportMode.train, .bus, .taxi, .walk], id: \.self) { mode in
+                    transportModePill(mode)
+                }
+            }
         }
         .padding()
         .background(cardBackground)
     }
 
-    private func transportModeButton(mode: TransportMode) -> some View {
-        let isSelected = transportMode == mode
-        let foregroundColor: Color = {
-            if isSelected { return .white }
-            return usesLightPalette ? Color.black.opacity(0.65) : .secondary
-        }()
-        let backgroundColor: Color = {
-            if isSelected { return Color.blue.opacity(0.95) }
-            return usesLightPalette ? Color.black.opacity(0.05) : Color.white.opacity(0.06)
-        }()
-        let borderColor: Color = {
-            if isSelected { return .blue }
-            return usesLightPalette ? Color.black.opacity(0.10) : Color.white.opacity(0.08)
-        }()
+    private func transportModePill(_ mode: TransportMode) -> some View {
+        let selected = transportMode == mode
+        let fg: Color = selected ? .white : (usesLightPalette ? Color.black.opacity(0.7) : .secondary)
+        let bg: Color = selected ? Color.blue.opacity(0.95) : (usesLightPalette ? Color.black.opacity(0.05) : Color.white.opacity(0.06))
+        let border: Color = selected ? .blue : (usesLightPalette ? Color.black.opacity(0.10) : Color.white.opacity(0.08))
 
-        return Button {
-            transportMode = mode
-        } label: {
-            VStack(spacing: 10) {
-                Image(systemName: mode.icon)
-                    .font(.title3)
-                Text(mode.title(in: appLanguage))
-                    .font(.subheadline.weight(.semibold))
-            }
-            .foregroundStyle(foregroundColor)
-            .frame(maxWidth: .infinity)
-            .frame(height: 86)
-            .background(
-                RoundedRectangle(cornerRadius: 14)
-                    .fill(backgroundColor)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 14)
-                    .stroke(borderColor, lineWidth: 1)
-            )
+        return VStack(spacing: 8) {
+            Image(systemName: mode.icon)
+                .font(.headline)
+            Text(mode.title(in: appLanguage))
+                .font(.caption.weight(.semibold))
         }
-        .buttonStyle(.plain)
+        .foregroundStyle(fg)
+        .frame(maxWidth: .infinity)
+        .frame(height: 74)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(bg)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(border, lineWidth: 1)
+        )
+        .contentShape(RoundedRectangle(cornerRadius: 12))
+        .onTapGesture {
+            transportMode = mode
+        }
     }
 
     private var algorithmCard: some View {
@@ -1993,7 +1988,7 @@ struct ContentView: View {
         NavigationStack {
             ZStack(alignment: .bottomTrailing) {
                 Map(position: $mapPosition, selection: $selectedMapStationId) {
-                    ForEach(appState.stations, id: \.id) { station in
+                    ForEach(appState.mapStations, id: \.id) { station in
                         if let lat = station.latitude, let lon = station.longitude {
                             Marker(station.name, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon))
                                 .tint(.blue)
@@ -2493,7 +2488,7 @@ struct ContentView: View {
 
     private var nearestStopInfo: NearbyStopInfo? {
         guard transportMode == .train || transportMode == .bus else { return nil }
-        let stationsWithCoords = appState.stations.filter { $0.latitude != nil && $0.longitude != nil }
+        let stationsWithCoords = appState.mapStations
         guard !stationsWithCoords.isEmpty else { return nil }
 
         let referenceCoordinate = locationManager.location?.coordinate

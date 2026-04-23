@@ -19,6 +19,7 @@
 		A10000000000000100000013 /* StationMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000100000014 /* StationMapping.swift */; };
 		A10000000000000100000015 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000100000016 /* AppState.swift */; };
 		A10000000000000100000017 /* ResourceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000100000018 /* ResourceLoader.swift */; };
+		A1000000000000010000003B /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000010000003C /* NetworkService.swift */; };
 		A10000000000000100000019 /* schema.sql in Resources */ = {isa = PBXBuildFile; fileRef = A1000000000000010000001A /* schema.sql */; };
 		A1000000000000010000001B /* seed.sql in Resources */ = {isa = PBXBuildFile; fileRef = A1000000000000010000001C /* seed.sql */; };
 		A1000000000000010000001D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1000000000000010000001E /* Assets.xcassets */; };
@@ -38,6 +39,7 @@
 		A10000000000000100000014 /* StationMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationMapping.swift; sourceTree = "<group>"; };
 		A10000000000000100000016 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		A10000000000000100000018 /* ResourceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceLoader.swift; sourceTree = "<group>"; };
+		A1000000000000010000003C /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		A1000000000000010000001A /* schema.sql */ = {isa = PBXFileReference; lastKnownFileType = text; path = schema.sql; sourceTree = "<group>"; };
 		A1000000000000010000001C /* seed.sql */ = {isa = PBXFileReference; lastKnownFileType = text; path = seed.sql; sourceTree = "<group>"; };
 		A1000000000000010000001E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 			children = (
 				A10000000000000100000016 /* AppState.swift */,
 				A10000000000000100000018 /* ResourceLoader.swift */,
+				A1000000000000010000003C /* NetworkService.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -230,6 +233,7 @@
 				A10000000000000100000013 /* StationMapping.swift in Sources */,
 				A10000000000000100000015 /* AppState.swift in Sources */,
 				A10000000000000100000017 /* ResourceLoader.swift in Sources */,
+				A1000000000000010000003B /* NetworkService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +357,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We use your location to show the nearest train station or bus stop.";
+				INFOPLIST_KEY_NSAppTransportSecurity = "{ NSAllowsArbitraryLoads = YES; }";
 				INFOPLIST_KEY_UIApplicationScene_Manifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -385,6 +390,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We use your location to show the nearest train station or bus stop.";
+				INFOPLIST_KEY_NSAppTransportSecurity = "{ NSAllowsArbitraryLoads = YES; }";
 				INFOPLIST_KEY_UIApplicationScene_Manifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

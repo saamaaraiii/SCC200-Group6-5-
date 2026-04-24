@@ -454,7 +454,7 @@ struct ContentView: View {
     }
 
     private var homeScreen: some View {
-        NavigationStack {
+        return NavigationStack {
             ZStack(alignment: .bottomLeading) {
                 screenGradient
                 ScrollView {
@@ -2241,7 +2241,7 @@ struct ContentView: View {
                         Text(t(.studentAccount))
                             .font(.title3.weight(.semibold))
                             .foregroundStyle(primaryTextColor)
-                        Text("UPSA Exchange - Lancaster University")
+                        Text("Your Account")
                             .foregroundStyle(secondaryTextColor)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -3199,9 +3199,10 @@ private struct PlannedRouteScreen: View {
             .padding(.top, 16)
         }
         .navigationBarBackButtonHidden(true)
-        .toolbar(.hidden, for: .navigationBar)
+            .toolbar(.hidden, for: .navigationBar)
+        }
+
     }
-}
 
 private struct SearchTrainsScreen: View {
     @Environment(\.colorScheme) private var colorScheme

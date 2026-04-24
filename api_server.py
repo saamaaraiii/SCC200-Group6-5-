@@ -62,8 +62,8 @@ DB_PATH = os.environ.get(
 )
 
 # Lancaster station coordinates (default centre point for nearby searches)
-LANCCASTER_LAT = 54.0466
-LANCCASTER_LON = -2.8007
+LANCASTER_LAT = 54.0466
+LANCASTER_LON = -2.8007
 
 # Simple in-memory query cache (avoids re-running identical searches)
 _places_cache: dict = {}

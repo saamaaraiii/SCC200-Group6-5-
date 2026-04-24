@@ -104,6 +104,16 @@ struct ContentView: View {
             span: MKCoordinateSpan(latitudeDelta: 0.85, longitudeDelta: 1.0)
         )
     )
+    private let placesService = PlacesService()
+    @State private var placesResults: [Place] = []
+    @State private var placesCategories: [PlaceCategory] = []
+    @State private var selectedPlaceCategory: String = "all"
+    @State private var placesQuery = ""
+    @State private var placesMode: PlacesSearchMode = .keyword
+    @State private var placesLoading = false
+    @State private var placesErrorMessage: String?
+    @State private var selectedPlaceForDetail: Place?
+    @State private var hasBootstrappedPlaces = false
 
     var filteredStations: [Station] {
         guard !searchText.isEmpty else { return appState.stations }
@@ -240,6 +250,7 @@ struct ContentView: View {
         .onAppear {
             locationManager.requestPermissionIfNeeded()
             startSplashAnimation()
+            Task { await bootstrapPlacesIfNeeded() }
         }
         .fileImporter(
             isPresented: $showPassImporter,
@@ -319,6 +330,22 @@ struct ContentView: View {
                 isFavorite: savedTrips.contains(where: { $0.key == trip.key }),
                 onToggleFavorite: {
                     toggleSavedMapLiveTrip(trip)
+                }
+            )
+        }
+        .sheet(item: $selectedPlaceForDetail) { place in
+            PlaceDetailSheet(
+                place: place,
+                usesLightPalette: usesLightPalette,
+                isAlreadySaved: isPlaceSavedAsStop(place),
+                onDirections: {
+                    openDirections(to: place)
+                },
+                onAddStop: {
+                    toggleSavedStopFromPlace(place)
+                },
+                onPlanViaHere: {
+                    planViaPlace(place)
                 }
             )
         }

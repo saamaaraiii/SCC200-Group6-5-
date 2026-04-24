@@ -47,11 +47,16 @@ final class AppState: ObservableObject {
         do {
             let stops = try await networkService.fetchStops()
             mapStops = stops
+            if !stops.isEmpty {
+                // Clear a stale API error after a successful refresh.
+                errorMessage = nil
+            }
         } catch {
             // Keep DB stations as fallback; expose API issue for visibility.
             if mapStops.isEmpty {
-                errorMessage = "Failed to fetch stops from API: \(error.localizedDescription)"
+                errorMessage = "Map stops API fallback failed: \(error.localizedDescription)"
             }
+            print("[AppState] Map stops API refresh failed; using DB fallback. Error: \(error.localizedDescription)")
         }
     }
 

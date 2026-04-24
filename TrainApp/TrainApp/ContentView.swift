@@ -2595,6 +2595,59 @@ struct ContentView: View {
         }
     }
 
+    private func bootstrapPlacesIfNeeded() async {
+        guard !hasBootstrappedPlaces else { return }
+        hasBootstrappedPlaces = true
+        let categories = await placesService.fetchCategories()
+        placesCategories = categories
+    }
+
+    private func isPlaceSavedAsStop(_ place: Place) -> Bool {
+        savedStops.contains(where: { $0.name == place.name })
+    }
+
+    private func toggleSavedStopFromPlace(_ place: Place) {
+        if let idx = savedStops.firstIndex(where: { $0.name == place.name }) {
+            savedStops.remove(at: idx)
+        } else {
+            savedStops.insert(
+                SavedStop(
+                    stationId: -1,
+                    name: place.name,
+                    code: "--",
+                    mode: transportMode,
+                    distanceText: ""
+                ),
+                at: 0
+            )
+        }
+    }
+
+    private func planViaPlace(_ place: Place) {
+        selectedTab = .home
+        let nearest = appState.stations.min(by: {
+            let d0 = pow($0.latitude ?? 0 - place.latitude, 2) + pow($0.longitude ?? 0 - place.longitude, 2)
+            let d1 = pow($1.latitude ?? 0 - place.latitude, 2) + pow($1.longitude ?? 0 - place.longitude, 2)
+            return d0 < d1
+        })
+        if let station = nearest {
+            destinationId = station.id
+        }
+    }
+
+    private func openDirections(to place: Place) {
+        let destination = MKMapItem(placemark: MKPlacemark(coordinate: place.coordinate))
+        destination.name = place.name
+        var items: [MKMapItem] = []
+        if let location = locationManager.location {
+            let source = MKMapItem(placemark: MKPlacemark(coordinate: location.coordinate))
+            source.name = t(.currentLocation)
+            items.append(source)
+        }
+        items.append(destination)
+        MKMapItem.openMaps(with: items, launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeTransit])
+    }
+
     private func showDepartures(for station: Station) {
         selectedTab = .map
         selectedMapStationId = station.id

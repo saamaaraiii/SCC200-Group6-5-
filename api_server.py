@@ -41,7 +41,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 logger = logging.getLogger(__name__)
 
 # Data directory path
-DATA_DIR = Path(__file__).parent
+DATA_DIR = Path(__file__).parent / 'db_scc_api_server_20260424_122748' / 'data'
 CACHE_DIR = DATA_DIR / '.cache'
 CACHE_DIR.mkdir(exist_ok=True)
 
@@ -508,37 +508,134 @@ def load_local_data():
         logger.error(f"Error loading local data: {str(e)}")
         return False
 
+def _load_osm_bus_stops():
+    """Fetch Lancashire bus stops from OpenStreetMap Overpass API and add to graph."""
+    # Bounding box covers Lancashire county: south Preston to north Silverdale, east to Pendle
+    OVERPASS_URL = "https://overpass-api.de/api/interpreter"
+    CACHE_FILE = CACHE_DIR / 'osm_bus_stops.json'
+
+    try:
+        # Use cache if fresh (< 24 hours old)
+        if CACHE_FILE.exists():
+            age_hours = (time.time() - CACHE_FILE.stat().st_mtime) / 3600
+            if age_hours < 24:
+                with open(CACHE_FILE) as f:
+                    stops = json.load(f)
+                logger.info(f"Loaded {len(stops)} OSM bus stops from cache")
+                _add_osm_stops_to_graph(stops)
+                return
+
+        query = '[out:json][timeout:30];(node["highway"="bus_stop"](53.4,-3.2,54.3,-2.1););out body;'
+        headers = {'User-Agent': 'TrainApp/1.0 (Lancaster University SCC project)'}
+        resp = requests.post(OVERPASS_URL, data={'data': query}, headers=headers, timeout=35)
+        resp.raise_for_status()
+        elements = resp.json().get('elements', [])
+
+        stops = []
+        for el in elements:
+            name = (el.get('tags') or {}).get('name', '').strip()
+            lat, lon = el.get('lat'), el.get('lon')
+            if name and lat and lon:
+                stops.append({'osm_id': el['id'], 'name': name, 'lat': lat, 'lon': lon})
+
+        with open(CACHE_FILE, 'w') as f:
+            json.dump(stops, f)
+
+        logger.info(f"Fetched {len(stops)} OSM bus stops for Lancashire")
+        _add_osm_stops_to_graph(stops)
+
+    except Exception as e:
+        logger.warning(f"OSM bus stop fetch failed (non-fatal): {e}")
+        if CACHE_FILE.exists():
+            with open(CACHE_FILE) as f:
+                stops = json.load(f)
+            logger.info(f"Falling back to cached {len(stops)} OSM stops")
+            _add_osm_stops_to_graph(stops)
+
+
+def _add_osm_stops_to_graph(stops: list):
+    for s in stops:
+        node_id = f"OSM_{s['osm_id']}"
+        if node_id not in graph.nodes:
+            graph.add_node(node_id, {
+                'id': node_id,
+                'crs': node_id,
+                'name': s['name'],
+                'lat': s['lat'],
+                'lon': s['lon'],
+                'type': 'bus_stop',
+            })
+
+
+def _load_stations_from_seed() -> List[Dict[str, Any]]:
+    """Parse Lancashire stations from the iOS app seed.sql file."""
+    import re
+    seed_path = Path(__file__).parent / 'TrainApp' / 'TrainApp' / 'Resources' / 'seed.sql'
+    if not seed_path.exists():
+        return []
+    stations = []
+    pattern = re.compile(r"\(\s*(\d+)\s*,\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*([\d.+-]+)\s*,\s*([\d.+-]+)\s*\)")
+    in_stations_block = False
+    with open(seed_path, 'r') as f:
+        for line in f:
+            if 'INSERT' in line and 'stations' in line:
+                in_stations_block = True
+            if in_stations_block and 'route_segments' in line:
+                break
+            if in_stations_block:
+                for m in pattern.finditer(line):
+                    sid, name, code, lat, lon = m.groups()
+                    stations.append({
+                        'id': code, 'crs': code, 'name': name,
+                        'lat': float(lat), 'lon': float(lon), 'type': 'bus_stop'
+                    })
+    return stations
+
+
 def build_initial_graph():
     """Build the initial transport graph from available data"""
     try:
         logger.info("Starting graph construction...")
-        
-        # Add some sample rail stations for testing
-        sample_stations = [
-            {'id': 'LAN', 'crs': 'LAN', 'name': 'Lancaster', 'lat': 54.0651, 'lon': -2.8197, 'type': 'rail'},
-            {'id': 'PRE', 'crs': 'PRE', 'name': 'Preston', 'lat': 53.7606, 'lon': -2.7304, 'type': 'rail'},
-            {'id': 'MCV', 'crs': 'MCV', 'name': 'Manchester Central', 'lat': 53.4817, 'lon': -2.2426, 'type': 'rail'},
-            {'id': 'GLC', 'crs': 'GLC', 'name': 'Glasgow Central', 'lat': 55.8642, 'lon': -4.2588, 'type': 'rail'},
-        ]
-        
-        for station in sample_stations:
-            graph.add_node(station['id'], station)
-        
-        # Add sample rail edges (time in minutes)
+
+        # Load real Lancashire stations from seed.sql
+        seed_stations = _load_stations_from_seed()
+
+        # Known rail stations (override type)
+        rail_codes = {'LAN', 'PRE', 'CNF', 'SVR', 'BAR', 'MCM', 'HHB', 'BPN', 'LAY',
+                      'PFY', 'KKM', 'SLW', 'LEY', 'BMB', 'BPS', 'BPB', 'SQU', 'SAS',
+                      'AFV', 'LTM', 'MOS'}
+
+        if seed_stations:
+            for s in seed_stations:
+                if s['crs'] in rail_codes:
+                    s['type'] = 'rail'
+                graph.add_node(s['id'], s)
+            logger.info(f"Loaded {len(seed_stations)} stations from seed.sql")
+        else:
+            # Fallback: minimal hardcoded set
+            for s in [
+                {'id': 'LAN', 'crs': 'LAN', 'name': 'Lancaster', 'lat': 54.0651, 'lon': -2.8197, 'type': 'rail'},
+                {'id': 'PRE', 'crs': 'PRE', 'name': 'Preston',   'lat': 53.7569, 'lon': -2.7089, 'type': 'rail'},
+            ]:
+                graph.add_node(s['id'], s)
+
+        # Core rail edges (minutes)
         edges = [
-            ('LAN', 'PRE', 20, 'rail'),
-            ('PRE', 'LAN', 20, 'rail'),
-            ('PRE', 'MCV', 30, 'rail'),
-            ('MCV', 'PRE', 30, 'rail'),
-            ('MCV', 'GLC', 60, 'rail'),
-            ('GLC', 'MCV', 60, 'rail'),
+            ('LAN', 'PRE', 18, 'rail'), ('PRE', 'LAN', 18, 'rail'),
+            ('LAN', 'CNF', 12, 'rail'), ('CNF', 'LAN', 12, 'rail'),
+            ('CNF', 'SVR', 7,  'rail'), ('SVR', 'CNF', 7,  'rail'),
+            ('PRE', 'LEY', 7,  'rail'), ('LEY', 'PRE', 7,  'rail'),
+            ('LEY', 'BMB', 5,  'rail'), ('BMB', 'LEY', 5,  'rail'),
         ]
-        
         for from_id, to_id, weight, mode in edges:
-            graph.add_edge(from_id, to_id, weight, mode, {'route': f'{from_id}-{to_id}'})
-        
+            if from_id in graph.nodes and to_id in graph.nodes:
+                graph.add_edge(from_id, to_id, weight, mode, {'route': f'{from_id}-{to_id}'})
+
+        # Fetch Lancashire bus stops from OpenStreetMap via Overpass API
+        _load_osm_bus_stops()
+
         logger.info(f"Built initial graph with {len(graph.nodes)} nodes and {sum(len(e) for e in graph.edges.values())} edges")
-        
+
         # Load local data
         load_local_data()
         
@@ -1368,12 +1465,31 @@ def get_smart():
 def get_naptan():
     """
     GET /api/naptan
-    Returns NaPTAN stop points data
+    Returns stop points data. Falls back to graph nodes when naptan.xml is absent.
     Used by: iOS/Android for stop reference
     """
     try:
-        stops = parse_naptan(DATA_DIR / 'naptan.xml')
-        
+        naptan_path = DATA_DIR / 'naptan.xml'
+        if naptan_path.exists():
+            stops = parse_naptan(naptan_path)
+        else:
+            # Fallback: return graph stations in NaPTAN-compatible shape
+            stops = []
+            for node_id, node in graph.nodes.items():
+                lat = node.get('lat', 0)
+                lon = node.get('lon', 0)
+                if not lat or not lon:
+                    continue
+                stops.append({
+                    "id": hash(node_id) % (10**9),
+                    "atco_code": node.get('crs', ''),
+                    "code": node.get('crs', ''),
+                    "common_name": node.get('name', ''),
+                    "name": node.get('name', ''),
+                    "latitude": lat,
+                    "longitude": lon,
+                })
+
         return jsonify({
             "status": "success",
             "data": stops
@@ -1910,20 +2026,28 @@ def list_stations():
     try:
         station_type = request.args.get('type', type=str, default=None)
         limit = request.args.get('limit', type=int, default=50)
-        
+        # 'bus' is requested by the iOS app but graph only has rail nodes;
+        # return all nodes with valid coordinates regardless of type.
+        station_type = None
+
         stations = []
         count = 0
-        
+
         for node_id, node in graph.nodes.items():
-            if station_type and node.get('type') != station_type:
+            lat = node.get('lat', 0)
+            lon = node.get('lon', 0)
+            # Skip nodes without valid coordinates
+            if not lat or not lon:
                 continue
-            
+
             stations.append({
-                "crs": node.get('crs', ''),
+                "id": hash(node_id) % (10**9),
+                "code": node.get('crs', ''),
+                "atco_code": node.get('crs', ''),
                 "name": node.get('name', ''),
                 "type": node.get('type', ''),
-                "lat": node.get('lat', 0),
-                "lon": node.get('lon', 0),
+                "latitude": lat,
+                "longitude": lon,
                 "connections": len(graph.edges.get(node_id, []))
             })
             
